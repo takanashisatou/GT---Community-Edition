@@ -14,10 +14,7 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.MachineCoverContainer;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.cover.data.ManualIOMode;
-import com.gregtechceu.gtceu.common.machine.owner.ArgonautsOwner;
-import com.gregtechceu.gtceu.common.machine.owner.FTBOwner;
 import com.gregtechceu.gtceu.common.machine.owner.IMachineOwner;
-import com.gregtechceu.gtceu.common.machine.owner.PlayerOwner;
 
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
