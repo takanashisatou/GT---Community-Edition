@@ -163,7 +163,7 @@ public abstract class AbstractEnderLinkCover<T extends VirtualEntry> extends Cov
         if (permission == Permissions.PUBLIC)
             return null;
         else if (owner instanceof PlayerOwner playerOwner)
-            return playerOwner.getPlayerUUID();
+            return playerOwner.getUUID();
         else if (owner instanceof ArgonautsOwner argonautsOwner)
             return argonautsOwner.getPlayerUUID();
         else if (owner instanceof FTBOwner ftbOwner)
