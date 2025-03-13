@@ -14,10 +14,7 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.MachineCoverContainer;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.cover.data.ManualIOMode;
-import com.gregtechceu.gtceu.common.machine.owner.ArgonautsOwner;
-import com.gregtechceu.gtceu.common.machine.owner.FTBOwner;
 import com.gregtechceu.gtceu.common.machine.owner.IMachineOwner;
-import com.gregtechceu.gtceu.common.machine.owner.PlayerOwner;
 
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -162,12 +159,8 @@ public abstract class AbstractEnderLinkCover<T extends VirtualEntry> extends Cov
     public UUID getOwner() {
         if (permission == Permissions.PUBLIC)
             return null;
-        else if (owner instanceof PlayerOwner playerOwner)
-            return playerOwner.getUUID();
-        else if (owner instanceof ArgonautsOwner argonautsOwner)
-            return argonautsOwner.getPlayerUUID();
-        else if (owner instanceof FTBOwner ftbOwner)
-            return ftbOwner.getPlayerUUID();
+        else if (owner != null)
+            return owner.getUUID();
         return null;
     }
 
