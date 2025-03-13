@@ -201,4 +201,9 @@ class LargeNaquadahReactorMachine(holder: IMachineBlockEntity) : WorkableElectri
             return ModifierFunction.NULL
         }
     }
+
+    @Override
+    override fun dampingWhenWaiting(): Boolean {
+        return false
+    }
 }
