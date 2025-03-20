@@ -5,13 +5,12 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.chemical.material.Material
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition
-import com.gregtechceu.gtceu.api.registry.GTRegistries.ORE_VEINS
+import com.gregtechceu.gtceu.client.ClientProxy
 import com.gregtechceu.gtceu.common.data.GTMaterials.*
 import com.mojang.datafixers.util.Either
 import dev.arbor.gtnn.GTNN.getServerConfig
 import dev.arbor.gtnn.data.GTNNMaterials.*
 import net.minecraft.resources.ResourceKey
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
@@ -19,10 +18,25 @@ import net.minecraft.world.level.block.state.BlockState
 object OresHelper {
     @JvmField
     val ORE_REPLACEMENTS: MutableMap<Material, Material> = mutableMapOf(Neutronium to NeutroniumMixture)
-    private val ores: List<Pair<Set<ResourceKey<Level>>, Pair<Int, Pair<List<Int>, List<ItemStack>>>>>
-    val ORES_WEIGHTED: List<Pair<Set<ResourceKey<Level>>, Pair<Int, ItemStack>>>
-    private val ORES_CLEAN: Map<ResourceKey<Level>, List<Pair<Int, ItemStack>>>
-    val ALLOW_ITEM: List<Item>
+    val ORES_WEIGHTED get() = ClientProxy.CLIENT_ORE_VEINS.values.map {
+        it.dimensionFilter().toSet() to (it.weight() to (getChance(it) to getContainedOresAndBlocks(it)))
+    }.flatMap {
+        val (dimensions, pair) = it
+        val (weight, pair2) = pair
+        val (chances, ores) = pair2
+        chances.zip(ores) { chance, ore ->
+            Pair(dimensions, weight * chance to ore)
+        }
+    }
+    val ALLOW_ITEM get() = ORES_WEIGHTED.map { it.second.second.item }
+
+    private val ORES_CLEAN get() = ORES_WEIGHTED.flatMap { weightedPair ->
+        weightedPair.first.map { resourceKey ->
+            resourceKey to weightedPair.second
+        }
+    }.groupBy(keySelector = { it.first }, valueTransform = { it.second }).mapValues { (_, value) ->
+        value.toList()
+    }
 
     init {
         if (getServerConfig().enableHarderNaquadahLine) {
@@ -42,25 +56,6 @@ object OresHelper {
                 )
             )
         }
-        ores = ORE_VEINS.map {
-            it.dimensionFilter() to (it.weight() to (getChance(it) to getContainedOresAndBlocks(it)))
-        }
-        ORES_WEIGHTED = ores.flatMap {
-            val (dimensions, pair) = it
-            val (weight, pair2) = pair
-            val (chances, ores) = pair2
-            chances.zip(ores) { chance, ore ->
-                Pair(dimensions, weight * chance to ore)
-            }
-        }
-        ORES_CLEAN = ORES_WEIGHTED.flatMap { weightedPair ->
-            weightedPair.first.map { resourceKey ->
-                resourceKey to weightedPair.second
-            }
-        }.groupBy(keySelector = { it.first }, valueTransform = { it.second }).mapValues { (_, value) ->
-            value.toList()
-        }
-        ALLOW_ITEM = ORES_WEIGHTED.map { it.second.second.item }
     }
 
     private fun getChance(oreDefinition: GTOreDefinition): List<Int> {

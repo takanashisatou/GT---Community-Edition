@@ -41,7 +41,7 @@ class GTNNBedrockOreMinerLogic<T : IRecipeLogicMachine>(machine: T) : RecipeLogi
     private fun getOreMinerRecipe(): GTRecipe? {
         val machine = getMachine()
         val level = machine.level
-        if (level is ServerLevel && veinOres != null && machine is IRecipeLogicMachine) {
+        if (level is ServerLevel && veinOres?.isEmpty() == false && machine is IRecipeLogicMachine) {
             val stack = veinOres!![OresHelper.getRandomItem(veinOres!!, veinOres!!.size)].second
             if (stack.isEmpty) return null
             var amount = 1
