@@ -58,8 +58,8 @@ class CatalystHatchPartMachine(holder: IMachineBlockEntity) : TieredIOPartMachin
         inventorySubs?.unsubscribe()
     }
 
-    private fun createInventory(): NotifiableItemStackHandler {
-        return object : NotifiableItemStackHandler(this, 16, IO.IN, IO.OUT, Function { slots: Int? ->
+    private fun createInventory(): NotifiableItemStackHandler =
+        object : NotifiableItemStackHandler(this, 16, IO.IN, IO.OUT, Function { slots: Int? ->
             object : CustomItemStackHandler(slots!!) {
                 override fun getSlotLimit(slot: Int): Int {
                     return 1
@@ -78,7 +78,7 @@ class CatalystHatchPartMachine(holder: IMachineBlockEntity) : TieredIOPartMachin
 
                 val capability = if (simulate) {
                     val items = NonNullList.create<ItemStack>()
-                    for (i in 0 until storage.slots){
+                    for (i in 0 until storage.slots) {
                         items.add(storage.getStackInSlot(i))
                     }
                     CustomItemStackHandler(items)
@@ -88,7 +88,8 @@ class CatalystHatchPartMachine(holder: IMachineBlockEntity) : TieredIOPartMachin
                     while (iterator.hasNext()) {
                         val ingredient = iterator.next()
                         SLOT_LOOKUP@ for (i in 0 until capability.slots) {
-                            val itemStack = capability.getStackInSlot(i)
+                            val item = capability.getStackInSlot(i)
+                            val itemStack = if (simulate) item.copy() else item
                             // Does not look like a good implementation, but I think it's at least equal to
                             // vanilla Ingredient::test
                             if (ingredient.test(itemStack)) {
@@ -127,7 +128,6 @@ class CatalystHatchPartMachine(holder: IMachineBlockEntity) : TieredIOPartMachin
                 return if (left.isEmpty()) null else left
             }
         }
-    }
 
 
     //////////////////////////////////////
