@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction
 import it.unimi.dsi.fastutil.ints.Int2IntFunction
 
@@ -25,10 +24,10 @@ class GTNNGeneratorMachine(
         fun nonParallel(machine: MetaMachine, recipe: GTRecipe): ModifierFunction {
             if (machine is GTNNGeneratorMachine) {
                 return ModifierFunction {
-                    val eut = RecipeHelper.getOutputEUt(recipe)
+                    val dur = recipe.duration
                     val recipeModified = recipe.copy()
-                    RecipeHelper.setOutputEUt(recipeModified, eut * machine.efficiency / 100)
-                    recipeModified
+                    recipeModified.duration = dur * machine.efficiency / 100
+                    return@ModifierFunction recipeModified
                 }
             }
             return ModifierFunction.NULL
