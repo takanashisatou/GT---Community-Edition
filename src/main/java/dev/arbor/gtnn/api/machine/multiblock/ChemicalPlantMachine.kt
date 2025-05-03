@@ -130,7 +130,7 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
             )
             components.add(
                 Component.translatable(
-                    "gtnn.multiblock.chemical_plant.tier", VNF[voltageTier + 1]
+                    "gtnn.multiblock.chemical_plant.tier", VNF[voltageTier]
                 )
             )
             components.add(

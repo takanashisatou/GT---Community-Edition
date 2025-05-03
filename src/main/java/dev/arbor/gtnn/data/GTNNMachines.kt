@@ -310,7 +310,7 @@ object GTNNMachines {
                             autoAbilities(
                                 true, false, false
                             )
-                        ).or(abilities(PartAbility.OUTPUT_ENERGY).setMinGlobalLimited(1, 1))
+                        ).or(abilities(PartAbility.OUTPUT_ENERGY,PartAbility.OUTPUT_LASER).setMinGlobalLimited(1, 1))
                             .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                             .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                     ).where("B", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTNNMaterials.RadiationProtection)))
