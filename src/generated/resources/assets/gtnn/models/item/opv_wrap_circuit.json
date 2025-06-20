@@ -1,0 +1,7 @@
+{
+  "parent": "gtnn:item/wrap_item",
+  "textures": {
+    "layer0": "gtnn:item/supracausal_computer",
+    "layer4": "gtnn:item/wrap_overlay"
+  }
+}

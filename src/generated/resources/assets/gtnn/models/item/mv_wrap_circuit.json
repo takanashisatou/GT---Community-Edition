@@ -1,0 +1,7 @@
+{
+  "parent": "gtnn:item/wrap_item",
+  "textures": {
+    "layer0": "gtceu:item/micro_processor",
+    "layer4": "gtnn:item/wrap_overlay"
+  }
+}

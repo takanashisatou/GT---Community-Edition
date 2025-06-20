@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.BedrockOreMinerM
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
 import dev.arbor.gtnn.api.machine.StoneBedrockOreMinerMachine
 import dev.arbor.gtnn.api.recipe.OresHelper.ORES_WEIGHTED
-import dev.arbor.gtnn.api.tool.StringTools.nn
+import dev.arbor.gtnn.api.extension.StringExtension.nn
 import dev.arbor.gtnn.data.GTNNRecipeTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.item.ItemStack

@@ -13,26 +13,23 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import dev.arbor.gtnn.api.block.BlockMaps
 import dev.arbor.gtnn.api.block.IChemicalPlantCasing
 import dev.arbor.gtnn.api.block.ITierType
+import dev.arbor.gtnn.api.block.NNBlockMaps
+import dev.arbor.gtnn.api.extension.NNUtils
 import dev.arbor.gtnn.api.machine.feature.IGTPPMachine
-import dev.arbor.gtnn.api.machine.feature.IParallelMachine
-import net.minecraft.MethodsReturnNonnullByDefault
+import dev.arbor.gtnn.api.machine.feature.IGTPPRenderMachine
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.BlockAndTintGetter
 import net.minecraft.world.level.block.state.BlockState
-import javax.annotation.ParametersAreNonnullByDefault
 import kotlin.math.max
 import kotlin.math.min
 
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
-class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultiblockMachine(holder), IParallelMachine,
-    IGTPPMachine {
+class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultiblockMachine(holder),
+    IGTPPMachine, IGTPPRenderMachine {
     @Persisted
     @DescSynced
     @RequireRerender
@@ -40,14 +37,6 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
     private var coilLevel = 0
     private var tubeTier = 0
     private var voltageTier = 0
-
-    @Persisted
-    private val parallelStats = IParallelMachine.ParallelStats(this) {
-        if (it is ChemicalPlantMachine) {
-            return@ParallelStats max(((it.tubeTier) - 1) * 2 + 1, 1)
-        }
-        return@ParallelStats 1
-    }
 
     //////////////////////////////////////
     //***    Multiblock LifeCycle    ***//
@@ -60,16 +49,16 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
         val casingTier: Any = context.get("PlantCasing")
         val tubeTier: Any = context.get("Pipe")
         val voltageTier: Any = context.get("MachineCasing")
-        this.coilLevel = APartAbility.getOrDefault(
+        this.coilLevel = NNUtils.getOrDefault(
             { coilType is ICoilType }, { (coilType as ICoilType).tier }, 0
         )
-        this.tubeTier = APartAbility.getOrDefault(
+        this.tubeTier = NNUtils.getOrDefault(
             { tubeTier is ITierType }, { (tubeTier as ITierType).tier }, 0
         )
-        this.voltageTier = APartAbility.getOrDefault(
+        this.voltageTier = NNUtils.getOrDefault(
             { voltageTier is ITierType }, { (voltageTier as ITierType).tier }, 0
         )
-        this.casingTier = APartAbility.getOrDefault(
+        this.casingTier = NNUtils.getOrDefault(
             { casingTier is IChemicalPlantCasing },
             { (casingTier as IChemicalPlantCasing).tier },
             0
@@ -141,14 +130,7 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
         }
     }
 
-    override var parallelNumber: Int
-        get() = parallelStats.parallelNumber
-        set(value) {
-            parallelStats.parallelNumber = value
-        }
-
-    override val maxParallel: Int
-        get() = parallelStats.maxParallel
+    override val maxParallel: Int get() = max(((tubeTier) - 1) * 2 + 1, 1)
 
     //////////////////////////////////////
     // ***       Multiblock Data      ***//
@@ -161,7 +143,7 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
         part: IMultiPart, side: Direction, sourceState: BlockState, sourcePos: BlockPos
     ): BlockState? {
         val appearanceBlock: BlockState? = APPEARANCE_MAP[casingTier]
-        return appearanceBlock ?: super.getPartAppearance(part, side, sourceState, sourcePos)
+        return appearanceBlock ?: super<WorkableElectricMultiblockMachine>.getPartAppearance(part, side, sourceState, sourcePos)
     }
 
     override fun getBlockAppearance(
@@ -192,13 +174,13 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
 
     companion object {
         private val TEXTURE_MAP: Map<Int, ResourceLocation> =
-            BlockMaps.ALL_CP_CASINGS.keys
+            NNBlockMaps.ALL_CP_CASINGS.keys
                 .filterIsInstance<IChemicalPlantCasing>()
                 .associate { it.tier to it.texture }
 
         private val APPEARANCE_MAP: Map<Int, BlockState> =
-            BlockMaps.ALL_CP_CASINGS.keys
-                .associate { it.tier to BlockMaps.ALL_CP_CASINGS[it]!!.get().defaultBlockState() }
+            NNBlockMaps.ALL_CP_CASINGS.keys
+                .associate { it.tier to NNBlockMaps.ALL_CP_CASINGS[it]!!.get().defaultBlockState() }
 
         private val MANAGED_FIELD_HOLDER =
             ManagedFieldHolder(ChemicalPlantMachine::class.java, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER)

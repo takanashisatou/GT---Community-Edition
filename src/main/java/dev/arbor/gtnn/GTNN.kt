@@ -2,7 +2,7 @@ package dev.arbor.gtnn
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import com.gregtechceu.gtceu.utils.FormattingUtil
-import dev.arbor.gtnn.config.ConfigHandler
+import dev.arbor.gtnn.config.GTNNConfigHandler
 import dev.arbor.gtnn.init.CommonProxy
 import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.eventbus.api.IEventBus
@@ -19,12 +19,12 @@ object GTNN {
         CommonProxy.init()
     }
 
-    fun getClientConfig(): ConfigHandler.ClientConfigs {
-        return ConfigHandler.INSTANCE.Client
+    fun getClientConfig(): GTNNConfigHandler.ClientConfigs {
+        return GTNNConfigHandler.INSTANCE.Client
     }
 
-    fun getServerConfig(): ConfigHandler.ServerConfigs {
-        return ConfigHandler.INSTANCE.Server
+    fun getServerConfig(): GTNNConfigHandler.ServerConfigs {
+        return GTNNConfigHandler.INSTANCE.Server
     }
 
     fun id(path: String): ResourceLocation {
@@ -33,13 +33,15 @@ object GTNN {
 
     @JvmStatic
     fun genericListener(modBus: IEventBus) {
+        modBus.addListener(GTNNRegistries::registerGeometryLoaders)
         modBus.addListener(GTNNRegistries::onCommonSetup)
         modBus.addGenericListener(MachineDefinition::class.java, GTNNRegistries::registerMachines)
     }
 
     @JvmStatic
-    fun register(modBus: IEventBus) {
+    fun eventBusSubscriberRegister(modBus: IEventBus) {
         modBus.addListener(GTNNRegistries::registerMaterials)
+        modBus.addListener(GTNNRegistries::registerRecipeHandler)
         modBus.addListener(GTNNRegistries::registerMaterialRegistryEvent)
     }
 
@@ -47,6 +49,7 @@ object GTNN {
     fun eventRegister(events: IEventBus) {
         events.addListener(GTNNRegistries::serverStopped)
         events.addListener(GTNNRegistries::fmlCommonSetupEvent)
+        events.addListener(GTNNRegistries::onRenderWorldLast)
         events.addListener(GTNNRegistries::onServerStarting)
     }
 }

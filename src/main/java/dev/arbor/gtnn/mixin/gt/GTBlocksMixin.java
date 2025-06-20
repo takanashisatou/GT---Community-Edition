@@ -5,13 +5,13 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import net.minecraft.world.level.block.Block;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
-import dev.arbor.gtnn.api.block.WrappedTierType;
+import dev.arbor.gtnn.api.block.ITierType.WrappedTierType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static dev.arbor.gtnn.api.block.BlockMaps.ALL_MACHINE_CASINGS;
+import static dev.arbor.gtnn.api.block.NNBlockMaps.ALL_MACHINE_CASINGS;
 
 @Mixin(value = GTBlocks.class, remap = false)
 public abstract class GTBlocksMixin {

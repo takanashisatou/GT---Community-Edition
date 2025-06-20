@@ -13,7 +13,7 @@ def mod_issue_tracker = getConfig("mod_issue_tracker")
 String suffix = System.getenv("VERSION_SUFFIX")
 String version_toml = "$version" + (suffix ? "-$suffix" : "")
 
-task printVersion {
+tasks.register('printVersion') {
     doLast {
         println mod_version
     }
@@ -45,4 +45,4 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 // this works with both building through Gradle and the IDE.
 sourceSets.main.resources.srcDir generateModMetadata
 // To avoid having to run "generateModMetadata" manually, make it run on every project reload
-neoForge.ideSyncTask generateModMetadata
+legacyForge.ideSyncTask generateModMetadata

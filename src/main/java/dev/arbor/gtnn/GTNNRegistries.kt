@@ -6,17 +6,26 @@ import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEv
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate
-import dev.arbor.gtnn.api.block.BlockMaps
+import dev.arbor.gtnn.api.block.NNBlockMaps
 import dev.arbor.gtnn.api.lang.LangGenerators
+import dev.arbor.gtnn.api.registry.GTRecipeEvent
+import dev.arbor.gtnn.api.registry.GTRecipeManager
+import dev.arbor.gtnn.api.registry.NNRegistrate
 import dev.arbor.gtnn.client.ExtraHeartRenderHandler
 import dev.arbor.gtnn.client.GetRecipesCommand.register
+import dev.arbor.gtnn.client.StructureSelectRenderer
+import dev.arbor.gtnn.client.renderer.item.ItemCustomLayerModel
 import dev.arbor.gtnn.data.GTNNMachines
 import dev.arbor.gtnn.data.GTNNMaterials
+import dev.arbor.gtnn.data.GTNNRecipes
 import dev.arbor.gtnn.data.lang.MachineLang
 import dev.arbor.gtnn.temp.VirtualEnderRegistry
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.FilePackResources
 import net.minecraft.server.packs.PackResources
+import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders
+import net.minecraftforge.client.event.RenderLevelStageEvent
+import net.minecraftforge.client.event.RenderLevelStageEvent.Stage
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.RegisterCommandsEvent
 import net.minecraftforge.event.server.ServerStoppedEvent
@@ -28,18 +37,37 @@ import java.io.File
 object GTNNRegistries {
     private lateinit var MATERIAL_REGISTRY: MaterialRegistry
 
-    val REGISTRATE: GTRegistrate by lazy {
-        GTRegistrate.create(GTNN.MOD_ID).also(::addAdditionalDataGenerators)
+    val REGISTRATE: NNRegistrate by lazy {
+        NNRegistrate(GTNN.MOD_ID).also(::addAdditionalDataGenerators)
     }
 
     @JvmStatic
-    fun serverStopped(event: ServerStoppedEvent?) {
+    fun registerRecipeHandler(event: GTRecipeEvent.RegisterHandler) {
+        GTNNRecipes.register(event)
+    }
+
+    @JvmStatic
+    fun registerGeometryLoaders(event: RegisterGeometryLoaders) {
+        event.register("item_custom_layers", ItemCustomLayerModel.INSTANCE)
+    }
+
+    @JvmStatic
+    fun serverStopped(event: ServerStoppedEvent) {
         VirtualEnderRegistry.release()
     }
 
     @JvmStatic
     fun fmlCommonSetupEvent(event: FMLCommonSetupEvent) {
         MinecraftForge.EVENT_BUS.register(ExtraHeartRenderHandler())
+        GTRecipeManager.onCommonSetup()
+    }
+
+    @JvmStatic
+    fun onRenderWorldLast(event: RenderLevelStageEvent) {
+        val stage = event.stage
+        if (stage === Stage.AFTER_TRIPWIRE_BLOCKS) {
+            StructureSelectRenderer.renderStructureSelect(event.poseStack, event.camera)
+        }
     }
 
     @JvmStatic
@@ -55,7 +83,7 @@ object GTNNRegistries {
 
     @JvmStatic
     fun onCommonSetup(modBus: FMLCommonSetupEvent) {
-        BlockMaps.initBlocks()
+        NNBlockMaps.initBlocks()
     }
 
     @JvmStatic

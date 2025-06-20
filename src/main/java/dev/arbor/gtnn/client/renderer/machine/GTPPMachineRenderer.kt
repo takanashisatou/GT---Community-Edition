@@ -12,7 +12,7 @@ import com.gregtechceu.gtceu.client.renderer.machine.IControllerRenderer
 import com.gregtechceu.gtceu.client.renderer.machine.MachineRenderer
 import com.lowdragmc.lowdraglib.client.bakedpipeline.FaceQuad
 import com.lowdragmc.lowdraglib.client.model.ModelFactory
-import dev.arbor.gtnn.api.machine.feature.IGTPPMachine
+import dev.arbor.gtnn.api.machine.feature.IGTPPRenderMachine
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.resources.model.ModelState
 import net.minecraft.core.Direction
@@ -41,14 +41,19 @@ class GTPPMachineRenderer(baseCasing: ResourceLocation, workableModel: ResourceL
         modelFacing: Direction?,
         quads: MutableList<BakedQuad>,
         machine: MetaMachine,
-        modelState: ModelState
+        modelState: ModelState,
+        iMultiPart: IMultiPart?
     ) {
         var casing: BlockState? = null
-        if (side != null && modelFacing != null && machine is IGTPPMachine) {
+        var sprite: ResourceLocation? = null
+        if (side != null && modelFacing != null && machine is IGTPPRenderMachine) {
+            if (iMultiPart != null) {
+                sprite = machine.partLocationGetter(iMultiPart)
+            }
             quads.add(
                 FaceQuad.bakeFace(
                     modelFacing,
-                    ModelFactory.getBlockSprite(machine.locationGetter()),
+                    ModelFactory.getBlockSprite(sprite ?: machine.locationGetter()),
                     modelState
                 )
             )
@@ -59,7 +64,7 @@ class GTPPMachineRenderer(baseCasing: ResourceLocation, workableModel: ResourceL
 
     @OnlyIn(Dist.CLIENT)
     override fun renderMachine(
-        quads: MutableList<BakedQuad>?,
+        quads: MutableList<BakedQuad>,
         definition: MachineDefinition?,
         machine: MetaMachine?,
         frontFacing: Direction?,
@@ -69,15 +74,15 @@ class GTPPMachineRenderer(baseCasing: ResourceLocation, workableModel: ResourceL
         modelState: ModelState?
     ) {
         super.renderMachine(quads, definition, machine, frontFacing, side, rand, modelFacing, modelState)
-        if (machine is IGTPPMachine && machine is MultiblockControllerMachine) {
+        if (machine is IGTPPRenderMachine && machine is MultiblockControllerMachine) {
             if (machine.isFormed) {
-                quads!!.clear()
-                render(side, modelFacing, quads, machine, modelState!!)
+                quads.clear()
+                render(side, modelFacing, quads, machine, modelState!!, null)
             }
         }
 
         if (machine is IWorkable) {
-            quads!!.addAll(
+            quads.addAll(
                 overlayModel.bakeQuads(
                     side,
                     frontFacing!!,
@@ -87,13 +92,13 @@ class GTPPMachineRenderer(baseCasing: ResourceLocation, workableModel: ResourceL
                 )
             )
         } else {
-            quads!!.addAll(overlayModel.bakeQuads(side, frontFacing!!, Direction.NORTH, false, false))
+            quads.addAll(overlayModel.bakeQuads(side, frontFacing!!, Direction.NORTH, false, false))
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     override fun renderPartModel(
-        quads: MutableList<BakedQuad>?,
+        quads: MutableList<BakedQuad>,
         machine: IMultiController?,
         part: IMultiPart?,
         frontFacing: Direction?,
@@ -102,7 +107,7 @@ class GTPPMachineRenderer(baseCasing: ResourceLocation, workableModel: ResourceL
         modelFacing: Direction?,
         modelState: ModelState?
     ) {
-        render(side, modelFacing, quads!!, machine!!.self(), modelState!!)
+        render(side, modelFacing, quads, machine!!.self(), modelState!!,  part)
     }
 
     @OnlyIn(Dist.CLIENT)

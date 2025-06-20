@@ -27,6 +27,7 @@ import com.lowdragmc.lowdraglib.side.item.IItemTransfer
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
+import dev.arbor.gtnn.api.extension.NNUtils
 import dev.arbor.gtnn.api.machine.multiblock.part.HighSpeedPipeBlock
 import dev.arbor.gtnn.api.machine.multiblock.part.NeutronAcceleratorMachine
 import dev.arbor.gtnn.api.machine.multiblock.part.NeutronSensorMachine
@@ -43,6 +44,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.crafting.Ingredient
 import javax.annotation.ParametersAreNonnullByDefault
 import kotlin.math.pow
+import kotlin.math.roundToInt
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -96,15 +98,15 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
                 }
             }
             if (part is ItemBusPartMachine) {
-                busMachines = APartAbility.getOrDefault(busMachines, ::hashSetOf)
+                busMachines = NNUtils.getOrDefault(busMachines, ::hashSetOf)
                 busMachines!!.add(part)
             }
             if (part is NeutronSensorMachine) {
-                sensorMachines = APartAbility.getOrDefault(sensorMachines, ::hashSetOf)
+                sensorMachines = NNUtils.getOrDefault(sensorMachines, ::hashSetOf)
                 sensorMachines!!.add(part)
             }
             if (part is NeutronAcceleratorMachine) {
-                acceleratorMachines = APartAbility.getOrDefault(acceleratorMachines, ::hashSetOf)
+                acceleratorMachines = NNUtils.getOrDefault(acceleratorMachines, ::hashSetOf)
                 acceleratorMachines!!.add(part)
             }
             if (part is HighSpeedPipeBlock) height++
@@ -138,7 +140,7 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
             val increase = accelerator.consumeEnergy()
             if (increase > 0) {
                 anyWorking = true
-                this.eV += (Math.round((increase * getEfficiencyFactor()).coerceAtLeast(1.0))).toInt()
+                this.eV += (increase * getEfficiencyFactor()).coerceAtLeast(1.0).roundToInt()
             }
         }
 
@@ -303,7 +305,7 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
     override fun getRealRecipe(recipe: GTRecipe): GTRecipe? {
         val conditions = recipe.conditions.filter(NeutronActivatorCondition::class.java::isInstance)
         val newRecipe = recipe.copy()
-        newRecipe.duration = Math.round((newRecipe.duration * getVelocityFactor()).coerceAtLeast(1.0)).toInt()
+        newRecipe.duration = (newRecipe.duration * getVelocityFactor()).coerceAtLeast(1.0).roundToInt()
         if (conditions.isNotEmpty()) {
             val condition = conditions[0] as NeutronActivatorCondition
             if (eV > (condition.evRange / 10000) * 1000000 || eV < (condition.evRange % 10000) * 1000000) {

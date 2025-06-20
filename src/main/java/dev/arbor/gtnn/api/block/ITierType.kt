@@ -42,12 +42,12 @@ interface ITierType: StringRepresentable {
 
         override val typeName: String = name.lowercase(Locale.getDefault())
     }
-}
 
-class WrappedTierType<T : Block?>(private val supplier: Supplier<T>, override val tier: Int) : ITierType {
-    override val typeName: String
-        get() {
-            return supplier.get()?.descriptionId ?: toString()
-        }
+    class WrappedTierType<T : Block?>(private val supplier: Supplier<T>, override val tier: Int) : ITierType {
+        override val typeName: String
+            get() {
+                return supplier.get()?.descriptionId ?: toString()
+            }
+    }
 }
 

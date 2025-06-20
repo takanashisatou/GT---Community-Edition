@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
+import dev.arbor.gtnn.api.extension.NNUtils
 import dev.arbor.gtnn.data.GTNNMaterials
 import dev.arbor.gtnn.data.GTNNRecipeTypes
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap
@@ -142,7 +143,7 @@ class LargeNaquadahReactorMachine(holder: IMachineBlockEntity) : WorkableElectri
             val io = ioMap.getOrDefault(part.self().pos.asLong(), IO.BOTH)
             if (io == IO.NONE) continue
             if (part is FluidHatchPartMachine) {
-                hatchPartMachines = APartAbility.getOrDefault(hatchPartMachines, ::mutableSetOf)
+                hatchPartMachines = NNUtils.getOrDefault(hatchPartMachines, ::mutableSetOf)
                 (hatchPartMachines as MutableSet).add(part)
             }
         }

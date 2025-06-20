@@ -6,10 +6,28 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes
 import com.gregtechceu.gtceu.common.data.GTSoundEntries
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines
+import com.gregtechceu.gtceu.utils.ResearchManager
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection
 import java.util.function.Supplier
 
 object GTNNRecipeTypes {
+
+    val COMPONENT_ASSEMBLY_LINE_RECIPES: GTRecipeType =
+        GTRecipeTypes.register("component_assembly_line", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(12, 1, 12, 0)
+            .setEUIO(IO.IN)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.ASSEMBLER)
+
+    val CIRCUIT_ASSEMBLY_LINE_RECIPES: GTRecipeType =
+        GTRecipeTypes.register("circuit_assembly_line", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(6, 1, 1, 0)
+            .setEUIO(IO.IN)
+            .setMaxTooltips(4)
+            .setHasResearchSlot(true)
+            .setSound(GTSoundEntries.ASSEMBLER)
+            .onRecipeBuild(ResearchManager::createDefaultResearchRecipe)
+
     val CHEMICAL_PLANT_RECIPES: GTRecipeType =
         GTRecipeTypes.register("chemical_plant", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(4, 4, 4, 4).setEUIO(IO.IN)

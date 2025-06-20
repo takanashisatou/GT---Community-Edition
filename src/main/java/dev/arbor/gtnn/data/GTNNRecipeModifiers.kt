@@ -5,33 +5,32 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier
-import com.mojang.datafixers.util.Pair
-import dev.arbor.gtnn.api.machine.feature.IParallelMachine
-import javax.annotation.Nonnull
+import dev.arbor.gtnn.api.machine.feature.IGTPPMachine
 import kotlin.math.max
 import kotlin.math.min
 
 object GTNNRecipeModifiers {
-    val GTNN_PARALLEL: RecipeModifier =
-        RecipeModifier { machine: MetaMachine, recipe: GTRecipe -> gtnnParallel(machine, recipe).first }
 
-    private fun gtnnParallel(
-        machine: MetaMachine, @Nonnull recipe: GTRecipe?): Pair<ModifierFunction, Int> {
-        if (machine is IMultiController && machine.isFormed) {
-            if (machine is IParallelMachine) {
-                var parallel: Int = machine.parallelNumber
-                if (machine is WorkableElectricMultiblockMachine) {
-                    parallel = min(
-                        parallel.toDouble(),
-                        max((machine.maxVoltage / RecipeHelper.getInputEUt(recipe)).toDouble(), 1.0)
-                    ).toInt()
-                }
-                return Pair(ModifierFunction { recipe }, ParallelLogic.getParallelAmount(machine, recipe!!, parallel))
-            }
+    val GTPP_MODIFIER: RecipeModifier = RecipeModifier { machine: MetaMachine?, recipe: GTRecipe? ->
+        if (machine !is IMultiController || !machine.isFormed) return@RecipeModifier ModifierFunction.IDENTITY
+        val machineData = machine as? IGTPPMachine
+        val speedMultiplier = 100.0 / (100.0 + (machineData?.speedMultiplier?.toDouble() ?: 0.0))
+        val energyConsumeMultiplier = 100 / (100.0 + (machineData?.energyConsumeMultiplier?.toDouble() ?: 0.0))
+        var parallels = machineData?.maxParallel ?: 1
+        if (machine is WorkableElectricMultiblockMachine) {
+            parallels = min(parallels,
+                max(machine.maxVoltage / RecipeHelper.getInputEUt(recipe), 1).toInt())
         }
-        return Pair(ModifierFunction.IDENTITY, 1)
+        if (parallels == 1 && speedMultiplier == 1.0 && energyConsumeMultiplier == 1.0)
+            return@RecipeModifier ModifierFunction.IDENTITY
+        return@RecipeModifier ModifierFunction.builder()
+            .modifyAllContents(ContentModifier.multiplier(parallels.toDouble()))
+            .eutMultiplier(parallels * energyConsumeMultiplier)
+            .durationMultiplier(speedMultiplier)
+            .parallels(parallels)
+            .build()
     }
 }

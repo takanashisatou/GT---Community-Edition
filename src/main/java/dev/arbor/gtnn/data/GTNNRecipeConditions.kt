@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType
 import com.gregtechceu.gtceu.api.registry.GTRegistries
 import dev.arbor.gtnn.api.recipe.NeutronActivatorCondition
 import dev.arbor.gtnn.api.recipe.PlantCasingCondition
+import dev.arbor.gtnn.api.recipe.TierCasingCondition
 
 object GTNNRecipeConditions {
     @JvmStatic
@@ -16,6 +17,12 @@ object GTNNRecipeConditions {
     val NEUTRON_ACTIVATOR: RecipeConditionType<NeutronActivatorCondition> = GTRegistries.RECIPE_CONDITIONS.register(
         "neutron_activator_condition",
         RecipeConditionType(::NeutronActivatorCondition, NeutronActivatorCondition.CODEC)
+    )
+
+    @JvmStatic
+    val TIER_CASING: RecipeConditionType<TierCasingCondition> = GTRegistries.RECIPE_CONDITIONS.register(
+        "tier_casing_condition",
+        RecipeConditionType(::TierCasingCondition, TierCasingCondition.CODEC)
     )
 
     fun init() {

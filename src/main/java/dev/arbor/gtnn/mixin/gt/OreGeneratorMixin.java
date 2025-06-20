@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.XoroshiroRandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 
 import dev.arbor.gtnn.GTNN;
-import dev.arbor.gtnn.api.mixin.VeinConfiguration;
+import dev.arbor.gtnn.api.vein.VeinConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

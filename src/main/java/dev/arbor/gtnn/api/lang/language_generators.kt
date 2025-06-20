@@ -1,15 +1,15 @@
 package dev.arbor.gtnn.api.lang
 
 import com.tterrag.registrate.AbstractRegistrate
-import com.tterrag.registrate.providers.ProviderType
-import com.tterrag.registrate.providers.RegistrateLangProvider
-import dev.arbor.gtnn.api.registry.CNLangProvider
+import dev.arbor.gtnn.api.registry.NNLangProvider
 import dev.arbor.gtnn.data.GTNNDataGen
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotations
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
 
 
 internal annotation class LanguageRoot(val prefix: String)
@@ -68,25 +68,30 @@ internal object LangGenerators {
 
 // --------------------------------------------------------------------------------------------------------------------
 
-    private val GENERATORS = mutableListOf<RegistrateLangProvider.() -> Unit>()
-    private val CNLANG = mutableListOf<CNLangProvider.() -> Unit>()
+    private val GENERATORS = mutableListOf<NNLangProvider.() -> Unit>()
 
     /**
      * Registers a new single-line language entry with the given value.
      */
     fun entry(en: String): GeneratorDelegate<SingleLangEntry> = GeneratorDelegate { key ->
-        GENERATORS += { add(key, en) }
+        GENERATORS += {
+            add(key, en)
+        }
         SingleLangEntry(key)
     }
 
     fun tsl(en: String, cn: String): GeneratorDelegate<SingleLangEntry> = GeneratorDelegate { key ->
-        GENERATORS += { add(key, en) }
-        CNLANG += { add(key, cn) }
+        GENERATORS += {
+            add(key, en)
+            addCN(key, cn)
+        }
         SingleLangEntry(key)
     }
 
     fun cnEntry(cn: String): GeneratorDelegate<SingleLangEntry> = GeneratorDelegate { key ->
-        CNLANG += { add(key, cn) }
+        GENERATORS += {
+            addCN(key, cn)
+        }
         SingleLangEntry(key)
     }
 
@@ -107,12 +112,8 @@ internal object LangGenerators {
     /**
      * Adds all registered entries to datagen
      */
-    private fun generate(provider: RegistrateLangProvider) {
+    private fun generate(provider: NNLangProvider) {
         GENERATORS.forEach { it.invoke(provider) }
-    }
-
-    private fun generateCN(provider: CNLangProvider) {
-        CNLANG.forEach { it.invoke(provider) }
     }
 
     private val initDatagenGuard = SingleCallGuard()
@@ -124,8 +125,7 @@ internal object LangGenerators {
      */
     internal fun initDatagen(registrate: AbstractRegistrate<*>, vararg classes: KClass<*>) {
         initDatagenGuard.check { "Datagen is already initialized." }
-        registrate.addDataGenerator(ProviderType.LANG, this::generate)
-        registrate.addDataGenerator(GTNNDataGen.CN_LANG, this::generateCN)
+        registrate.addDataGenerator(GTNNDataGen.NN_LANG, this::generate)
 
 
         fun initNestedObjects(cls: KClass<*>) {
@@ -133,7 +133,9 @@ internal object LangGenerators {
 
             cls.objectInstance?.let { instance ->
                 cls.declaredMemberProperties.forEach { member ->
-                    @Suppress("UNCHECKED_CAST") (member as KProperty1<Any, *>).get(instance)
+                    if (member.returnType.isSubtypeOf(ILangEntry::class.starProjectedType)) {
+                        (member as KProperty1<Any, *> ).get(instance)
+                    }
                 }
             }
         }

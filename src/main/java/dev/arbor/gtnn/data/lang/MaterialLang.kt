@@ -1,11 +1,14 @@
 package dev.arbor.gtnn.data.lang
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material
+import dev.arbor.gtnn.api.registry.NNLangProvider
 import dev.arbor.gtnn.data.GTNNMaterials.*
 
-
 object MaterialLang {
-    fun init() {
+    lateinit var provider: NNLangProvider
+
+    fun init(provider: NNLangProvider) {
+        this.provider = provider
         tagPrefix()
         materials()
         jeiOreVeins()
@@ -199,16 +202,16 @@ object MaterialLang {
         translateOreVein("niobium_vein_ad", "铌矿脉")
     }
 
-
-    private fun tsl(key: String?, cn: String, en: String) {
-        LangHandler.tsl(key, cn, en)
+    private fun tsl(key: String, cn: String, en: String) {
+        provider.add(key, en, cn)
     }
 
-    private fun translateMaterial(material: Material, cn: String) {
-        LangHandler.translateMaterial(material, cn)
+    private fun translateMaterial(material: Material?, cn: String) {
+        if (material == null) return
+        provider.addCN(material.unlocalizedName, cn)
     }
 
-    private fun translateOreVein(key: String?, cn: String?) {
-        LangHandler.translateOreVein(key, cn)
+    private fun translateOreVein(key: String, cn: String) {
+        provider.addOreVein(key, cn)
     }
 }

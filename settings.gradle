@@ -8,6 +8,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
@@ -40,12 +44,12 @@ dependencyResolutionManagement {
         def parchmentVersion = "2023.09.03" // https://parchmentmc.org/docs/getting-started
         def shadowVersion = "7.1.2"
         def spotlessVersion = "6.25.0"
-        def modDevGradleVersion = "2.0.52-beta"
+        def modDevGradleVersion = "2.0.95"
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
         def mixinextrasVersion = "0.3.5"
-        def kotlinJemVersion = "1.9.22"
-        def kotlinPluginVersion = "1.9.22"
+        def kotlinJemVersion = "2.1.20"
+        def kotlinPluginVersion = "2.1.20"
         def lombokPluginVersion = "8.7.1"
 
         forge {

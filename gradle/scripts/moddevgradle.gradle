@@ -1,9 +1,11 @@
+import org.slf4j.event.Level
+
 mixin {
     add sourceSets.main, "gtnn.refmap.json"
     config 'gtnn.mixins.json'
 }
 
-neoForge {
+legacyForge {
     // Specify the version of NeoForge to use.
     version = forge.versions.minecraftForge.get()
 
@@ -32,7 +34,7 @@ neoForge {
             client()
             sourceSet = sourceSets.extra
             ideName = "Client 1"
-
+            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
             systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
@@ -40,7 +42,7 @@ neoForge {
             client()
             sourceSet = sourceSets.extra
             ideName = "Client 2"
-
+            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
             programArguments.addAll('--username', 'YoungOnion')
             systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
@@ -50,7 +52,7 @@ neoForge {
             client()
             sourceSet = sourceSets.main
             ideName = "Clean Client"
-
+            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
             systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
@@ -84,6 +86,7 @@ neoForge {
             gameDirectory.set(file('run/data'))
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             programArguments.addAll('--mod', project.mod_id)
+            programArguments.addAll('--existing-mod', 'gtceu')
             programArguments.addAll('--all')
             programArguments.addAll('--output', file('src/generated/resources/').getAbsolutePath())
             programArguments.addAll('--existing', file('src/main/resources/').getAbsolutePath())
@@ -101,7 +104,7 @@ neoForge {
             // Recommended logging level for the console
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            logLevel = org.slf4j.event.Level.INFO
+            logLevel = Level.INFO
         }
     }
 }

@@ -292,12 +292,47 @@ object SelfRecipes {
 
     private fun blockRecipes(provider: Consumer<FinishedRecipe>) {
         VanillaRecipeHelper.addShapedRecipe(
-            provider, true, "clean_machine_casing", GTNNCasingBlocks.PROCESS_MACHINE_CASING.asStack(),
+            provider, true, "clean_machine_casing",
+            GTNNCasingBlocks.PROCESS_MACHINE_CASING.asStack(),
             "ABA", "BCB", "ABA",
             'A', UnificationEntry(TagPrefix.foil, GTMaterials.StainlessSteel),
             'B', CustomTags.IV_CIRCUITS,
             'C', GTBlocks.CASING_STEEL_SOLID
         )
+        VanillaRecipeHelper.addShapedRecipe(
+            provider, true, "iridium_machine_casing",
+            GTNNCasingBlocks.IRIDIUM_CASING.asStack(),
+            "ABA", "ACA", "ABA",
+            'A', UnificationEntry(TagPrefix.plate, GTMaterials.Iridium),
+            'B', UnificationEntry(TagPrefix.screw, GTMaterials.Iridium),
+            'C', UnificationEntry(TagPrefix.gearSmall, GTMaterials.Iridium)
+        )
+        VanillaRecipeHelper.addShapedRecipe(
+            provider, true, "polybenzimidazole_pipe",
+            GTNNCasingBlocks.CASING_POLYBENZIMIDAZOLE_PIPE.asStack(),
+            "ABA", "BCB", "ABA",
+            'A', UnificationEntry(TagPrefix.plate, GTMaterials.Polybenzimidazole),
+            'B', UnificationEntry(TagPrefix.pipeNormalFluid, GTMaterials.Polybenzimidazole),
+            'C', UnificationEntry(TagPrefix.frameGt, GTMaterials.Polybenzimidazole)
+        )
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("advanced_filter_casing")
+            .inputItems(TagPrefix.frameGt, GTMaterials.Iridium)
+            .inputItems(GTItems.ELECTRIC_MOTOR_UV)
+            .inputItems(TagPrefix.rotor, GTMaterials.Iridium)
+            .inputItems(GTItems.COVER_ITEM_DETECTOR_ADVANCED, 8)
+            .inputItems(TagPrefix.rodLong, GTMaterials.Iridium, 8)
+            .outputItems(GTNNCasingBlocks.ADVANCED_FILTER_CASING.asStack())
+            .EUt(GTValues.VA[GTValues.LuV].toLong())
+            .duration(GTNNRecipes.dur(30.0))
+            .save(provider)
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("iridium_machine_casing")
+            .inputItems(TagPrefix.plate, GTMaterials.Iridium, 6)
+            .inputItems(TagPrefix.screw, GTMaterials.Iridium, 2)
+            .inputItems(TagPrefix.gearSmall, GTMaterials.Iridium, 1)
+            .outputItems(GTNNCasingBlocks.IRIDIUM_CASING.asStack())
+            .EUt(GTValues.VA[GTValues.LV].toLong())
+            .duration(GTNNRecipes.dur(10.0))
+            .save(provider)
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("high_speed_pipe_block")
             .inputItems(TagPrefix.pipeHugeFluid, GTMaterials.StainlessSteel)
             .inputItems(TagPrefix.frameGt, GTMaterials.BlueAlloy, 32)
@@ -305,7 +340,16 @@ object SelfRecipes {
             .inputItems(TagPrefix.plate, GTMaterials.Beryllium, 32)
             .inputItems(CustomTags.IV_CIRCUITS)
             .outputItems(GTNNMachines.HIGH_SPEED_PIPE_BLOCK.asStack())
-            .EUt(GTValues.VA[GTValues.EV].toLong()).duration(GTNNRecipes.dur(15.0)).save(provider)
+            .EUt(GTValues.VA[GTValues.EV].toLong())
+            .duration(GTNNRecipes.dur(15.0))
+            .save(provider)
+        GTRecipeTypes.FLUID_SOLIDFICATION_RECIPES.recipeBuilder("osmium_borosilicate_glass")
+            .inputItems(TagPrefix.block, GTMaterials.BorosilicateGlass)
+            .inputFluids(GTMaterials.Osmium.getFluid(1152))
+            .outputItems(GTNNBlocks.OSMIUM_BOROSILICATE_GLASS.asStack())
+            .EUt(GTValues.VA[GTValues.ZPM].toLong())
+            .duration(GTNNRecipes.dur(40.0))
+            .save(provider)
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("radiation_proof_machine_casing")
             .inputItems(TagPrefix.plateDense, GTMaterials.Lead, 6)
             .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
@@ -341,6 +385,13 @@ object SelfRecipes {
     }
 
     private fun machineRecipes(provider: Consumer<FinishedRecipe>) {
+        VanillaRecipeHelper.addShapedRecipe(
+            provider, true, "maceration_stack_controller",
+            GTPPMachines.FactoryMaceration.asStack(), "ABA", "BCB", "ABA",
+            'A', UnificationEntry(TagPrefix.plate, GTMaterials.Titanium),
+            'B', GTMachines.MACERATOR[GTValues.EV].asStack(),
+            'C', CustomTags.EV_CIRCUITS
+        )
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("catalyst_hatch")
             .inputItems(CustomTags.MV_CIRCUITS)
             .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.MV])

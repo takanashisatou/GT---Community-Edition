@@ -13,7 +13,7 @@ public class GTNNForge {
         var events = MinecraftForge.EVENT_BUS;
         GTNN.INSTANCE.init();
         GTNN.genericListener(eventBus);
-        GTNN.register(register);
+        GTNN.eventBusSubscriberRegister(register);
         GTNN.eventRegister(events);
     }
 }

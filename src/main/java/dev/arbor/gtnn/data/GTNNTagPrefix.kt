@@ -3,7 +3,7 @@ package dev.arbor.gtnn.data
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import dev.arbor.gtnn.GTNNIntegration
-import dev.arbor.gtnn.api.tool.StringTools.rl
+import dev.arbor.gtnn.api.extension.StringExtension.rl
 import dev.arbor.gtnn.data.materials.GTNNChemicalItems
 import earth.terrarium.adastra.common.registry.ModBlocks
 import net.minecraft.resources.ResourceLocation

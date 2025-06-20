@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "gtnn:block/casings/solid/iridium_casing",
+    "top_all": "gtnn:block/casings/component_assline_casing/mv"
+  }
+}

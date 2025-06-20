@@ -16,7 +16,6 @@ import net.minecraft.util.GsonHelper
 
 class NeutronActivatorCondition(max: Int, min: Int) : RecipeCondition() {
     companion object {
-        val INSTANCE: NeutronActivatorCondition = NeutronActivatorCondition()
         val CODEC: Codec<NeutronActivatorCondition> = RecordCodecBuilder
             .create { instance: RecordCodecBuilder.Instance<NeutronActivatorCondition> ->
                 isReverse(instance)
@@ -24,6 +23,7 @@ class NeutronActivatorCondition(max: Int, min: Int) : RecipeCondition() {
                     .apply(instance, ::NeutronActivatorCondition)
             }
     }
+
     var evRange: Int = 0
 
     constructor() : this(0, 0)

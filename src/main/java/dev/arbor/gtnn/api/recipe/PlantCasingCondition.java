@@ -41,8 +41,6 @@ public class PlantCasingCondition extends RecipeCondition {
             TITANIUM, "gtnn.recipe.condition.plant_casing.tier.titanium",
             TUNGSTEN_STEEL, "gtnn.recipe.condition.plant_casing.tier.tungsten_steel");
 
-    public static final PlantCasingCondition INSTANCE = new PlantCasingCondition();
-
     private int tier = 0;
 
     public PlantCasingCondition() {}

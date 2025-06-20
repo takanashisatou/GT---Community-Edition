@@ -22,8 +22,8 @@ import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
 import dev.arbor.gtnn.data.GTNNTagPrefix.catalyst
 import dev.arbor.gtnn.api.item.behaviors.CatalystBehavior
 import dev.arbor.gtnn.api.item.behaviors.TagPrefixBehavior
-import dev.arbor.gtnn.api.tool.StringTools.nn
-import dev.arbor.gtnn.api.tool.StringTools.rl
+import dev.arbor.gtnn.api.extension.StringExtension.nn
+import dev.arbor.gtnn.api.extension.StringExtension.rl
 import dev.arbor.gtnn.data.GTNNCreativeModeTabs
 import dev.arbor.gtnn.data.GTNNPropertyKeys
 import net.minecraft.resources.ResourceLocation

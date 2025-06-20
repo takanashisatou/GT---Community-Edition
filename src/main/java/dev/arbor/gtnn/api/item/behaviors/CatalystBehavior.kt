@@ -3,6 +3,7 @@ package dev.arbor.gtnn.api.item.behaviors
 import com.gregtechceu.gtceu.api.item.ComponentItem
 import com.gregtechceu.gtceu.api.item.component.IAddInformation
 import com.gregtechceu.gtceu.api.item.component.IItemComponent
+import dev.arbor.gtnn.api.item.INNDurabilityBar
 import net.minecraft.client.color.item.ItemColor
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.Tag
@@ -15,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
 import java.util.function.Supplier
 import kotlin.math.min
 
-class CatalystBehavior(private val maxDurability: Int) : IItemComponent, IMODurabilityBar, IAddInformation {
+class CatalystBehavior(private val maxDurability: Int) : IItemComponent, INNDurabilityBar, IAddInformation {
     private fun getCatalystStatsTag(itemStack: ItemStack): CompoundTag? {
         return itemStack.getTagElement("GTNN.CatalystStats")
     }

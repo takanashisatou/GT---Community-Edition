@@ -2,10 +2,12 @@ package dev.arbor.gtnn.data
 
 import com.gregtechceu.gtceu.api.item.ComponentItem
 import com.gregtechceu.gtceu.api.item.IComponentItem
+import com.gregtechceu.gtceu.api.item.component.ICustomRenderer
 import com.gregtechceu.gtceu.api.item.component.IItemComponent
 import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior
 import com.gregtechceu.gtceu.common.item.TooltipBehavior
+import com.lowdragmc.lowdraglib.Platform
 import com.tterrag.registrate.Registrate
 import com.tterrag.registrate.builders.ItemBuilder
 import com.tterrag.registrate.util.entry.ItemEntry
@@ -13,14 +15,17 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer
 import com.tterrag.registrate.util.nullness.NonNullFunction
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
+import dev.arbor.gtnn.api.item.behaviors.StructureWriteBehavior
 import dev.arbor.gtnn.data.materials.GTNNChemicalItems
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Rarity
+import java.util.function.Consumer
 
 object GTNNItems {
-    @Suppress("UNUSED")
-    val oops = REGISTRATE.creativeModeTab { GTNNCreativeModeTabs.MAIN_TAB }
+    init {
+        REGISTRATE.creativeModeTab { GTNNCreativeModeTabs.MAIN_TAB }
+    }
 
     val RADIOACTIVE_WASTE: ItemEntry<Item> =
         createItem<Item>("radioactive_waste") { properties: Item.Properties -> Item(properties) }
@@ -233,17 +238,92 @@ object GTNNItems {
             }, CoverPlaceBehavior(GTNNCovers.ENDER_ITEM_LINK)))
             .register()
 
-    private fun <T : IComponentItem?> attach(components: IItemComponent?): NonNullConsumer<T> {
+    val DEBUG_STRUCTURE_WRITER: ItemEntry<ComponentItem> =
+        registerItemWithTooltip("debug_structure_writer", 1)
+            .onRegister(GTItems.attach(StructureWriteBehavior))
+            .register()
+
+    private fun <T : IComponentItem> attach(components: IItemComponent?): NonNullConsumer<T> {
         return NonNullConsumer { item: T -> item!!.attachComponents(components) }
     }
 
     fun init() {
         GTNNChemicalItems.init()
+        EPMItems.init()
+        GTNNCircuitItems.init()
+        GTNNWrapItem.init()
     }
 
     private fun <T : Item?> createItem(
         name: String, factory: NonNullFunction<Item.Properties, T>
     ): ItemBuilder<T, Registrate> {
         return REGISTRATE.item(name, factory)
+    }
+
+    fun registerItemWithTooltip(
+        name: String, num: Int
+    ): ItemBuilder<ComponentItem, Registrate> {
+        return registerItemWithTooltip(name, { ComponentItem.create(it) }, num)
+    }
+
+    fun <T : ComponentItem> registerItemWithTooltip(
+        name: String, factory: NonNullFunction<Item.Properties, T>, num: Int
+    ): ItemBuilder<T, Registrate> {
+        return REGISTRATE.item(name, factory).onRegister(GTItems.attach<T?>(TooltipBehavior {
+            if (num <= 0) return@TooltipBehavior
+
+            val modId = REGISTRATE.modid
+            if (num == 1) {
+                it += Component.translatable("item.$modId.$name.desc")
+            } else {
+                (0..<num).forEach { i ->
+                    it += Component.translatable("item.$modId.$name.desc.$i")
+                }
+            }
+        }))
+    }
+
+    fun registerItemWithTooltip(
+        name: String, num: Int, vararg other: Component
+    ): ItemBuilder<ComponentItem, Registrate> {
+        return registerItemWithTooltip(
+            name,
+            { properties -> ComponentItem.create(properties) },
+            num,
+            *other
+        )
+    }
+
+    fun <T : ComponentItem> registerItemWithTooltip(
+        name: String, factory: NonNullFunction<Item.Properties, T>, num: Int, vararg other: Component
+    ): ItemBuilder<T, Registrate> {
+        return REGISTRATE.item(name, factory)
+            .onRegister(GTItems.attach<T?>(TooltipBehavior(Consumer { lines ->
+                if (num <= 0) return@Consumer
+                if (num == 1) {
+                    lines!!.add(
+                        Component.translatable("item.%s.%s.desc".format(REGISTRATE.modid, name))
+                    )
+                    lines.addAll(listOf(*other))
+                } else {
+                    for (i in 0..<num) {
+                        lines!!.add(
+                            Component.translatable(
+                                "item.%s.%s.desc.%s".format(REGISTRATE.modid, name, i)
+                            )
+                        )
+                    }
+                    lines!!.addAll(listOf(*other))
+                }
+            })))
+    }
+
+    fun <T : ComponentItem> attachRenderer(
+        customRenderer: ICustomRenderer
+    ): NonNullConsumer<T> {
+        return if (!Platform.isClient())
+            NonNullConsumer.noop<T>()
+        else
+            NonNullConsumer { item: T -> item.attachComponents(customRenderer) }
     }
 }

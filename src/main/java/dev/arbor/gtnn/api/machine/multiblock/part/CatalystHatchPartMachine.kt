@@ -59,7 +59,8 @@ class CatalystHatchPartMachine(holder: IMachineBlockEntity) : TieredIOPartMachin
     }
 
     private fun createInventory(): NotifiableItemStackHandler =
-        object : NotifiableItemStackHandler(this, 16, IO.IN, IO.OUT, Function { slots: Int? ->
+        object : NotifiableItemStackHandler(this, 16, IO.IN, IO.OUT,
+            Function { slots: Int? ->
             object : CustomItemStackHandler(slots!!) {
                 override fun getSlotLimit(slot: Int): Int {
                     return 1

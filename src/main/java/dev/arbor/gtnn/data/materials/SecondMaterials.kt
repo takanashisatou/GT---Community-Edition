@@ -1,7 +1,9 @@
 package dev.arbor.gtnn.data.materials
 
+import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.common.data.GTMaterials
@@ -176,5 +178,29 @@ object SecondMaterials {
         NeutroniumMixture =
             Builder("neutronium_mixture").dust().color(0xFFFFFF).secondaryColor(0x000000)
                 .iconSet(MaterialIconSet.METALLIC).buildAndRegister().setFormula("?Nt?")
+
+        Indalloy140 = Builder("indalloy_140")
+            .ingot()
+            .fluid()
+            .color(0x736D8A)
+            .iconSet(MaterialIconSet.DULL)
+            .blastTemp(4700, BlastProperty.GasTier.HIGH,
+                GTValues.VA[GTValues.IV], 24)
+            .components(GTMaterials.Bismuth, 47, GTMaterials.Lead, 25,
+                GTMaterials.Tin, 13, GTMaterials.Cadmium, 10, GTMaterials.Indium, 5)
+            .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+            .buildAndRegister()
+
+        MARM200Steel = Builder("mar_m_200_steel")
+            .ingot()
+            .fluid()
+            .color(0x515151)
+            .iconSet(MaterialIconSet.SHINY)
+            .blastTemp(5000, BlastProperty.GasTier.HIGHER, GTValues.VA[GTValues.IV], 200)
+            .components(GTMaterials.Niobium, 2, GTMaterials.Chromium, 9, GTMaterials.Aluminium, 5,
+                GTMaterials.Titanium, 2, GTMaterials.Cobalt, 10, GTMaterials.Tungsten, 13, GTMaterials.Nickel, 18)
+            .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROTOR,
+                MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_FRAME)
+            .buildAndRegister();
     }
 }

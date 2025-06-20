@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtnn:block/advanced_filter_casing"
+    }
+  }
+}

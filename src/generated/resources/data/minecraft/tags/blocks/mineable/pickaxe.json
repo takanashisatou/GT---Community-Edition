@@ -2,6 +2,24 @@
   "values": [
     "gtnn:clean_machine_casing",
     "gtnn:radiation_proof_machine_casing",
-    "gtnn:field_restriction_casing"
+    "gtnn:field_restriction_casing",
+    "gtnn:polybenzimidazole_pipe",
+    "gtnn:iridium_casing",
+    "gtnn:advanced_filter_casing",
+    "gtnn:component_assline_casing_lv",
+    "gtnn:component_assline_casing_mv",
+    "gtnn:component_assline_casing_hv",
+    "gtnn:component_assline_casing_ev",
+    "gtnn:component_assline_casing_iv",
+    "gtnn:component_assline_casing_luv",
+    "gtnn:component_assline_casing_zpm",
+    "gtnn:component_assline_casing_uv",
+    "gtnn:component_assline_casing_uhv",
+    "gtnn:component_assline_casing_uev",
+    "gtnn:component_assline_casing_uiv",
+    "gtnn:component_assline_casing_uxv",
+    "gtnn:component_assline_casing_opv",
+    "gtnn:component_assline_casing_max",
+    "gtnn:osmium_borosilicate_glass"
   ]
 }

@@ -9,17 +9,21 @@
     "create.CreateFanMixin",
     "emi.FluidEmiStackMixin",
     "gt.BedrockOreMinerMachineMixin",
+    "gt.ComponentItemMixin",
     "gt.FluidStorageMixin",
     "gt.GTBlocksMixin",
     "gt.GTOreByProductMixin",
     "gt.GTOreDefinitionMixin",
+    "gt.GTRecipeBuilderMixin",
     "gt.GTRecipeConditionsMixin",
+    "gt.GTRecipeTypeAccessor",
     "gt.GTRecipeTypeMixin",
     "gt.GTSyncedFieldAccessorsMixin",
     "gt.MaterialBuilderMixin",
     "gt.MaterialMixin",
     "gt.OreGeneratorMixin",
     "gt.OreRecipeHandlerMixin",
+    "gt.TagPrefixItemMixin",
     "mc.MinecraftServerMixin",
     "mc.RecipeManagerMixin",
     "mc.WorldLoaderPackConfigMixin"
@@ -29,7 +33,8 @@
     "client.ShimmerMixin",
     "client.ToastKiller",
     "client.ToastKiller$ToastInstance",
-    "emi.AEmiApi"
+    "emi.AEmiApi",
+    "mc.ItemModelGeneratorAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

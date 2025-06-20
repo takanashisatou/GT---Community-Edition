@@ -3,14 +3,87 @@ package dev.arbor.gtnn.data.lang
 import dev.arbor.gtnn.api.lang.LangGenerators.entry
 import dev.arbor.gtnn.api.lang.LanguageRoot
 import dev.arbor.gtnn.api.lang.SingleLangEntry
+import dev.arbor.gtnn.api.registry.NNLangProvider
+import dev.arbor.gtnn.data.GTNNRecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES
+import dev.arbor.gtnn.data.GTNNRecipeTypes.COMPONENT_ASSEMBLY_LINE_RECIPES
+import dev.arbor.gtnn.data.GTPPMachines
+import dev.arbor.gtnn.data.lang.NNLangHandler.tsl
 
 @LanguageRoot("gtnn")
 object MachineLang {
     val TEST: SingleLangEntry by entry("test")
 
-    fun init() {
+    fun init(provider: NNLangProvider) {
         TEST()
         machineNames()
+
+        provider.addRecipeType(COMPONENT_ASSEMBLY_LINE_RECIPES,
+            "Large-scale Component Assembly",
+            "大规模部件装配")
+        provider.addRecipeType(CIRCUIT_ASSEMBLY_LINE_RECIPES,
+            "Circuit Assembly Line",
+            "电路装配线")
+
+        provider.addBlockWithTooltip(
+            GTPPMachines.COMPONENT_ASSEMBLY_LINE::getBlock,
+            "部件装配线",
+            listOf(
+                "Assemble A Wide Variety Of Parts In Batches",
+                "Efficiency Crushes The Same Level Of Assembly Machine/Assembly Line!",
+                "Requires §6 Component Assembly Line Casing§7 Of Different Grades",
+                "Component Assembly Line Enclosures Limit §rRecipe Level§7 That The Machine Can Execute"
+            ),
+            listOf(
+                "批量装配各式各样的零部件",
+                "效率碾压同等级组装机/装配线！",
+                "需要不同等级的§6装配线外壳§7",
+                "部件装配线外壳限制了机器可执行的§r配方等级§7"
+            )
+        )
+
+        provider.addBlockWithTooltip(
+            GTPPMachines.FactoryMaceration::getBlock,
+            "工业粉碎机",
+            listOf(
+                "Industrial Crusher Controller Block",
+                "§560%§7 faster than same-voltage single-block machines",
+                "Max Parallelism: §6n * tier§7 (LV=1, MV=2, and so on)",
+                "Base n=2; becomes 8 when crushing upgrade chip installed (NYI)"
+            ),
+            listOf(
+                "工业粉碎机的控制器方块",
+                "比相同电压的单方块快§560%",
+                "最大并行：§6n*等级§7，LV为1级，MV为2级，以此类推",
+                "初始n为2，插入粉碎升级芯片后为8（暂未实装）"
+            )
+        )
+
+        provider.addBlockWithTooltip(
+            GTPPMachines.CIRCUIT_ASSEMBLY_LINE::getBlock,
+            "电路装配线",
+            listOf(
+                "---------- Circuit Assembly Line Mode ---------",
+                "By placing research data into the controller",
+                "Perform inscription for this machine",
+                "Each circuit assembly line can only be inscribed once",
+                "---------- Circuit Assembler Mode ---------",
+                "Can only process recipes of (current voltage tier - 1)"
+            ),
+            listOf(
+                "----------电路装配线模式---------",
+                "通过将研究数据放入控制器",
+                "为这台机器进行铭刻",
+                "每台电路装配线只能铭刻一次",
+                "----------电路组装机模式---------",
+                "只能处理当前电压等级-1的配方",
+            )
+        )
+        provider.add(
+            "gui.gtnn.circuit_assembly_line.template.desc.0",
+            "Inscribed Circuit",
+            "铭刻电路"
+        )
+
         tsl("block.gtnn.large_dehydrator", "大型脱水机")
         tsl("block.gtnn.homemade_bedrock_ore_machine", "土制基岩矿机")
         tsl("block.gtnn.neutron_sensor", "中子传感器")
@@ -36,6 +109,7 @@ object MachineLang {
             "NOTE: Parallelization is not possible in precision assembly mode"
         )
         tsl("gtnn.recipe.condition.plant_casing.tooltip", "外壳等级: %s (%s)", "Casing: %s (%s)")
+        tsl("gtnn.recipe.condition.tier_casing.desc", "外壳等级：%s", "Casing Tier: %s")
         tsl("gtnn.multiblock.pattern.error.plant_casings", "所有外壳必须相同", "All casings must be same")
         tsl("gtnn.multiblock.pattern.error.pipe", "所有管道必须相同", "All pipes must be same")
         tsl("gtnn.multiblock.pattern.error.machine_casing", "所有机械方块必须相同", "All machine casings must be same")
@@ -200,13 +274,5 @@ object MachineLang {
         tsl("block.gtnn.luv_neutron_accelerator", "§dLuV 中子加速器")
         tsl("block.gtnn.zpm_neutron_accelerator", "§cZPM 中子加速器")
         tsl("block.gtnn.uv_neutron_accelerator", "§3UV 中子加速器")
-    }
-
-    private fun tsl(key: String?, cn: String?) {
-        LangHandler.tsl(key, cn)
-    }
-
-    private fun tsl(key: String?, cn: String, en: String) {
-        LangHandler.tsl(key, cn, en)
     }
 }

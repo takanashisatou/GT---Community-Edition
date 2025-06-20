@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib.Platform
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.serialization.JsonOps
+import dev.arbor.gtnn.data.GTNNRecipeTypes
 import kotlinx.coroutines.*
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands.literal
@@ -25,17 +26,50 @@ object GetRecipesCommand {
             .requires { it.hasPermission(3) }
             .then(literal("getRecipes")
                 .executes {
-                it.source.sendSystemMessage(Component.literal("Starting recipe processing..."))
-                GlobalScope.launch {
-                    try {
-                        processRecipes(it)
-                    } catch (e: Exception) {
-                        it.source.sendFailure(Component.literal("An error occurred: ${e.message}"))
+                    it.source.sendSystemMessage(Component.literal("Starting recipe processing..."))
+                    GlobalScope.launch {
+                        try {
+                            processRecipes(it)
+                        } catch (e: Exception) {
+                            it.source.sendFailure(Component.literal("An error occurred: ${e.message}"))
+                        }
                     }
+                    return@executes 1
                 }
-                return@executes 1
-            })
+            )
         )
+
+        dispatcher.register(
+            literal("gtnn")
+            .requires { it.hasPermission(3) }
+            .then(literal("test")
+                .executes {
+                    it.source.sendSystemMessage(Component.literal("Starting recipe processing..."))
+                    GlobalScope.launch {
+                        try {
+                            testRecipes(it)
+                        } catch (e: Exception) {
+                            it.source.sendFailure(Component.literal("An error occurred: ${e.message}"))
+                        }
+                    }
+                    return@executes 1
+                }
+            )
+        )
+    }
+
+    private suspend fun testRecipes(context: CommandContext<CommandSourceStack>) {
+        val source = context.source.level
+        withContext(Dispatchers.IO) {
+            source.recipeManager.recipes
+                .filter { it.type == GTNNRecipeTypes.COMPONENT_ASSEMBLY_LINE_RECIPES }
+                .forEach {
+                    it as GTRecipe
+                    context.source.sendSystemMessage(
+                        Component.literal("Recipe: ${it.id}\nCondition: ${it.conditions}")
+                    )
+                }
+        }
     }
 
     private suspend fun processRecipes(context: CommandContext<CommandSourceStack>) {

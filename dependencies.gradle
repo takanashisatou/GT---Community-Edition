@@ -2,10 +2,10 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:24.1.0'
 
     // kotlin
-    runtimeOnly "thedarkcolour:kotlinforforge:4.11.0"
-    compileOnly("thedarkcolour:kotlinforforge:4.11.0")
-    modApi("maven.modrinth:kotlin-for-forge:4.11.0") { transitive = false }
-    jarJar("maven.modrinth:kotlin-for-forge:4.11.0")
+    runtimeOnly "thedarkcolour:kotlinforforge:4.20.0"
+    compileOnly("thedarkcolour:kotlinforforge:4.20.0")
+    modApi("thedarkcolour:kotlinforforge:4.20.0") { transitive = false }
+    jarJar("thedarkcolour:kotlinforforge:4.20.0")
 
     // LDLib
     modImplementation(forge.ldlib.forge) { transitive = false }
@@ -60,8 +60,7 @@ dependencies {
     modExtraRuntimeOnly("com.teamresourceful:yabn:1.0.3")
 
     // lib
-    //modImplementation("org.arbor:arbormixin:1.0")
-    //include("org.arbor:arbormixin:1.0")
+    //jarJar(modImplementation("org.arbor:arbormixin:1.0"))
 
     // test
     // modImplementation("maven.modrinth:gtnn:1.0.6c")

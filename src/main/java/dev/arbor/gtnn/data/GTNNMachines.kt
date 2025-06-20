@@ -1,9 +1,8 @@
 package dev.arbor.gtnn.data
 
+import com.google.common.primitives.Ints
 import com.gregtechceu.gtceu.GTCEu
-import com.gregtechceu.gtceu.api.GTCEuAPI
 import com.gregtechceu.gtceu.api.GTValues.*
-import com.gregtechceu.gtceu.api.block.ICoilType
 import com.gregtechceu.gtceu.api.data.RotationState
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
@@ -13,41 +12,40 @@ import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo
 import com.gregtechceu.gtceu.api.pattern.Predicates.*
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic
 import com.gregtechceu.gtceu.client.renderer.machine.MinerRenderer
-import com.gregtechceu.gtceu.common.data.*
+import com.gregtechceu.gtceu.common.data.GCYMBlocks
+import com.gregtechceu.gtceu.common.data.GTBlocks
+import com.gregtechceu.gtceu.common.data.GTMaterials
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
-import dev.arbor.gtnn.api.block.BlockMaps
-import dev.arbor.gtnn.api.block.ITierType
+import dev.arbor.gtnn.api.block.NNBlockMaps
+import dev.arbor.gtnn.api.extension.StringExtension.gt
+import dev.arbor.gtnn.api.extension.StringExtension.nn
+import dev.arbor.gtnn.api.extension.StructureUtil
 import dev.arbor.gtnn.api.machine.GTNNGeneratorMachine
 import dev.arbor.gtnn.api.machine.MachineReg
 import dev.arbor.gtnn.api.machine.ModifyMachines
 import dev.arbor.gtnn.api.machine.StoneBedrockOreMinerMachine
-import dev.arbor.gtnn.api.machine.multiblock.APartAbility
 import dev.arbor.gtnn.api.machine.multiblock.ChemicalPlantMachine
 import dev.arbor.gtnn.api.machine.multiblock.LargeNaquadahReactorMachine
+import dev.arbor.gtnn.api.machine.multiblock.NNPartAbility
 import dev.arbor.gtnn.api.machine.multiblock.NeutronActivatorMachine
 import dev.arbor.gtnn.api.machine.multiblock.part.CatalystHatchPartMachine
 import dev.arbor.gtnn.api.machine.multiblock.part.HighSpeedPipeBlock
 import dev.arbor.gtnn.api.machine.multiblock.part.NeutronAcceleratorMachine
 import dev.arbor.gtnn.api.machine.multiblock.part.NeutronSensorMachine
-import dev.arbor.gtnn.api.pattern.APredicates
-import dev.arbor.gtnn.api.tool.StringTools.gt
-import dev.arbor.gtnn.api.tool.StringTools.nn
+import dev.arbor.gtnn.api.pattern.NNBlockPattern
+import dev.arbor.gtnn.api.pattern.NNFactoryPattern
+import dev.arbor.gtnn.api.pattern.NNPredicates
 import dev.arbor.gtnn.client.renderer.machine.BlockMachineRenderer
 import dev.arbor.gtnn.client.renderer.machine.GTPPMachineRenderer
-import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.state.BlockState
-import java.util.function.Supplier
 
 object GTNNMachines {
     private val ULV2UV: IntArray = tiersBetween(0, 8)
@@ -67,7 +65,7 @@ object GTNNMachines {
     val NEUTRON_ACCELERATOR: Array<MachineDefinition?> = MachineReg.registerTieredMachines(
         "neutron_accelerator", ::NeutronAcceleratorMachine, { tier, builder ->
             builder.langValue(VNF[tier] + " Neutron Accelerator").rotationState(RotationState.ALL)
-                .abilities(APartAbility.NEUTRON_ACCELERATOR)
+                .abilities(NNPartAbility.NEUTRON_ACCELERATOR)
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip1"))
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip2", V[tier]))
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip3", V[tier] * 8 / 10))
@@ -76,22 +74,26 @@ object GTNNMachines {
         }, ULV2UV
     )
 
-    val NEUTRON_SENSOR: MachineDefinition =
-        REGISTRATE.machine("neutron_sensor", ::NeutronSensorMachine).langValue("Neutron Sensor").tier(IV)
-            .rotationState(RotationState.ALL).abilities(APartAbility.NEUTRON_SENSOR)
-            .overlayTieredHullRenderer("neutron_sensor")
-            .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip1"))
-            .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip2")).register()
+    val NEUTRON_SENSOR: MachineDefinition = REGISTRATE
+        .machine("neutron_sensor", ::NeutronSensorMachine)
+        .langValue("Neutron Sensor")
+        .tier(IV)
+        .rotationState(RotationState.ALL)
+        .abilities(NNPartAbility.NEUTRON_SENSOR)
+        .overlayTieredHullRenderer("neutron_sensor")
+        .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip1"))
+        .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip2")).register()
 
     val CATALYST_HATCH: MachineDefinition = REGISTRATE
         .machine("catalyst_hatch", ::CatalystHatchPartMachine)
         .langValue("Catalyst Hatch")
         .tier(IV)
         .rotationState(RotationState.ALL)
-        .abilities(APartAbility.CATALYST)
+        .abilities(NNPartAbility.CATALYST)
         .overlayTieredHullRenderer("catalyst_hatch")
         .tooltips()
         .register()
+
     //////////////////////////////////////
     //**********   Machine    **********//
     //////////////////////////////////////
@@ -140,87 +142,53 @@ object GTNNMachines {
         .tooltips(Component.translatable("gtnn.multiblock.chemical_plant.tooltip3"))
         .tooltips(Component.translatable("gtnn.multiblock.chemical_plant.tooltip4"))
         .recipeTypes(GTNNRecipeTypes.CHEMICAL_PLANT_RECIPES)
-        .recipeModifiers(
-            GTNNRecipeModifiers.GTNN_PARALLEL,
-            GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK)
-        )
+        .recipeModifiers(GTNNRecipeModifiers.GTPP_MODIFIER)
         .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
-        .pattern { definition ->
-            FactoryBlockPattern.start()
+        .pattern { definition -> NNFactoryPattern.start()
                 .aisle("VVVVVVV", "A#####A", "A#####A", "A#####A", "A#####A", "A#####A", "AAAAAAA")
                 .aisle("VBBBBBV", "#BBBBB#", "#######", "#######", "#######", "#BBBBB#", "AAAAAAA")
                 .aisle("VBBBBBV", "#BCCCB#", "##DDD##", "##CCC##", "##DDD##", "#BCCCB#", "AAAAAAA")
                 .aisle("VBBBBBV", "#BCCCB#", "##DDD##", "##CCC##", "##DDD##", "#BCCCB#", "AAAAAAA")
                 .aisle("VBBBBBV", "#BCCCB#", "##DDD##", "##CCC##", "##DDD##", "#BCCCB#", "AAAAAAA")
                 .aisle("VBBBBBV", "#BBBBB#", "#######", "#######", "#######", "#BBBBB#", "AAAAAAA")
-                .aisle("AVVSVVA", "A#####A", "A#####A", "A#####A", "A#####A", "A#####A", "AAAAAAA")
-                .where("S", controller(blocks(definition.get()))).where(
-                    "V",
-                    APredicates.plantCasings().or(autoAbilities(*definition.recipeTypes))
-                        .or(autoAbilities(true, false, false))
-                        .or(abilities(PartAbility.INPUT_ENERGY)).or(abilities(APartAbility.CATALYST))
-                        .or(abilities(PartAbility.IMPORT_ITEMS)).or(abilities(PartAbility.EXPORT_ITEMS))
-                        .or(abilities(PartAbility.IMPORT_FLUIDS)).or(abilities(PartAbility.EXPORT_FLUIDS))
-                ).where("A", APredicates.plantCasings()).where("D", APredicates.pipeBlock()).where("C", heatingCoils())
-                .where("B", APredicates.machineCasing()).where("#", air()).build()
+                .aisle("VVVSVVV", "A#####A", "A#####A", "A#####A", "A#####A", "A#####A", "AAAAAAA")
+                .where("S", controller(blocks(definition.block)))
+                .where(
+                    "V", NNPredicates.plantCasings
+                        .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                        .or(abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1))
+                        .or(abilities(PartAbility.EXPORT_ITEMS).setMinGlobalLimited(1))
+                        .or(abilities(PartAbility.IMPORT_ITEMS).setMinGlobalLimited(1))
+                        .or(abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1))
+                        .or(abilities(NNPartAbility.CATALYST).setMaxGlobalLimited(2))
+                        .or(abilities(PartAbility.INPUT_ENERGY)
+                            .setMinGlobalLimited(1).setMaxGlobalLimited(2)))
+                .where("A", NNPredicates.plantCasings)
+                .where("D", NNPredicates.pipeBlock)
+                .where("C", NNPredicates.coilBlock)
+                .where("B", NNPredicates.machineCasing)
+                .where("#", any())
+                .build()
         }.shapeInfos { definition ->
-            val shapeInfo = mutableListOf<MultiblockShapeInfo>()
-            val builder = MultiblockShapeInfo.builder()
-                .aisle("AAOSJPA", "A#####A", "A#####A", "A#####A", "A#####A", "A#####A", "AAAAAAA")
-                .aisle("MBBBBBN", "#BBBBB#", "#######", "#######", "#######", "#BBBBB#", "AAAAAAA")
-                .aisle("KBBBBBL", "#BCCCB#", "##DDD##", "##CCC##", "##DDD##", "#BCCCB#", "AAAAAAA")
-                .aisle("ABBBBBA", "#BCCCB#", "##DDD##", "##CCC##", "##DDD##", "#BCCCB#", "AAAAAAA")
-                .aisle("ABBBBBA", "#BCCCB#", "##DDD##", "##CCC##", "##DDD##", "#BCCCB#", "AAAAAAA")
-                .aisle("ABBBBBA", "#BBBBB#", "#######", "#######", "#######", "#BBBBB#", "AAAAAAA")
-                .aisle("AAAAAAA", "A#####A", "A#####A", "A#####A", "A#####A", "A#####A", "AAAAAAA")
-                .where('S', definition, Direction.NORTH).where('#', Blocks.AIR.defaultBlockState())
-                .where('J', GTMachines.MAINTENANCE_HATCH, Direction.NORTH)
-                .where('P', CATALYST_HATCH, Direction.NORTH)
-            val shapeBlock = hashMapOf<Int, BlockState>()
-            for (casing in BlockMaps.ALL_CP_CASINGS) {
-                shapeBlock[casing.key.tier + 9] = casing.value.get().defaultBlockState()
-            }
-            for (machineCasing in BlockMaps.ALL_MACHINE_CASINGS) {
-                shapeBlock[machineCasing.key.tier + 20] = machineCasing.value.get().defaultBlockState()
-            }
-            for (coil in GTCEuAPI.HEATING_COILS) {
-                shapeBlock[coil.key.tier + 30] = coil.value.get().defaultBlockState()
-            }
-            for (pipe in BlockMaps.ALL_CP_TUBES) {
-                shapeBlock[pipe.key.tier + 39] = pipe.value.get().defaultBlockState()
-            }
-            for (tier in ITierType.TierBlockType.entries.map { it.tier }.filter { it in 0..8 }) {
-                builder.where('A', shapeBlock.getOrDefault(tier + 10, BlockMaps.ALL_CP_CASINGS.getMax()))
-                builder.where('B', shapeBlock.getOrDefault(tier + 20, BlockMaps.ALL_MACHINE_CASINGS.getMax()))
-                builder.where('C', shapeBlock.getOrDefault(tier + 30, GTCEuAPI.HEATING_COILS.getMax()))
-                builder.where('D', shapeBlock.getOrDefault(tier + 40, BlockMaps.ALL_CP_TUBES.getMax()))
-                builder.where('K', GTMachines.ITEM_IMPORT_BUS[tier], Direction.WEST)
-                builder.where('L', GTMachines.ITEM_EXPORT_BUS[tier], Direction.EAST)
-                builder.where('M', GTMachines.FLUID_IMPORT_HATCH[tier], Direction.WEST)
-                builder.where('N', GTMachines.FLUID_EXPORT_HATCH[tier], Direction.EAST)
-                builder.where('O', GTMachines.ENERGY_INPUT_HATCH[tier], Direction.NORTH)
-                shapeInfo.add(builder.shallowCopy().build())
-            }
-            return@shapeInfos shapeInfo
-        }.renderer {
-            GTPPMachineRenderer(
-                GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
-                GTNN.id("block/multiblock/chemical_plant"), false
+            val maxSize = Ints.max(
+                NNBlockMaps.ALL_CP_CASINGS.size,
+                NNBlockMaps.ALL_CP_TUBES.size,
+                NNBlockMaps.ALL_MACHINE_CASINGS.size,
+                NNBlockMaps.ALL_COIL_BLOCKS.size
             )
-        }.register()
-
-    private fun Map<ITierType, Supplier<Block>>.getMax(): BlockState {
-        return this.entries.maxBy { it.key.tier }.value.get().defaultBlockState()
-    }
-
-    @JvmName("getCoilMax")
-    private fun Map<ICoilType, Supplier<out Block>>.getMax(): BlockState {
-        return this.entries.maxBy { it.key.tier }.value.get().defaultBlockState()
-    }
-
+            return@shapeInfos StructureUtil.getMatchingShapes(
+                definition.patternFactory.get() as NNBlockPattern,
+                maxSize
+            )
+        }.partSorter(Comparator.comparingInt { a -> a.self().pos.y })
+        .renderer { GTPPMachineRenderer(
+            GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
+            GTNN.id("block/multiblock/chemical_plant"), false)
+        }
+        .register()
 
     val NEUTRON_ACTIVATOR: MultiblockMachineDefinition =
-        REGISTRATE.multiblock("neutron_activator") { NeutronActivatorMachine(it) }
+        REGISTRATE.multiblock("neutron_activator", ::NeutronActivatorMachine)
             .rotationState(RotationState.NON_Y_AXIS)
             .tooltips(Component.translatable("gtnn.multiblock.neutron_activator.tooltip1"))
             .tooltips(Component.translatable("gtnn.multiblock.neutron_activator.tooltip2"))
@@ -240,8 +208,8 @@ object GTNNMachines {
                     ).where(
                         "A",
                         blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()).or(abilities(PartAbility.EXPORT_FLUIDS))
-                            .or(abilities(PartAbility.EXPORT_ITEMS)).or(abilities(APartAbility.NEUTRON_ACCELERATOR))
-                            .or(abilities(APartAbility.NEUTRON_SENSOR)).or(autoAbilities(true, false, false))
+                            .or(abilities(PartAbility.EXPORT_ITEMS)).or(abilities(NNPartAbility.NEUTRON_ACCELERATOR))
+                            .or(abilities(NNPartAbility.NEUTRON_SENSOR)).or(autoAbilities(true, false, false))
                     ).where("B", blocks(GTNNCasingBlocks.PROCESS_MACHINE_CASING.get()))
                     .where("C", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
                     .where("D", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
@@ -256,9 +224,11 @@ object GTNNMachines {
         REGISTRATE.multiblock("large_dehydrator") { WorkableElectricMultiblockMachine(it) }
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTNNRecipeTypes.DEHYDRATOR_RECIPES)
-            .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
+            .recipeModifiers(
+                GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
                 GTRecipeModifiers.PARALLEL_HATCH,
-                GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
+                GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK)
+            )
             .appearanceBlock(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern { definition ->
                 FactoryBlockPattern.start()
@@ -310,7 +280,7 @@ object GTNNMachines {
                             autoAbilities(
                                 true, false, false
                             )
-                        ).or(abilities(PartAbility.OUTPUT_ENERGY,PartAbility.OUTPUT_LASER).setMinGlobalLimited(1, 1))
+                        ).or(abilities(PartAbility.OUTPUT_ENERGY, PartAbility.OUTPUT_LASER).setMinGlobalLimited(1, 1))
                             .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                             .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                     ).where("B", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTNNMaterials.RadiationProtection)))
@@ -332,6 +302,7 @@ object GTNNMachines {
 
     fun init() {
         REGISTRATE.creativeModeTab { GTNNCreativeModeTabs.MAIN_TAB }
+        GTPPMachines.init()
         ModifyMachines.init()
     }
 }
