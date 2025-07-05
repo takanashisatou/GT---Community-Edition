@@ -8,10 +8,10 @@ import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 
-import dev.arbor.gtnn.api.item.INNItemRendererProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import dev.arbor.gtnn.api.item.INNItemRendererProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,26 +23,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = TagPrefixItem.class, remap = false)
 public abstract class TagPrefixItemMixin extends Item implements INNItemRendererProvider {
 
-    @Unique private ICustomRenderer gtnn$customRenderer;
+    @Unique
+    private ICustomRenderer gtnn$customRenderer;
 
     private TagPrefixItemMixin(Properties properties) {
         super(properties);
     }
 
     @Inject(
-            method =
-                    "<init>(Lnet/minecraft/world/item/Item$Properties;Lcom/gregtechceu/gtceu/api/data/tag/TagPrefix;Lcom/gregtechceu/gtceu/api/data/chemical/material/Material;)V",
+            method = "<init>(Lnet/minecraft/world/item/Item$Properties;Lcom/gregtechceu/gtceu/api/data/tag/TagPrefix;Lcom/gregtechceu/gtceu/api/data/chemical/material/Material;)V",
             at = @At(value = "RETURN"))
     private void TagPrefixItem(
-            Properties properties, TagPrefix tagPrefix, Material material, CallbackInfo ci) {
+                               Properties properties, TagPrefix tagPrefix, Material material, CallbackInfo ci) {
         if (Platform.isClient()) {
-            //if (material.getMaterialIconSet() instanceof NNMaterialIconSet iconSet) {
-            //    this.gtnn$customRenderer = iconSet.getCustomRenderer();
-            //}
+            // if (material.getMaterialIconSet() instanceof NNMaterialIconSet iconSet) {
+            // this.gtnn$customRenderer = iconSet.getCustomRenderer();
+            // }
 
-            //if (tagPrefix instanceof NNTagPrefix prefix) {
-            //    this.gtnn$customRenderer = prefix.getCustomRenderer();
-            //}
+            // if (tagPrefix instanceof NNTagPrefix prefix) {
+            // this.gtnn$customRenderer = prefix.getCustomRenderer();
+            // }
         }
     }
 
@@ -52,7 +52,8 @@ public abstract class TagPrefixItemMixin extends Item implements INNItemRenderer
         return gtnn$customRenderer;
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public IRenderer getRenderer(ItemStack stack) {
         if (gtnn$customRenderer != null) {
             return gtnn$customRenderer.getRenderer();

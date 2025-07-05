@@ -9,7 +9,8 @@ import dev.toma.configuration.config.format.ConfigFormats;
 @Config(id = GTNN.MOD_ID)
 public final class GTNNConfigHandler {
 
-    public static GTNNConfigHandler INSTANCE = Configuration.registerConfig(GTNNConfigHandler.class, ConfigFormats.json())
+    public static GTNNConfigHandler INSTANCE = Configuration
+            .registerConfig(GTNNConfigHandler.class, ConfigFormats.json())
             .getConfigInstance();
     @Configurable
     public ClientConfigs Client = new ClientConfigs();
@@ -61,6 +62,7 @@ public final class GTNNConfigHandler {
     }
 
     public static class ClientConfigs {
+
         @Configurable
         public ItemConfigs items = new ItemConfigs();
         @Configurable
@@ -76,6 +78,7 @@ public final class GTNNConfigHandler {
         ClientConfigs() {}
 
         public static class ItemConfigs {
+
             @Configurable
             @Configurable.Comment({
                     "The subscript used to warp items",
