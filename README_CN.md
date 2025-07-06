@@ -23,5 +23,3 @@
 * 来自GTNH的铂处理流程
 
 * 修改自Magic_Sweepy的硅岩处理流程
-
-* 特别致谢[Gate Guardian](https://github.com/qwer523)和[Epimorphism-Modern](https://github.com/EpimorphicPioneers/Epimorphism-Modern)

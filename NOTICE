@@ -1,0 +1,28 @@
+# Third-Party Components Notice
+
+This project includes open-source components from the following projects, 
+used under their respective licenses:
+
+--------------------------------------------------------------------------------
+
+## [Epimorphism-Modern]
+* **License**: AGPL-3.0
+* **Copyright Holder**: Gate Guardian...
+* **Source**: https://github.com/EpimorphicPioneers/Epimorphism-Modern
+* **Usage**: Some Machine Codes, Api Codes, Textures, Langs.
+* **License Text**: ./licenses/LICENSE-Epimorphism-Modern
+
+--------------------------------------------------------------------------------
+
+## [Toast-Killer]
+* **License**: Apache-2.0 license
+* **Copyright Holder**: AnOpenSauceDev
+* **Source**: https://github.com/AnOpenSauceDev/Toast-Killer
+* **Usage**: For client toast removal.
+* **License Text**: ./licenses/LICENSE-Toast-Killer
+
+--------------------------------------------------------------------------------
+
+**Disclaimer**:  
+The licenses of these third-party components are independent of this project's primary license (AGPL-3.0).  
+Users must comply with all applicable licenses.

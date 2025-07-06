@@ -38,7 +38,3 @@
 * Platinum process from GTNH
 
 * Modify the Naquadah process from Magic-Sweepy
-
-* ToastKiller early code from [Methane](https://modrinth.com/mod/methane)
-
-* Thanks to [Gate Guardian](https://github.com/qwer523) and [Epimorphism-Modern](https://github.com/EpimorphicPioneers/Epimorphism-Modern)

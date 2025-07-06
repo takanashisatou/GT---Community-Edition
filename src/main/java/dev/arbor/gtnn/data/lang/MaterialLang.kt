@@ -141,6 +141,7 @@ object MaterialLang {
         translateMaterial(ManaSteel, "魔力钢")
         translateMaterial(Elementium, "源质钢")
         translateMaterial(TerraSteel, "泰拉钢")
+        translateMaterial(MARM200Steel, "MAR-M200特种钢")
     }
 
     private fun jeiOreVeins() {

@@ -179,18 +179,6 @@ object SecondMaterials {
             Builder("neutronium_mixture").dust().color(0xFFFFFF).secondaryColor(0x000000)
                 .iconSet(MaterialIconSet.METALLIC).buildAndRegister().setFormula("?Nt?")
 
-        Indalloy140 = Builder("indalloy_140")
-            .ingot()
-            .fluid()
-            .color(0x736D8A)
-            .iconSet(MaterialIconSet.DULL)
-            .blastTemp(4700, BlastProperty.GasTier.HIGH,
-                GTValues.VA[GTValues.IV], 24)
-            .components(GTMaterials.Bismuth, 47, GTMaterials.Lead, 25,
-                GTMaterials.Tin, 13, GTMaterials.Cadmium, 10, GTMaterials.Indium, 5)
-            .flags(MaterialFlags.DISABLE_DECOMPOSITION)
-            .buildAndRegister()
-
         MARM200Steel = Builder("mar_m_200_steel")
             .ingot()
             .fluid()

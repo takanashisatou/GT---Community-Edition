@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient
 import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.common.data.GTMachines
+import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.data.GTMaterials.*
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.*
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor
@@ -23,7 +24,7 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
 import com.tterrag.registrate.util.entry.ItemEntry
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.data.GTNNCircuitItems
-import dev.arbor.gtnn.data.GTNNMaterials.Indalloy140
+import dev.arbor.gtnn.data.GTNNMaterials.Cerrobase140
 import dev.arbor.gtnn.data.GTNNRecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES
 import dev.arbor.gtnn.data.GTNNWrapItem
 import dev.arbor.gtnn.data.GTPPMachines
@@ -57,7 +58,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
             .inputItems(GTItems.EMITTER_LuV)
             .inputItems(GTItems.SENSOR_LuV)
             .inputItems(plate, Rhodium, 8)
-            .inputFluids(Indalloy140.getFluid(FluidStorageKeys.MOLTEN, 1440))
+            .inputFluids(Cerrobase140.getFluid(FluidStorageKeys.MOLTEN, 1440))
             .outputItems(GTPPMachines.CIRCUIT_ASSEMBLY_LINE)
             .scannerResearch { b: ResearchRecipeBuilder.ScannerRecipeBuilder ->
                 b.researchStack(GTMachines.CIRCUIT_ASSEMBLER[LuV].asStack())
