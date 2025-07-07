@@ -27,6 +27,14 @@ sourceSets {
         }
     }
 
+    test {
+        kotlin {
+            srcDir("src/test/java")
+        }
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+
     create("extra") {
         compileClasspath += sourceSets.main.get().output
         runtimeClasspath += sourceSets.main.get().output

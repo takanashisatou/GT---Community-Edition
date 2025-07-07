@@ -47,7 +47,6 @@ object GTNN {
 
     @JvmStatic
     fun eventRegister(events: IEventBus) {
-        events.addListener(GTNNRegistries::serverStopped)
         events.addListener(GTNNRegistries::fmlCommonSetupEvent)
         events.addListener(GTNNRegistries::onRenderWorldLast)
         events.addListener(GTNNRegistries::onServerStarting)

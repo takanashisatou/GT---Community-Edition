@@ -20,6 +20,7 @@ import dev.arbor.gtnn.data.materials.GTNNChemicalItems
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Rarity
+import org.jetbrains.annotations.ApiStatus
 import java.util.function.Consumer
 
 object GTNNItems {
@@ -218,6 +219,8 @@ object GTNNItems {
             .properties { p: Item.Properties -> p.rarity(Rarity.RARE) }
             .register()
 
+    @Deprecated("")
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.3.0")
     val COVER_ENDER_FLUID_LINK: ItemEntry<ComponentItem> =
         createItem("ender_fluid_link_cover") { properties -> ComponentItem.create(properties) }
             .lang("Ender Fluid Link")
@@ -225,7 +228,7 @@ object GTNNItems {
                 it.add(Component.translatable("item.gtnn.ender_fluid_link_cover.tooltip"))
                 if (!GTNN.getServerConfig().isTurnOnEnderFluidCover) it.add(
                     Component.translatable("tooltip.gtnn.banItem"))
-            }, CoverPlaceBehavior(GTNNCovers.ENDER_FLUID_LINK)))
+            }))
             .register()
 
     val COVER_ENDER_ITEM_LINK: ItemEntry<ComponentItem> =
@@ -243,8 +246,8 @@ object GTNNItems {
             .onRegister(GTItems.attach(StructureWriteBehavior))
             .register()
 
-    private fun <T : IComponentItem> attach(components: IItemComponent?): NonNullConsumer<T> {
-        return NonNullConsumer { item: T -> item!!.attachComponents(components) }
+    private fun <T : IComponentItem> attach(components: IItemComponent): NonNullConsumer<T> {
+        return NonNullConsumer { it.attachComponents(components) }
     }
 
     fun init() {
