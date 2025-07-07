@@ -7,11 +7,11 @@ mixin {
 
 legacyForge {
     // Specify the version of NeoForge to use.
-    version = forge.versions.minecraftForge.get()
+    version = libs.versions.minecraftForge.get()
 
     parchment {
-        minecraftVersion = libs.versions.minecraft.get()
-        mappingsVersion = libs.versions.parchment.get()
+        minecraftVersion = libs.versions.minecraft
+        mappingsVersion = libs.versions.parchment
     }
 
     // This line is optional. Access Transformers are automatically detected

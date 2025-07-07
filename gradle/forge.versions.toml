@@ -1,0 +1,62 @@
+[versions]
+kotlinforforge = "4.20.0"
+ldlib = "1.0.35"
+shimmer = "1.20.1-0.2.4"
+registrate = "MC1.20-1.3.3"
+flywheel = "0.6.10-7"
+create = "0.5.1.f-26"
+jei = "15.20.0.105"
+rei = "12.1.785"
+emi = "1.1.18+1.20.1"
+jade = "11.7.1"
+mixinextras = "0.3.5"
+configuration = "2.2.0"
+ad_astra = "1.15.18"
+botarium = "2.3.3"
+resourcefullib = "2.1.23"
+resourcefulconfig = "2.1.2"
+gtm = "1.6.4"
+ae2 = "15.0.18"
+
+## cursemaven ##
+supplementaries = "5340612"
+cc-tweaked = "5118388"
+selene = "5361081"
+botania = "5594997"
+curios = "5367944"
+patchouli = "4966125"
+
+[libraries]
+kotlinforforge      = { module = "thedarkcolour:kotlinforforge", version.ref = "kotlinforforge" }
+ldlib               = { module = "com.lowdragmc.ldlib:ldlib-forge-1.20.1", version.ref = "ldlib" }
+shimmer             = { module = "com.lowdragmc.shimmer:Shimmer-forge", version.ref = "shimmer" }
+registrate          = { module = "com.tterrag.registrate:Registrate", version.ref = "registrate" }
+flywheel            = { module = "com.jozufozu.flywheel:flywheel-forge-1.20.1", version.ref = "flywheel" }
+create              = { module = "com.simibubi.create:create-1.20.1", version.ref = "create" }
+jei-common-api      = { module = "mezz.jei:jei-1.20.1-common-api", version.ref = "jei" }
+jei-forge-api       = { module = "mezz.jei:jei-1.20.1-forge-api", version.ref = "jei" }
+jei-forge-impl      = { module = "mezz.jei:jei-1.20.1-forge", version.ref = "jei" }
+rei-plugin          = { module = "me.shedaniel:RoughlyEnoughItems-default-plugin-forge", version.ref = "rei" }
+rei-api             = { module = "me.shedaniel:RoughlyEnoughItems-api-forge", version.ref = "rei" }
+rei-forge           = { module = "me.shedaniel:RoughlyEnoughItems-forge", version.ref = "rei" }
+emi                 = { module = "dev.emi:emi-forge", version.ref = "emi" }
+jade                = { module = "maven.modrinth:jade", version.ref = "jade" }
+mixinextras-common  = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixinextras" }
+mixinextras         = { module = "io.github.llamalad7:mixinextras-forge", version.ref = "mixinextras" }
+configuration       = { module = "dev.toma.configuration:configuration-forge-1.20.1", version.ref = "configuration" }
+ad_astra            = { module = "earth.terrarium.adastra:ad_astra-forge-1.20.1", version.ref = "ad_astra" }
+botarium            = { module = "earth.terrarium.botarium:botarium-forge-1.20.1", version.ref = "botarium" }
+resourcefullib      = { module = "com.teamresourceful.resourcefullib:resourcefullib-forge-1.20.1", version.ref = "resourcefullib" }
+resourcefulconfig   = { module = "com.teamresourceful.resourcefulconfig:resourcefulconfig-forge-1.20.1", version.ref = "resourcefulconfig" }
+gtm                 = { module = "com.gregtechceu.gtceu:gtceu-1.20.1", version.ref = "gtm" }
+ae2                 = { module = "appeng:appliedenergistics2-forge", version.ref = "ae2" }
+supplementaries     = { module = "curse.maven:supplementaries-412082", version.ref = "supplementaries" }
+cc-tweaked          = { module = "curse.maven:cc-tweaked-282001", version.ref = "cc-tweaked" }
+selene              = { module = "curse.maven:selene-499980", version.ref = "selene" }
+botania             = { module = "curse.maven:botania-225643", version.ref = "botania" }
+curios              = { module = "curse.maven:curios-309927", version.ref = "curios" }
+patchouli           = { module = "curse.maven:patchouli-306770", version.ref = "patchouli" }
+
+[bundles]
+jei = ["jei-common-api", "jei-forge-api", "jei-forge-impl"]
+rei = ["rei-plugin", "rei-api", "rei-forge"]
