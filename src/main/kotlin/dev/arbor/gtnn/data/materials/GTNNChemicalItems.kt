@@ -8,9 +8,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.item.ComponentItem
 import com.gregtechceu.gtceu.api.item.IComponentItem
 import com.gregtechceu.gtceu.api.item.component.IItemComponent
+import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate
 import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.utils.FormattingUtil
-import com.tterrag.registrate.Registrate
 import com.tterrag.registrate.builders.ItemBuilder
 import com.tterrag.registrate.providers.DataGenContext
 import com.tterrag.registrate.providers.ProviderType
@@ -19,13 +19,13 @@ import com.tterrag.registrate.util.entry.ItemEntry
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer
 import com.tterrag.registrate.util.nullness.NonNullConsumer
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
-import dev.arbor.gtnn.data.GTNNTagPrefix.catalyst
-import dev.arbor.gtnn.api.item.behaviors.CatalystBehavior
-import dev.arbor.gtnn.api.item.behaviors.TagPrefixBehavior
-import dev.arbor.gtnn.api.extension.StringExtension.nn
-import dev.arbor.gtnn.api.extension.StringExtension.rl
+import dev.arbor.gtnn.common.item.behaviors.CatalystBehavior
+import dev.arbor.gtnn.common.item.behaviors.TagPrefixBehavior
 import dev.arbor.gtnn.data.GTNNCreativeModeTabs
 import dev.arbor.gtnn.data.GTNNPropertyKeys
+import dev.arbor.gtnn.data.GTNNTagPrefix.catalyst
+import dev.arbor.gtnn.extension.StringExtension.nn
+import dev.arbor.gtnn.extension.StringExtension.rl
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 import net.minecraftforge.client.model.generators.ModelFile
@@ -67,9 +67,9 @@ object GTNNChemicalItems {
         CATALYST_ITEMS = builder.build()
     }
 
-    private fun registerCatalyst(name: String, color: Int): ItemBuilder<ComponentItem, Registrate> {
+    private fun registerCatalyst(name: String, color: Int): ItemBuilder<ComponentItem, GTRegistrate> {
         return REGISTRATE
-            .item<ComponentItem>(name + "_catalyst", ComponentItem::create)
+            .item(name + "_catalyst", ComponentItem::create)
             .color { CatalystBehavior.getItemStackColor(color) }
             .model(
                 simpleCustomModel(
@@ -83,9 +83,9 @@ object GTNNChemicalItems {
 
     private fun registerCatalyst(
         name: String, color: Int, maxDurability: Int
-    ): ItemBuilder<ComponentItem, Registrate> {
+    ): ItemBuilder<ComponentItem, GTRegistrate> {
         return REGISTRATE
-            .item<ComponentItem>(name + "_catalyst", ComponentItem::create)
+            .item(name + "_catalyst", ComponentItem::create)
             .lang(FormattingUtil.toEnglishName(name) + "Catalyst")
             .color { CatalystBehavior.getItemStackColor(color) }
             .model(

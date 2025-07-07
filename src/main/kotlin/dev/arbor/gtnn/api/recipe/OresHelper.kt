@@ -5,15 +5,14 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.chemical.material.Material
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition
+import com.gregtechceu.gtceu.api.data.worldgen.generator.VeinGenerator
 import com.gregtechceu.gtceu.client.ClientProxy
 import com.gregtechceu.gtceu.common.data.GTMaterials.*
-import com.mojang.datafixers.util.Either
 import dev.arbor.gtnn.GTNN.getServerConfig
 import dev.arbor.gtnn.data.GTNNMaterials.*
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
 
 object OresHelper {
     @JvmField
@@ -63,8 +62,8 @@ object OresHelper {
     }
 
     private fun getContainedOresAndBlocks(oreDefinition: GTOreDefinition): List<ItemStack> {
-        return oreDefinition.veinGenerator().allEntries.map { entry: Map.Entry<Either<BlockState, Material>, Int> ->
-            entry.key.map({
+        return oreDefinition.veinGenerator().allEntries.map { entry: VeinGenerator.VeinEntry ->
+            entry.map({
                 ItemStack.EMPTY
             }, { material: Material ->
                 ChemicalHelper.get(TagPrefix.rawOre, material)

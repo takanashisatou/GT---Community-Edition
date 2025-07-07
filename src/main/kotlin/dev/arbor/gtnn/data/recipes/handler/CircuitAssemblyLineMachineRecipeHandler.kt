@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper
@@ -22,11 +22,11 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
 import com.tterrag.registrate.util.entry.ItemEntry
 import dev.arbor.gtnn.GTNN
-import dev.arbor.gtnn.data.GTNNCircuitItems
 import dev.arbor.gtnn.data.GTNNMaterials.Cerrobase140
 import dev.arbor.gtnn.data.GTNNRecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES
-import dev.arbor.gtnn.data.GTNNWrapItem
 import dev.arbor.gtnn.data.GTPPMachines
+import dev.arbor.gtnn.data.item.GTNNCircuitItems
+import dev.arbor.gtnn.data.item.GTNNWrapItem
 import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
@@ -76,7 +76,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
 
             when {
                 entry.id.path.contains("micro") -> {
-                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit)
+                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit.descriptionId)
                         .inputItems(entry)
                         .notConsumable(lens, MarkerMaterials.Color.Yellow)
                         .outputItems(etchedCircuit)
@@ -84,7 +84,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .duration(30 * 20)
                         .save(provider)
 
-                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase)
+                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase.descriptionId)
                         .inputItems(etchedCircuitBoard)
                         .inputItems(foil, WroughtIron, 4)
                         .outputItems(etchedCircuitBase)
@@ -93,7 +93,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .save(provider)
                 }
                 entry.id.path.contains("nano") -> {
-                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit)
+                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit.descriptionId)
                         .inputItems(entry)
                         .notConsumable(lens, MarkerMaterials.Color.Cyan)
                         .outputItems(etchedCircuit)
@@ -101,7 +101,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .duration(30 * 20)
                         .save(provider)
 
-                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase)
+                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase.descriptionId)
                         .inputItems(etchedCircuitBoard)
                         .inputItems(foil, Silver, 4)
                         .outputItems(etchedCircuitBase)
@@ -110,7 +110,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .save(provider)
                 }
                 entry.id.path.contains("quantum") -> {
-                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit)
+                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit.descriptionId)
                         .inputItems(entry)
                         .notConsumable(lens, MarkerMaterials.Color.Lime)
                         .outputItems(etchedCircuit)
@@ -118,7 +118,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .duration(30 * 20)
                         .save(provider)
 
-                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase)
+                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase.descriptionId)
                         .inputItems(etchedCircuitBoard)
                         .inputItems(foil, Electrum, 4)
                         .outputItems(etchedCircuitBase)
@@ -127,7 +127,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .save(provider)
                 }
                 entry.id.path.contains("crystal") -> {
-                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit)
+                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit.descriptionId)
                         .inputItems(entry)
                         .notConsumable(lens, MarkerMaterials.Color.Blue)
                         .outputItems(etchedCircuit)
@@ -135,7 +135,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .duration(30 * 20)
                         .save(provider)
 
-                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase)
+                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase.descriptionId)
                         .inputItems(etchedCircuitBoard)
                         .inputItems(foil, Osmium, 4)
                         .outputItems(etchedCircuitBase)
@@ -144,7 +144,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .save(provider)
                 }
                 entry.id.path.contains("wetware") -> {
-                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit)
+                    LASER_ENGRAVER_RECIPES.recipeBuilder(etchedCircuit.descriptionId)
                         .inputItems(entry)
                         .notConsumable(lens, MarkerMaterials.Color.Red)
                         .outputItems(etchedCircuit)
@@ -152,7 +152,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         .duration(30 * 20)
                         .save(provider)
 
-                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase)
+                    FORMING_PRESS_RECIPES.recipeBuilder(etchedCircuitBase.descriptionId)
                         .inputItems(etchedCircuitBoard)
                         .inputItems(foil, HSSG, 4)
                         .outputItems(etchedCircuitBase)
@@ -162,7 +162,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
                 }
             }
 
-            ASSEMBLER_RECIPES.recipeBuilder(etchedCircuitBoard)
+            ASSEMBLER_RECIPES.recipeBuilder(etchedCircuitBoard.descriptionId)
                 .inputItems(etchedCircuit)
                 .inputItems(GTItems.PLASTIC_BOARD)
                 .inputFluids(Glue.getFluid(100))
@@ -194,9 +194,9 @@ object CircuitAssemblyLineMachineRecipeHandler {
                         when (value) {
                             is Ingredient.ItemValue -> {
                                 value.items.forEach { stack ->
-                                    val entry = ChemicalHelper.getUnificationEntry(stack.item)
-                                    if (entry != null && entry !== UnificationEntry.EmptyMapMarkerEntry) {
-                                        handleUnificationEntry(newBuilder, entry, count)
+                                    val entry = ChemicalHelper.getMaterialEntry(stack.item)
+                                    if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+                                        handleMaterialEntry(newBuilder, entry, count)
                                     } else {
                                         GTNNWrapItem.WRAP_ITEM_MAP.entries
                                             .firstOrNull { it.key.asItem() == stack.item }
@@ -211,9 +211,9 @@ object CircuitAssemblyLineMachineRecipeHandler {
                             }
                             is Ingredient.TagValue -> {
                                 val tag = (value as TagValueAccessor).tag
-                                val entry = ChemicalHelper.getUnificationEntry(tag)
-                                if (entry != null && entry !== UnificationEntry.EmptyMapMarkerEntry) {
-                                    handleUnificationEntry(newBuilder, entry, count)
+                                val entry = ChemicalHelper.getMaterialEntry(tag)
+                                if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+                                    handleMaterialEntry(newBuilder, entry, count)
                                 } else {
                                     when (tag) {
                                         CustomTags.TRANSISTORS -> newBuilder.inputItems(GTNNWrapItem.WRAP_SMD_TRANSISTOR, count)
@@ -244,7 +244,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
         inputFluids.forEach(newBuilder::inputFluids)
 
         newBuilder.outputItems(outputItem, outputCount * 16)
-            .EUt(builder.EUt())
+            .EUt(builder.EUt().totalEU)
             .duration(builder.duration * 3)
             .scannerResearch { b ->
                 b.researchStack(GTNNCircuitItems.ETCHED_CIRCUIT_BASE_MAP[outputItem]!!.asStack())
@@ -255,12 +255,12 @@ object CircuitAssemblyLineMachineRecipeHandler {
         recipeBuilders.add(newBuilder)
     }
 
-    private fun handleUnificationEntry(
+    private fun handleMaterialEntry(
         newBuilder: GTRecipeBuilder,
-        entry: UnificationEntry,
+        entry: MaterialEntry,
         count: Int
     ) {
-        val material = entry.material ?: return
+        val material = entry.material
         val prefix = entry.tagPrefix
 
         when (prefix) {

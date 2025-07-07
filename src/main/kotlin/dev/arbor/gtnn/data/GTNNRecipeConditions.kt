@@ -2,9 +2,9 @@ package dev.arbor.gtnn.data
 
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType
 import com.gregtechceu.gtceu.api.registry.GTRegistries
-import dev.arbor.gtnn.api.recipe.NeutronActivatorCondition
-import dev.arbor.gtnn.api.recipe.PlantCasingCondition
-import dev.arbor.gtnn.api.recipe.TierCasingCondition
+import dev.arbor.gtnn.common.recipe.NeutronActivatorCondition
+import dev.arbor.gtnn.common.recipe.PlantCasingCondition
+import dev.arbor.gtnn.common.recipe.TierCasingCondition
 
 object GTNNRecipeConditions {
     @JvmStatic

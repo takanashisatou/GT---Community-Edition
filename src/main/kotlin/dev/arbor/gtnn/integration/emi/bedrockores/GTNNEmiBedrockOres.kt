@@ -2,7 +2,7 @@ package dev.arbor.gtnn.integration.emi.bedrockores
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
-import dev.arbor.gtnn.api.extension.StringExtension.nn
+import dev.arbor.gtnn.extension.StringExtension.nn
 import dev.arbor.gtnn.integration.GTNNBedrockOreVeinWidget
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import net.minecraft.resources.ResourceKey

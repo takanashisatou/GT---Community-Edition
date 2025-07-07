@@ -2,10 +2,11 @@ package dev.arbor.gtnn
 
 import com.gregtechceu.gtceu.api.addon.GTAddon
 import com.gregtechceu.gtceu.api.addon.IGTAddon
-import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate
 import dev.arbor.gtnn.api.registry.GTRecipeManager
 import dev.arbor.gtnn.data.*
+import dev.arbor.gtnn.data.block.GTNNBlocks
+import dev.arbor.gtnn.data.item.GTNNItems
 import dev.arbor.gtnn.data.recipes.AdAstraRecipes
 import dev.arbor.gtnn.data.recipes.DefaultRecipes
 import net.minecraft.data.recipes.FinishedRecipe
@@ -19,7 +20,7 @@ class GTNNAddon : IGTAddon {
     }
 
     override fun initializeAddon() {
-        GTNNMaterialIconType.init()
+        GTNNMaterialIconTypes.init()
         GTRecipeManager.onGTPostInitialization()
         GTNNItems.init()
         GTNNBlocks.init()
@@ -54,10 +55,6 @@ class GTNNAddon : IGTAddon {
 
     override fun registerWorldgenLayers() {
         GTNNWorld.GTNNWorldGenLayers.init()
-    }
-
-    override fun collectMaterialCasings(event: MaterialCasingCollectionEvent?) {
-        GTNNCasingBlocks.init()
     }
 
     override fun registerCovers() {

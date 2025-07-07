@@ -2,7 +2,7 @@ package dev.arbor.gtnn.data.recipes
 
 import com.gregtechceu.gtceu.api.GTCEuAPI
 import com.gregtechceu.gtceu.api.GTValues
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.common.data.GTMachines
@@ -54,52 +54,52 @@ object NaquadahReactor {
             provider, true, "naquadah_reactor_ev", GTNNMachines.NAQUADAH_REACTOR[GTValues.EV]!!
                 .asStack(),
             "ABA", "CDC", "EBE",
-            'A', UnificationEntry(TagPrefix.rod, GTMaterials.Uranium235),
+            'A', MaterialEntry(TagPrefix.rod, GTMaterials.Uranium235),
             'B', CustomTags.IV_CIRCUITS,
             'C', GTItems.FIELD_GENERATOR_EV,
             'D', GTMachines.HULL[GTValues.EV].asStack(),
-            'E', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Aluminium)
+            'E', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Aluminium)
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "naquadah_reactor_iv", GTNNMachines.NAQUADAH_REACTOR[GTValues.IV]!!
                 .asStack(),
             "ABA", "CDC", "EBE",
-            'A', UnificationEntry(TagPrefix.rod, GTMaterials.Plutonium241),
+            'A', MaterialEntry(TagPrefix.rod, GTMaterials.Plutonium241),
             'B', CustomTags.LuV_CIRCUITS,
             'C', GTItems.FIELD_GENERATOR_IV,
             'D', GTMachines.HULL[GTValues.IV].asStack(),
-            'E', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Tungsten)
+            'E', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Tungsten)
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "naquadah_reactor_luv", GTNNMachines.NAQUADAH_REACTOR[GTValues.LuV]!!
                 .asStack(),
             "ABA", "CDC", "EBE",
-            'A', UnificationEntry(TagPrefix.rod, GTMaterials.Europium),
+            'A', MaterialEntry(TagPrefix.rod, GTMaterials.Europium),
             'B', CustomTags.ZPM_CIRCUITS,
             'C', GTItems.FIELD_GENERATOR_LuV,
             'D', GTMachines.HULL[GTValues.LuV].asStack(),
-            'E', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.HSSG)
+            'E', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.HSSG)
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "naquadah_reactor_zpm", GTNNMachines.NAQUADAH_REACTOR[GTValues.ZPM]!!
                 .asStack(),
             "ABA", "CDC", "EBE",
-            'A', UnificationEntry(TagPrefix.rod, GTMaterials.Americium),
+            'A', MaterialEntry(TagPrefix.rod, GTMaterials.Americium),
             'B', CustomTags.UV_CIRCUITS,
             'C', GTItems.FIELD_GENERATOR_ZPM,
             'D', GTMachines.HULL[GTValues.ZPM].asStack(),
-            'E', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Naquadah)
+            'E', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Naquadah)
         )
         if (GTCEuAPI.isHighTier()){
             VanillaRecipeHelper.addShapedRecipe(
             provider, true, "naquadah_reactor_uv", GTNNMachines.NAQUADAH_REACTOR[GTValues.UV]!!
                 .asStack(),
             "ABA", "CDC", "EBE",
-            'A', UnificationEntry(TagPrefix.rod, GTMaterials.NaquadahAlloy),
+            'A', MaterialEntry(TagPrefix.rod, GTMaterials.NaquadahAlloy),
             'B', CustomTags.UHV_CIRCUITS,
             'C', GTItems.FIELD_GENERATOR_UV,
             'D', GTMachines.HULL[GTValues.UV].asStack(),
-            'E', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide)
+            'E', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide)
         )
         }
     }

@@ -1,7 +1,6 @@
 package dev.arbor.gtnn
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
-import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.arbor.gtnn.config.GTNNConfigHandler
 import dev.arbor.gtnn.init.CommonProxy
 import net.minecraft.resources.ResourceLocation
@@ -28,7 +27,7 @@ object GTNN {
     }
 
     fun id(path: String): ResourceLocation {
-        return ResourceLocation(MOD_ID, FormattingUtil.toLowerCaseUnder(path))
+        return ResourceLocation(MOD_ID, path.lowercase())
     }
 
     @JvmStatic

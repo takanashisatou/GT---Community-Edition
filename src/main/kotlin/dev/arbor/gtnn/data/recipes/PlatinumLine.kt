@@ -2,7 +2,7 @@ package dev.arbor.gtnn.data.recipes
 
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.item.tool.GTToolType
@@ -38,14 +38,14 @@ object PlatinumLine {
             "centrifuged_ore_to_dust_platinum",
             ChemicalHelper.get(TagPrefix.dust, GTNNMaterials.PlatinumMetal),
             GTToolType.HARD_HAMMER.itemTags[0],
-            UnificationEntry(TagPrefix.crushedRefined, GTMaterials.Platinum)
+            MaterialEntry(TagPrefix.crushedRefined, GTMaterials.Platinum)
         )
         VanillaRecipeHelper.addShapelessRecipe(
             provider,
             "centrifuged_ore_to_dust_palladium",
             ChemicalHelper.get(TagPrefix.dust, GTNNMaterials.PalladiumMetal),
             GTToolType.HARD_HAMMER.itemTags[0],
-            UnificationEntry(TagPrefix.crushedRefined, GTMaterials.Palladium)
+            MaterialEntry(TagPrefix.crushedRefined, GTMaterials.Palladium)
         )
     }
 

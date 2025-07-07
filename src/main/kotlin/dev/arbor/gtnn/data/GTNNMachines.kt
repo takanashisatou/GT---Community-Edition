@@ -15,37 +15,39 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern
 import com.gregtechceu.gtceu.api.pattern.Predicates.*
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic
-import com.gregtechceu.gtceu.client.renderer.machine.MinerRenderer
 import com.gregtechceu.gtceu.common.data.GCYMBlocks
 import com.gregtechceu.gtceu.common.data.GTBlocks
 import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils
+import com.gregtechceu.gtceu.common.data.models.GTMachineModels
+import com.gregtechceu.gtceu.common.data.models.GTModels
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
-import dev.arbor.gtnn.api.block.NNBlockMaps
-import dev.arbor.gtnn.api.extension.StringExtension.gt
-import dev.arbor.gtnn.api.extension.StringExtension.nn
-import dev.arbor.gtnn.api.extension.StructureUtil
-import dev.arbor.gtnn.api.machine.GTNNGeneratorMachine
-import dev.arbor.gtnn.api.machine.MachineReg
-import dev.arbor.gtnn.api.machine.ModifyMachines
-import dev.arbor.gtnn.api.machine.StoneBedrockOreMinerMachine
-import dev.arbor.gtnn.api.machine.multiblock.ChemicalPlantMachine
-import dev.arbor.gtnn.api.machine.multiblock.LargeNaquadahReactorMachine
-import dev.arbor.gtnn.api.machine.multiblock.NNPartAbility
-import dev.arbor.gtnn.api.machine.multiblock.NeutronActivatorMachine
-import dev.arbor.gtnn.api.machine.multiblock.part.CatalystHatchPartMachine
-import dev.arbor.gtnn.api.machine.multiblock.part.HighSpeedPipeBlock
-import dev.arbor.gtnn.api.machine.multiblock.part.NeutronAcceleratorMachine
-import dev.arbor.gtnn.api.machine.multiblock.part.NeutronSensorMachine
 import dev.arbor.gtnn.api.pattern.NNBlockPattern
 import dev.arbor.gtnn.api.pattern.NNFactoryPattern
-import dev.arbor.gtnn.api.pattern.NNPredicates
-import dev.arbor.gtnn.client.renderer.machine.BlockMachineRenderer
-import dev.arbor.gtnn.client.renderer.machine.GTPPMachineRenderer
+import dev.arbor.gtnn.client.renderer.machine.GTPPMachineRender
+import dev.arbor.gtnn.common.machine.GTNNGeneratorMachine
+import dev.arbor.gtnn.common.machine.StoneBedrockOreMinerMachine
+import dev.arbor.gtnn.common.machine.multiblock.ChemicalPlantMachine
+import dev.arbor.gtnn.common.machine.multiblock.LargeNaquadahReactorMachine
+import dev.arbor.gtnn.common.machine.multiblock.NNPartAbility
+import dev.arbor.gtnn.common.machine.multiblock.NeutronActivatorMachine
+import dev.arbor.gtnn.common.machine.multiblock.part.CatalystHatchPartMachine
+import dev.arbor.gtnn.common.machine.multiblock.part.HighSpeedPipeBlock
+import dev.arbor.gtnn.common.machine.multiblock.part.NeutronAcceleratorMachine
+import dev.arbor.gtnn.common.machine.multiblock.part.NeutronSensorMachine
+import dev.arbor.gtnn.data.block.GTNNCasingBlocks
+import dev.arbor.gtnn.data.block.NNBlockMaps
+import dev.arbor.gtnn.data.machine.MachineReg
+import dev.arbor.gtnn.data.machine.ModifyMachines
+import dev.arbor.gtnn.data.pattern.NNPredicates
+import dev.arbor.gtnn.extension.StringExtension.gt
+import dev.arbor.gtnn.extension.StringExtension.nn
+import dev.arbor.gtnn.extension.StructureUtil
 import net.minecraft.network.chat.Component
+import java.util.function.Supplier
 
 object GTNNMachines {
     private val ULV2UV: IntArray = tiersBetween(0, 8)
@@ -56,7 +58,8 @@ object GTNNMachines {
     //**********    Block     **********//
     //////////////////////////////////////
     val HIGH_SPEED_PIPE_BLOCK: MachineDefinition = REGISTRATE.machine("high_speed_pipe_block", ::HighSpeedPipeBlock)
-        .renderer { BlockMachineRenderer(GTNN.id("block/machine/part/high_speed_pipe_block")) }
+        .blockModel(GTModels.cubeAllModel("block/speedingpipe".nn()))
+        .itemBuilder { it.model { ctx, prov -> prov.withExistingParent(ctx.name, ("block/" + ctx.name).nn()) } }
         .rotationState(RotationState.Y_AXIS).register()
 
     //////////////////////////////////////
@@ -70,7 +73,8 @@ object GTNNMachines {
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip2", V[tier]))
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip3", V[tier] * 8 / 10))
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip4"))
-                .overlayTieredHullRenderer("neutron_accelerator").register()
+                .overlayTieredHullModel("neutron_accelerator")
+                .register()
         }, ULV2UV
     )
 
@@ -80,7 +84,7 @@ object GTNNMachines {
         .tier(IV)
         .rotationState(RotationState.ALL)
         .abilities(NNPartAbility.NEUTRON_SENSOR)
-        .overlayTieredHullRenderer("neutron_sensor")
+        .overlayTieredHullModel("neutron_sensor")
         .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip1"))
         .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip2")).register()
 
@@ -90,7 +94,7 @@ object GTNNMachines {
         .tier(IV)
         .rotationState(RotationState.ALL)
         .abilities(NNPartAbility.CATALYST)
-        .overlayTieredHullRenderer("catalyst_hatch")
+        .overlayTieredHullModel("catalyst_hatch")
         .tooltips()
         .register()
 
@@ -127,9 +131,8 @@ object GTNNMachines {
                 SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     "homemade_bedrock_ore_machine".nn(), GTNNRecipeTypes.STONE_BEDROCK_ORE_MACHINE_RECIPES
                 )
-            ).renderer { MinerRenderer(0, GTCEu.id("block/machines/miner")) }
-            .tooltips(Component.translatable("gtceu.machine.bedrock_ore_miner.description")).tooltips(
-                Component.translatable(
+            ).workableTieredHullModel(GTCEu.id("block/machines/miner")).tooltips(
+                Component.translatable("gtceu.machine.bedrock_ore_miner.description"), Component.translatable(
                     "gtceu.machine.bedrock_ore_miner.depletion", FormattingUtil.formatNumbers(100.0)
                 )
             ).register()
@@ -181,10 +184,12 @@ object GTNNMachines {
                 maxSize
             )
         }.partSorter(Comparator.comparingInt { a -> a.self().pos.y })
-        .renderer { GTPPMachineRenderer(
+        .model(GTMachineModels.createWorkableCasingMachineModel(
             GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
-            GTNN.id("block/multiblock/chemical_plant"), false)
-        }
+            GTNN.id("block/multiblock/chemical_plant")).andThen {
+                it.addDynamicRenderer { Supplier { GTPPMachineRender(
+                    GTBlocks.CASING_BRONZE_BRICKS, GTPPMachineRender.ModelTypes.ChemicalPlantMachine) } }
+        })
         .register()
 
     val NEUTRON_ACTIVATOR: MultiblockMachineDefinition =
@@ -214,10 +219,9 @@ object GTNNMachines {
                     .where("C", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
                     .where("D", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where("E", blocks(HIGH_SPEED_PIPE_BLOCK.get())).where("#", air()).build()
-            }.workableCasingRenderer(
+            }.workableCasingModel(
                 GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
-                GTNN.id("block/multiblock/neutron_activator"),
-                false
+                GTNN.id("block/multiblock/neutron_activator")
             ).register()
 
     val LARGE_DEHYDRATOR: MultiblockMachineDefinition =
@@ -244,9 +248,9 @@ object GTNNMachines {
                     .where('C', blocks(GTBlocks.COIL_NAQUADAH.get()))
                     .where('#', air())
                     .build()
-            }.workableCasingRenderer(
+            }.workableCasingModel(
                 "block/casings/gcym/high_temperature_smelting_casing".gt(),
-                "block/multiblock/gcym/large_assembler".gt(), false
+                "block/multiblock/gcym/large_assembler".gt()
             )
             .register()
 
@@ -286,10 +290,9 @@ object GTNNMachines {
                     ).where("B", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTNNMaterials.RadiationProtection)))
                     .where("C", blocks(GTNNCasingBlocks.MAR_CASING.get()))
                     .where("D", blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get())).where("#", air()).build()
-            }.workableCasingRenderer(
+            }.workableCasingModel(
                 GTNN.id("block/casings/solid/radiation_proof_machine_casing"),
-                GTNN.id("block/multiblock/large_naquadah_reactor"),
-                false
+                GTNN.id("block/multiblock/large_naquadah_reactor")
             ).additionalDisplay { controller, components ->
                 if (controller is LargeNaquadahReactorMachine && controller.isFormed()) run {
                     components.add(

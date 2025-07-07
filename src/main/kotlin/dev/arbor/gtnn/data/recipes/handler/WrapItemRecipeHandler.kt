@@ -2,7 +2,7 @@ package dev.arbor.gtnn.data.recipes.handler
 
 import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes
-import dev.arbor.gtnn.data.GTNNWrapItem
+import dev.arbor.gtnn.data.item.GTNNWrapItem
 import net.minecraft.data.recipes.FinishedRecipe
 import java.util.function.Consumer
 

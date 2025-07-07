@@ -11,18 +11,22 @@ import com.gregtechceu.gtceu.common.data.GTBlocks
 import com.gregtechceu.gtceu.common.data.GTMachines
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes
+import com.gregtechceu.gtceu.common.data.models.GTMachineModels
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
-import dev.arbor.gtnn.api.block.NNBlockMaps
-import dev.arbor.gtnn.api.extension.StringExtension.gt
-import dev.arbor.gtnn.api.extension.StructureUtil
-import dev.arbor.gtnn.api.machine.multiblock.CircuitAssemblyLineMachine
-import dev.arbor.gtnn.api.machine.multiblock.ComponentAssemblyLinePattern
-import dev.arbor.gtnn.api.machine.multiblock.FactoryMacerationMachine
-import dev.arbor.gtnn.api.machine.multiblock.TierCasingElectricMultiblockMachine
 import dev.arbor.gtnn.api.pattern.NNBlockPattern
-import dev.arbor.gtnn.client.renderer.machine.GTPPMachineRenderer
+import dev.arbor.gtnn.client.renderer.machine.GTPPMachineRender
+import dev.arbor.gtnn.common.machine.multiblock.CircuitAssemblyLineMachine
+import dev.arbor.gtnn.common.machine.multiblock.ComponentAssemblyLinePattern
+import dev.arbor.gtnn.common.machine.multiblock.FactoryMacerationMachine
+import dev.arbor.gtnn.common.machine.multiblock.TierCasingElectricMultiblockMachine
+import dev.arbor.gtnn.data.block.GTNNBlocks
+import dev.arbor.gtnn.data.block.GTNNCasingBlocks
+import dev.arbor.gtnn.data.block.NNBlockMaps
+import dev.arbor.gtnn.extension.StringExtension.gt
+import dev.arbor.gtnn.extension.StructureUtil
 import net.minecraft.network.chat.Component
+import java.util.function.Supplier
 
 object GTPPMachines {
     val FactoryMaceration: MultiblockMachineDefinition = REGISTRATE
@@ -36,7 +40,7 @@ object GTPPMachines {
         .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES)
         .appearanceBlock(GTBlocks.CASING_TITANIUM_STABLE)
         .pattern(FactoryMacerationMachine.Pattern)
-        .workableCasingRenderer(
+        .workableCasingModel(
             "block/casings/solid/machine_casing_stable_titanium".gt(),
             "block/multiblock/gcym/large_maceration_tower".gt())
         .register()
@@ -78,12 +82,11 @@ object GTPPMachines {
                 .where('D', blocks(GTBlocks.CASING_GRATE.get()))
                 .build()
         }
-        .renderer({
-            GTPPMachineRenderer(
-                GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                GTCEu.id("block/multiblock/assembly_line"),
-                false
-            )
+        .model(GTMachineModels.createWorkableCasingMachineModel(
+            GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+            GTCEu.id("block/multiblock/assembly_line")).andThen {
+            it.addDynamicRenderer { Supplier { GTPPMachineRender(
+                GTBlocks.CASING_STEEL_SOLID, GTPPMachineRender.ModelTypes.CircuitAssemblyLineMachine) } }
         })
         .partAppearance { iMultiController, iMultiPart, direction ->
             iMultiController as CircuitAssemblyLineMachine
@@ -106,8 +109,8 @@ object GTPPMachines {
                 it.patternFactory.get() as NNBlockPattern, NNBlockMaps.ALL_CA_TIRED_CASINGS.size)
         }
         .partSorter(Comparator.comparingInt { a -> a.self().pos.y })
-        .workableCasingRenderer(GTNN.id("block/casings/solid/iridium_casing"),
-            GTNN.id("block/multiblock/component_assembly_line"), false)
+        .workableCasingModel(GTNN.id("block/casings/solid/iridium_casing"),
+            GTNN.id("block/multiblock/component_assembly_line"))
         .register()
 
     fun init() {

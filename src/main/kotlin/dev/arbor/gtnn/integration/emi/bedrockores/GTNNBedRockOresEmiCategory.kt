@@ -3,7 +3,7 @@ package dev.arbor.gtnn.integration.emi.bedrockores
 import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines
 import dev.arbor.gtnn.api.recipe.OresHelper
-import dev.arbor.gtnn.api.extension.StringExtension.nn
+import dev.arbor.gtnn.extension.StringExtension.nn
 import dev.arbor.gtnn.data.GTNNMachines
 import dev.emi.emi.api.EmiRegistry
 import dev.emi.emi.api.recipe.EmiRecipeCategory

@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.Tesselator
 import com.mojang.blaze3d.vertex.VertexFormat
-import dev.arbor.gtnn.api.item.behaviors.StructureWriteBehavior
+import dev.arbor.gtnn.common.item.behaviors.StructureWriteBehavior
 import net.minecraft.client.Camera
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GameRenderer

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "gtnn:block/machine/luv_rocket_engine",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "gtnn:block/machine/luv_rocket_engine",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gtnn:block/machine/luv_rocket_engine"
+    },
+    "facing=south": {
+      "model": "gtnn:block/machine/luv_rocket_engine",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "gtnn:block/machine/luv_rocket_engine",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "gtnn:block/machine/luv_rocket_engine",
+      "y": 270
+    }
+  }
+}

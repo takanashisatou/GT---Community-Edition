@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder
 import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.common.data.GTMaterials
-import dev.arbor.gtnn.api.item.properties.CatalystProperty
+import dev.arbor.gtnn.common.item.properties.CatalystProperty
 import dev.arbor.gtnn.data.GTNNMaterials.*
 import dev.arbor.gtnn.data.GTNNPropertyKeys.CATALYST
 

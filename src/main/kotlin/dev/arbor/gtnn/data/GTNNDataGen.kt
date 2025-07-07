@@ -4,6 +4,7 @@ import com.tterrag.registrate.providers.ProviderType
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
 import dev.arbor.gtnn.api.registry.NNLangProvider
 import dev.arbor.gtnn.data.lang.NNLangHandler
+import dev.arbor.gtnn.data.tags.GTNNTags
 
 object GTNNDataGen {
     val NN_LANG: ProviderType<NNLangProvider> = ProviderType.register("nn_lang") { p, e ->

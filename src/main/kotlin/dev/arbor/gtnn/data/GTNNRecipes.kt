@@ -3,8 +3,8 @@ package dev.arbor.gtnn.data
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes
 import dev.arbor.gtnn.GTNN.getServerConfig
 import dev.arbor.gtnn.GTNNIntegration.isAdAstraLoaded
-import dev.arbor.gtnn.api.recipe.NeutronActivatorCondition
-import dev.arbor.gtnn.api.recipe.PlantCasingCondition
+import dev.arbor.gtnn.common.recipe.NeutronActivatorCondition
+import dev.arbor.gtnn.common.recipe.PlantCasingCondition
 import dev.arbor.gtnn.api.registry.GTRecipeEvent
 import dev.arbor.gtnn.data.recipes.*
 import dev.arbor.gtnn.data.recipes.handler.CircuitAssemblyLineMachineRecipeHandler

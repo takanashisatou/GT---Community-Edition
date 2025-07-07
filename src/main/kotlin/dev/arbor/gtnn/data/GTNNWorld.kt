@@ -2,6 +2,7 @@ package dev.arbor.gtnn.data
 
 import com.gregtechceu.gtceu.api.data.worldgen.IWorldGenLayer
 import com.gregtechceu.gtceu.api.data.worldgen.WorldGeneratorUtils
+import dev.arbor.gtnn.data.tags.GTNNTags
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.BlockTags
 import net.minecraft.util.StringRepresentable

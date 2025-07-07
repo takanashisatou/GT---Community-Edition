@@ -2,16 +2,17 @@ package dev.arbor.gtnn.data.recipes
 
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.common.data.GTBlocks
 import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.common.data.GTMaterials.*
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes.*
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
-import dev.arbor.gtnn.data.GTNNItems
 import dev.arbor.gtnn.data.GTNNMaterials
 import dev.arbor.gtnn.data.GTNNRecipes
+import dev.arbor.gtnn.data.item.GTNNItems
 import earth.terrarium.adastra.common.registry.ModItems
 import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.resources.ResourceLocation
@@ -143,7 +144,7 @@ object AdAstraRecipes {
             "DhD", "ABA", "DdD",
             'A', GTNNItems.CHIP_T1.asStack(),
             'B', GTItems.FLUID_CELL_LARGE_STEEL.asStack(),
-            'D', UnificationEntry(screw, StainlessSteel)
+            'D', MaterialEntry(screw, StainlessSteel)
         )
         ASSEMBLER_RECIPES.recipeBuilder("rocket_nose_cone")
             .inputItems(GTNNItems.HEAVY_PLATE_T1.asStack(4), ItemStack(Items.LIGHTNING_ROD))
@@ -154,7 +155,7 @@ object AdAstraRecipes {
         VanillaRecipeHelper.addShapedRecipe(
             provider, "rocket_nose_cone", ItemStack(ModItems.ROCKET_NOSE_CONE.get()),
             "dBh", "ADA", "DDD",
-            'A', UnificationEntry(screw, StainlessSteel),
+            'A', MaterialEntry(screw, StainlessSteel),
             'B', ItemStack(Items.LIGHTNING_ROD),
             'D', GTNNItems.HEAVY_PLATE_T1.asStack()
         )
@@ -168,7 +169,7 @@ object AdAstraRecipes {
         VanillaRecipeHelper.addShapedRecipe(
             provider, "rocket_fin", ItemStack(ModItems.ROCKET_FIN.get()),
             "hAf", "BAB", "BsB",
-            'A', UnificationEntry(plateDouble, StainlessSteel),
+            'A', MaterialEntry(plateDouble, StainlessSteel),
             'B', GTNNItems.HEAVY_PLATE_T1.asStack()
         )
         ASSEMBLER_RECIPES.recipeBuilder("steel_engine")
@@ -195,15 +196,15 @@ object AdAstraRecipes {
             'A', GTNNItems.HEAVY_PLATE_T1.asStack(),
             'B', ItemStack(ModItems.OXYGEN_GEAR.get()),
             'C', ItemStack(ModItems.GAS_TANK.get()),
-            'D', UnificationEntry(screw, StainlessSteel)
+            'D', MaterialEntry(screw, StainlessSteel)
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, "oxygen_gear", ItemStack(ModItems.OXYGEN_GEAR.get()),
             "AEA", "CBC", "ADA",
-            'A', UnificationEntry(plateDouble, Steel),
+            'A', MaterialEntry(plateDouble, Steel),
             'B', GTItems.ELECTRIC_PUMP_HV.asStack(),
             'C', GTItems.FLUID_CELL.asStack(),
-            'D', UnificationEntry(rotor, Steel),
+            'D', MaterialEntry(rotor, Steel),
             'E', GTItems.SENSOR_HV
         )
         VanillaRecipeHelper.addShapedRecipe(
@@ -219,26 +220,26 @@ object AdAstraRecipes {
         VanillaRecipeHelper.addShapedRecipe(
             provider, "oxygen_tank", ItemStack(ModItems.GAS_TANK.get()),
             "AhA", "ACA", "AAA",
-            'A', UnificationEntry(plateDouble, Aluminium),
+            'A', MaterialEntry(plateDouble, Aluminium),
             'C', GTItems.FLUID_CELL.asStack()
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, "fan", ItemStack(ModItems.FAN.get()),
             "AwA", "ECE", "AdA",
             'A', GTNNItems.HEAVY_PLATE_T1.asStack(),
-            'C', UnificationEntry(rodLong, StainlessSteel),
-            'E', UnificationEntry(rotor, Steel)
+            'C', MaterialEntry(rodLong, StainlessSteel),
+            'E', MaterialEntry(rotor, Steel)
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, "oxygen_loader", ItemStack(ModItems.OXYGEN_LOADER.get()),
             "ABA", "CDE", "FGF",
-            'A', UnificationEntry(plateDouble, Steel),
+            'A', MaterialEntry(plateDouble, Steel),
             'B', ItemStack(ModItems.OXYGEN_GEAR.get()),
             'C', ItemStack(Items.IRON_BARS),
             'D', ItemStack(ModItems.FAN.get()),
             'E', GTItems.ELECTRIC_MOTOR_HV.asStack(),
-            'F', UnificationEntry(plateDouble, Aluminium),
-            'G', UnificationEntry(cableGtDouble, Aluminium)
+            'F', MaterialEntry(plateDouble, Aluminium),
+            'G', MaterialEntry(cableGtDouble, Aluminium)
         )
         ASSEMBLY_LINE_RECIPES.recipeBuilder("calorite_engine")
             .inputItems(GTNNItems.HEAVY_PLATE_T4.asStack(32), GTNNItems.HEAVY_PLATE_T3.asStack(16))

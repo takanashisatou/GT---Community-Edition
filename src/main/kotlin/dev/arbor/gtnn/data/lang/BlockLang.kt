@@ -2,10 +2,10 @@ package dev.arbor.gtnn.data.lang
 
 import com.gregtechceu.gtceu.api.GTValues
 import dev.arbor.gtnn.api.registry.NNLangProvider
-import dev.arbor.gtnn.data.GTNNBlocks.OSMIUM_BOROSILICATE_GLASS
-import dev.arbor.gtnn.data.GTNNCasingBlocks.ADVANCED_FILTER_CASING
-import dev.arbor.gtnn.data.GTNNCasingBlocks.CASING_POLYBENZIMIDAZOLE_PIPE
-import dev.arbor.gtnn.data.GTNNCasingBlocks.IRIDIUM_CASING
+import dev.arbor.gtnn.data.block.GTNNBlocks.OSMIUM_BOROSILICATE_GLASS
+import dev.arbor.gtnn.data.block.GTNNCasingBlocks.ADVANCED_FILTER_CASING
+import dev.arbor.gtnn.data.block.GTNNCasingBlocks.CASING_POLYBENZIMIDAZOLE_PIPE
+import dev.arbor.gtnn.data.block.GTNNCasingBlocks.IRIDIUM_CASING
 import dev.arbor.gtnn.data.lang.NNLangHandler.tsl
 
 object BlockLang {

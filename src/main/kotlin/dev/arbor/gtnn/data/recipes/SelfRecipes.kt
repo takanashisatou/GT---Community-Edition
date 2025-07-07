@@ -2,13 +2,16 @@ package dev.arbor.gtnn.data.recipes
 
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.common.data.*
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
 import dev.arbor.gtnn.data.*
+import dev.arbor.gtnn.data.block.GTNNBlocks
+import dev.arbor.gtnn.data.block.GTNNCasingBlocks
+import dev.arbor.gtnn.data.item.GTNNItems
 import dev.arbor.gtnn.data.recipes.DefaultRecipes.addBOOMRecipes
 import net.minecraft.data.recipes.FinishedRecipe
 import java.util.function.Consumer
@@ -295,7 +298,7 @@ object SelfRecipes {
             provider, true, "clean_machine_casing",
             GTNNCasingBlocks.PROCESS_MACHINE_CASING.asStack(),
             "ABA", "BCB", "ABA",
-            'A', UnificationEntry(TagPrefix.foil, GTMaterials.StainlessSteel),
+            'A', MaterialEntry(TagPrefix.foil, GTMaterials.StainlessSteel),
             'B', CustomTags.IV_CIRCUITS,
             'C', GTBlocks.CASING_STEEL_SOLID
         )
@@ -303,17 +306,17 @@ object SelfRecipes {
             provider, true, "iridium_machine_casing",
             GTNNCasingBlocks.IRIDIUM_CASING.asStack(),
             "ABA", "ACA", "ABA",
-            'A', UnificationEntry(TagPrefix.plate, GTMaterials.Iridium),
-            'B', UnificationEntry(TagPrefix.screw, GTMaterials.Iridium),
-            'C', UnificationEntry(TagPrefix.gearSmall, GTMaterials.Iridium)
+            'A', MaterialEntry(TagPrefix.plate, GTMaterials.Iridium),
+            'B', MaterialEntry(TagPrefix.screw, GTMaterials.Iridium),
+            'C', MaterialEntry(TagPrefix.gearSmall, GTMaterials.Iridium)
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "polybenzimidazole_pipe",
             GTNNCasingBlocks.CASING_POLYBENZIMIDAZOLE_PIPE.asStack(),
             "ABA", "BCB", "ABA",
-            'A', UnificationEntry(TagPrefix.plate, GTMaterials.Polybenzimidazole),
-            'B', UnificationEntry(TagPrefix.pipeNormalFluid, GTMaterials.Polybenzimidazole),
-            'C', UnificationEntry(TagPrefix.frameGt, GTMaterials.Polybenzimidazole)
+            'A', MaterialEntry(TagPrefix.plate, GTMaterials.Polybenzimidazole),
+            'B', MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Polybenzimidazole),
+            'C', MaterialEntry(TagPrefix.frameGt, GTMaterials.Polybenzimidazole)
         )
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("advanced_filter_casing")
             .inputItems(TagPrefix.frameGt, GTMaterials.Iridium)
@@ -388,7 +391,7 @@ object SelfRecipes {
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "maceration_stack_controller",
             GTPPMachines.FactoryMaceration.asStack(), "ABA", "BCB", "ABA",
-            'A', UnificationEntry(TagPrefix.plate, GTMaterials.Titanium),
+            'A', MaterialEntry(TagPrefix.plate, GTMaterials.Titanium),
             'B', GTMachines.MACERATOR[GTValues.EV].asStack(),
             'C', CustomTags.EV_CIRCUITS
         )
@@ -521,17 +524,17 @@ object SelfRecipes {
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "neutron_source", GTNNItems.NeutronSource.asStack(),
             " A ", "ABA", " A ",
-            'A', UnificationEntry(TagPrefix.plateDense, GTMaterials.Steel),
+            'A', MaterialEntry(TagPrefix.plateDense, GTMaterials.Steel),
             'B', GTNNItems.EnrichedUranium.asStack()
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, "neutron_accelerator_ulv", GTNNMachines.NEUTRON_ACCELERATOR[GTValues.ULV]!!
                 .asStack(),
             "ABC", "DEF", "ABC",
-            'A', UnificationEntry(TagPrefix.cableGtSingle, GTMaterials.Lead),
-            'B', UnificationEntry(TagPrefix.plate, GTMaterials.Lead),
-            'C', UnificationEntry(TagPrefix.rotor, GTMaterials.Lead),
-            'D', UnificationEntry(TagPrefix.plate, GTMaterials.Wood),
+            'A', MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.Lead),
+            'B', MaterialEntry(TagPrefix.plate, GTMaterials.Lead),
+            'C', MaterialEntry(TagPrefix.rotor, GTMaterials.Lead),
+            'D', MaterialEntry(TagPrefix.plate, GTMaterials.Wood),
             'E', GTMachines.HULL[GTValues.ULV].asStack(),
             'F', GTNNItems.INVERTER.asStack()
         )
@@ -539,31 +542,31 @@ object SelfRecipes {
             provider, "neutron_accelerator_lv", GTNNMachines.NEUTRON_ACCELERATOR[GTValues.LV]!!
                 .asStack(),
             "ABC", "DEF", "ABC",
-            'A', UnificationEntry(TagPrefix.cableGtSingle, GTMaterials.Tin),
-            'B', UnificationEntry(TagPrefix.plateDouble, GTMaterials.Lead),
+            'A', MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.Tin),
+            'B', MaterialEntry(TagPrefix.plateDouble, GTMaterials.Lead),
             'C', GTItems.ELECTRIC_MOTOR_LV.asStack(),
-            'D', UnificationEntry(TagPrefix.plate, GTMaterials.Rubber),
+            'D', MaterialEntry(TagPrefix.plate, GTMaterials.Rubber),
             'E', GTMachines.HULL[GTValues.LV].asStack(),
             'F', GTNNItems.INVERTER.asStack()
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "dehydrator_mv", GTNNMachines.DEHYDRATOR[GTValues.MV]!!.asStack(),
             "ABA", "CDC", "EFE",
-            'A', UnificationEntry(TagPrefix.wireFine, GTMaterials.RedAlloy),
+            'A', MaterialEntry(TagPrefix.wireFine, GTMaterials.RedAlloy),
             'B', CustomTags.MV_CIRCUITS,
-            'C', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Copper),
+            'C', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Copper),
             'D', GTMachines.HULL[GTValues.MV].asStack(),
-            'E', UnificationEntry(TagPrefix.gear, GTMaterials.Steel),
+            'E', MaterialEntry(TagPrefix.gear, GTMaterials.Steel),
             'F', GTItems.ROBOT_ARM_MV
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider, true, "dehydrator_hv", GTNNMachines.DEHYDRATOR[GTValues.HV]!!.asStack(),
             "ABA", "CDC", "EFE",
-            'A', UnificationEntry(TagPrefix.wireFine, GTMaterials.Electrum),
+            'A', MaterialEntry(TagPrefix.wireFine, GTMaterials.Electrum),
             'B', CustomTags.HV_CIRCUITS,
-            'C', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Silver),
+            'C', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Silver),
             'D', GTMachines.HULL[GTValues.HV].asStack(),
-            'E', UnificationEntry(TagPrefix.gear, GTMaterials.Potin),
+            'E', MaterialEntry(TagPrefix.gear, GTMaterials.Potin),
             'F', GTItems.ROBOT_ARM_HV
         )
         VanillaRecipeHelper.addShapedRecipe(
@@ -571,9 +574,9 @@ object SelfRecipes {
             "ABA", "CDC", "EFE",
             'A', GTItems.VOLTAGE_COIL_EV,
             'B', CustomTags.EV_CIRCUITS,
-            'C', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Aluminium),
+            'C', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Aluminium),
             'D', GTMachines.HULL[GTValues.EV].asStack(),
-            'E', UnificationEntry(TagPrefix.gear, GTMaterials.TungstenSteel),  //todo
+            'E', MaterialEntry(TagPrefix.gear, GTMaterials.TungstenSteel),  //todo
             'F', GTItems.ROBOT_ARM_EV
         )
         VanillaRecipeHelper.addShapedRecipe(
@@ -581,9 +584,9 @@ object SelfRecipes {
             "ABA", "CDC", "EFE",
             'A', GTItems.VOLTAGE_COIL_IV,
             'B', CustomTags.IV_CIRCUITS,
-            'C', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Tungsten),
+            'C', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Tungsten),
             'D', GTMachines.HULL[GTValues.IV].asStack(),
-            'E', UnificationEntry(TagPrefix.gear, GTMaterials.Nichrome),
+            'E', MaterialEntry(TagPrefix.gear, GTMaterials.Nichrome),
             'F', GTItems.ROBOT_ARM_IV
         )
         VanillaRecipeHelper.addShapedRecipe(
@@ -591,9 +594,9 @@ object SelfRecipes {
             "ABA", "CDC", "EFE",
             'A', GTItems.VOLTAGE_COIL_LuV,
             'B', CustomTags.LuV_CIRCUITS,
-            'C', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Naquadah),
+            'C', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Naquadah),
             'D', GTMachines.HULL[GTValues.LuV].asStack(),
-            'E', UnificationEntry(TagPrefix.gear, GTMaterials.Ultimet),  //todo
+            'E', MaterialEntry(TagPrefix.gear, GTMaterials.Ultimet),  //todo
             'F', GTItems.ROBOT_ARM_LuV
         )
         VanillaRecipeHelper.addShapedRecipe(
@@ -601,9 +604,9 @@ object SelfRecipes {
             "ABA", "CDC", "EFE",
             'A', GTItems.VOLTAGE_COIL_ZPM,
             'B', CustomTags.ZPM_CIRCUITS,
-            'C', UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Osmium),
+            'C', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Osmium),
             'D', GTMachines.HULL[GTValues.ZPM].asStack(),
-            'E', UnificationEntry(TagPrefix.gear, GTMaterials.Zeron100),
+            'E', MaterialEntry(TagPrefix.gear, GTMaterials.Zeron100),
             'F', GTItems.ROBOT_ARM_ZPM
         )
 

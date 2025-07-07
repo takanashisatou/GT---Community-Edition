@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "": {
-      "model": "gtnn:block/clean_machine_casing"
-    }
-  }
-}

@@ -5,9 +5,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
-import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate
-import dev.arbor.gtnn.api.block.NNBlockMaps
-import dev.arbor.gtnn.api.lang.LangGenerators
 import dev.arbor.gtnn.api.registry.GTRecipeEvent
 import dev.arbor.gtnn.api.registry.GTRecipeManager
 import dev.arbor.gtnn.api.registry.NNRegistrate
@@ -18,7 +15,7 @@ import dev.arbor.gtnn.client.renderer.item.ItemCustomLayerModel
 import dev.arbor.gtnn.data.GTNNMachines
 import dev.arbor.gtnn.data.GTNNMaterials
 import dev.arbor.gtnn.data.GTNNRecipes
-import dev.arbor.gtnn.data.lang.MachineLang
+import dev.arbor.gtnn.data.block.NNBlockMaps
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.FilePackResources
 import net.minecraft.server.packs.PackResources
@@ -36,7 +33,7 @@ object GTNNRegistries {
     private lateinit var MATERIAL_REGISTRY: MaterialRegistry
 
     val REGISTRATE: NNRegistrate by lazy {
-        NNRegistrate(GTNN.MOD_ID).also(::addAdditionalDataGenerators)
+        NNRegistrate(GTNN.MOD_ID)
     }
 
     @JvmStatic
@@ -101,9 +98,5 @@ object GTNNRegistries {
             }
         }
         return packResources
-    }
-
-    private fun addAdditionalDataGenerators(registrate: GTRegistrate) {
-        LangGenerators.initDatagen(registrate, MachineLang::class)
     }
 }

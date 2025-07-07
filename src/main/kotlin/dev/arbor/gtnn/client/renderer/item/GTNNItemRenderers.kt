@@ -11,8 +11,8 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.Tesselator
 import com.mojang.blaze3d.vertex.VertexFormat
 import dev.arbor.gtnn.GTNN
-import dev.arbor.gtnn.api.extension.RenderOps
 import dev.arbor.gtnn.api.item.INNItemRendererProvider
+import dev.arbor.gtnn.extension.RenderOps
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
@@ -162,17 +162,17 @@ class SuperscriptItemRenderer : WrappedItemRenderer() {
         if (atlasName == InventoryMenu.BLOCK_ATLAS) {
             for (i in 0..14) {
                 // 电压纹理
-                val voltageId = GTNN.id("superscript/voltage/${VN[i].lowercase()}")
+                val voltageId = GTNN.id("superscript/voltage/${VN[i]}")
                 register.accept(voltageId)
                 voltageTextures[i] = voltageId
 
                 // 数字纹理
-                val numberId = GTNN.id("superscript/number/${i + 1}")
+                val numberId = GTNN.id("superscript/number/${i+1}")
                 register.accept(numberId)
                 numberTextures[i + 1] = numberId
 
                 // 罗马数字纹理
-                val romaNumberId = GTNN.id("superscript/number/roman/${i + 1}")
+                val romaNumberId = GTNN.id("superscript/number/roman/${i+1}")
                 register.accept(romaNumberId)
                 romaNumberTextures[i + 1] = romaNumberId
             }

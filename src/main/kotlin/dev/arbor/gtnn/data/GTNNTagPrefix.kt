@@ -1,9 +1,8 @@
 package dev.arbor.gtnn.data
 
-import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import dev.arbor.gtnn.GTNNIntegration
-import dev.arbor.gtnn.api.extension.StringExtension.rl
+import dev.arbor.gtnn.extension.StringExtension.rl
 import dev.arbor.gtnn.data.materials.GTNNChemicalItems
 import earth.terrarium.adastra.common.registry.ModBlocks
 import net.minecraft.resources.ResourceLocation
@@ -88,7 +87,7 @@ object GTNNTagPrefix {
         .unformattedTagPath("catalyst")
         .itemTable { GTNNChemicalItems.CATALYST_ITEMS }
         .materialAmount(-1)
-        .materialIconType(GTNNMaterialIconType.catalyst)
+        .materialIconType(GTNNMaterialIconTypes.catalyst)
         .unificationEnabled(true)
 
     fun init() {
@@ -106,10 +105,4 @@ object GTNNTagPrefix {
     private fun String.ad(): ResourceLocation {
         return ResourceLocation("ad_astra", this)
     }
-}
-
-object GTNNMaterialIconType {
-    val catalyst: MaterialIconType = MaterialIconType("catalyst")
-
-    fun init() {}
 }

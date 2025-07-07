@@ -2,8 +2,8 @@ package dev.arbor.gtnn.data.lang
 
 import com.gregtechceu.gtceu.api.GTValues
 import dev.arbor.gtnn.api.registry.NNLangProvider
-import dev.arbor.gtnn.data.EPMItems
-import dev.arbor.gtnn.data.GTNNWrapItem
+import dev.arbor.gtnn.data.item.EPMItems
+import dev.arbor.gtnn.data.item.GTNNWrapItem
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 

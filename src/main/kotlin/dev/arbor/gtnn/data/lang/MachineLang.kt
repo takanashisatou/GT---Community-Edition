@@ -1,20 +1,13 @@
 package dev.arbor.gtnn.data.lang
 
-import dev.arbor.gtnn.api.lang.LangGenerators.entry
-import dev.arbor.gtnn.api.lang.LanguageRoot
-import dev.arbor.gtnn.api.lang.SingleLangEntry
 import dev.arbor.gtnn.api.registry.NNLangProvider
 import dev.arbor.gtnn.data.GTNNRecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES
 import dev.arbor.gtnn.data.GTNNRecipeTypes.COMPONENT_ASSEMBLY_LINE_RECIPES
 import dev.arbor.gtnn.data.GTPPMachines
 import dev.arbor.gtnn.data.lang.NNLangHandler.tsl
 
-@LanguageRoot("gtnn")
 object MachineLang {
-    val TEST: SingleLangEntry by entry("test")
-
     fun init(provider: NNLangProvider) {
-        TEST()
         machineNames()
 
         provider.addRecipeType(COMPONENT_ASSEMBLY_LINE_RECIPES,

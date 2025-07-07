@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs
 import com.tterrag.registrate.util.entry.RegistryEntry
 import dev.arbor.gtnn.GTNN.id
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
+import dev.arbor.gtnn.data.item.GTNNWrapItem
 import net.minecraft.world.item.CreativeModeTab
 
 object GTNNCreativeModeTabs {

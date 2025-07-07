@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature
 import com.gregtechceu.gtceu.api.pattern.MultiblockState
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import dev.arbor.gtnn.api.block.ITierType
-import dev.arbor.gtnn.api.machine.multiblock.MultiStatsElectricMultiblockMachine
+import dev.arbor.gtnn.common.machine.multiblock.MultiStatsElectricMultiblockMachine
 import dev.arbor.gtnn.api.machine.trait.MultiblockTrait
 
 interface ICasingMachine : IMachineFeature {

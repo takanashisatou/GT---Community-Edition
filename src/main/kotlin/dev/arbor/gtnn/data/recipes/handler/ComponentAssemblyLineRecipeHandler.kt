@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.chemical.material.Material
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
@@ -17,11 +17,12 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor
 import com.gregtechceu.gtceu.core.mixins.TagValueAccessor
 import com.gregtechceu.gtceu.data.recipe.CraftingComponent
+import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
 import dev.arbor.gtnn.GTNN
-import dev.arbor.gtnn.api.recipe.TierCasingCondition
+import dev.arbor.gtnn.common.recipe.TierCasingCondition
 import dev.arbor.gtnn.data.GTNNRecipeTypes.COMPONENT_ASSEMBLY_LINE_RECIPES
-import dev.arbor.gtnn.data.GTNNWrapItem
+import dev.arbor.gtnn.data.item.GTNNWrapItem
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.data.recipes.FinishedRecipe
@@ -36,27 +37,29 @@ import java.util.function.Consumer
 
 object ComponentAssemblyLineRecipeHandler {
     // 需要制作的部件
-    var craftComponents: Array<CraftingComponent.Component>
+    var craftComponents: Array<CraftingComponent>
     private val componentItems = Object2IntLinkedOpenHashMap<Item>()
 
     private val recipeBuilders = ArrayList<GTRecipeBuilder>()
 
     init {
-        CraftingComponent.initializeComponents()
+        GTCraftingComponents.init()
         craftComponents = arrayOf(
-            CraftingComponent.MOTOR,
-            CraftingComponent.PUMP,
-            CraftingComponent.PISTON,
-            CraftingComponent.CONVEYOR,
-            CraftingComponent.ROBOT_ARM,
-            CraftingComponent.FIELD_GENERATOR,
-            CraftingComponent.EMITTER,
-            CraftingComponent.SENSOR
+            GTCraftingComponents.MOTOR,
+            GTCraftingComponents.PUMP,
+            GTCraftingComponents.PISTON,
+            GTCraftingComponents.CONVEYOR,
+            GTCraftingComponents.ROBOT_ARM,
+            GTCraftingComponents.FIELD_GENERATOR,
+            GTCraftingComponents.EMITTER,
+            GTCraftingComponents.SENSOR
         )
         initComponentList()
     }
 
     fun init(recipeBuilder: GTRecipeBuilder) {
+        // throw NotImplementedError()
+
         val outputItems = RecipeHelper.getOutputItems(recipeBuilder)
         if (outputItems.isEmpty()) return
 
@@ -92,9 +95,9 @@ object ComponentAssemblyLineRecipeHandler {
                         if (value is ItemValue) {
                             // 普通 itemStack 物品
                             for (stack in value.items) {
-                                val entry = ChemicalHelper.getUnificationEntry(stack.item)
-                                if (entry != null && entry !== UnificationEntry.EmptyMapMarkerEntry) {
-                                    handleUnificationEntry(builder, newBuilder, inputFluidMap, entry, count)
+                                val entry = ChemicalHelper.getMaterialEntry(stack.item)
+                                if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+                                    handleMaterialEntry(builder, newBuilder, inputFluidMap, entry, count)
                                 } else {
                                     newBuilder.inputItems(stack.copyWithCount(count * 48))
                                 }
@@ -111,9 +114,9 @@ object ComponentAssemblyLineRecipeHandler {
                                     newBuilder.inputItems(ItemStack(warpItem, count * 3))
                                 }
                             } else {
-                                val entry = ChemicalHelper.getUnificationEntry(tag)
-                                if (entry != null && entry !== UnificationEntry.EmptyMapMarkerEntry) {
-                                    handleUnificationEntry(builder, newBuilder, inputFluidMap, entry, count)
+                                val entry = ChemicalHelper.getMaterialEntry(tag)
+                                if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+                                    handleMaterialEntry(builder, newBuilder, inputFluidMap, entry, count)
                                 } else {
                                     newBuilder.inputItems(tag, count * 48)
                                 }
@@ -172,7 +175,7 @@ object ComponentAssemblyLineRecipeHandler {
     private fun initComponentList() {
         for (i in 0..<GTValues.TIER_COUNT) {
             for (component in craftComponents) {
-                val stack = component.getIngredient(i)
+                val stack = component.get(i)
                 if (stack is ItemStack) {
                     componentItems.put(stack.item, i)
                 }
@@ -180,18 +183,15 @@ object ComponentAssemblyLineRecipeHandler {
         }
     }
 
-    private fun handleUnificationEntry(
+    private fun handleMaterialEntry(
         builder: GTRecipeBuilder,
         newBuilder: GTRecipeBuilder,
         fluidMap: Object2IntOpenHashMap<Fluid>,
-        entry: UnificationEntry,
+        entry: MaterialEntry,
         count: Int
     ) {
         // 是有 mat 物品
         val material = entry.material
-        if (material == null) {
-            return
-        }
         val prefix = entry.tagPrefix
         // 1x线缆 -> 16x线缆
         if (prefix === TagPrefix.cableGtSingle) {

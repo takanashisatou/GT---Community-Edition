@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static dev.arbor.gtnn.api.block.NNBlockMaps.ALL_MACHINE_CASINGS;
+import static dev.arbor.gtnn.data.block.NNBlockMaps.ALL_MACHINE_CASINGS;
 
 @Mixin(value = GTBlocks.class, remap = false)
 public abstract class GTBlocksMixin {

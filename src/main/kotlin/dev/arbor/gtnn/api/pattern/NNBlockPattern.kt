@@ -8,8 +8,8 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection
 import com.lowdragmc.lowdraglib.utils.BlockInfo
-import dev.arbor.gtnn.api.block.NNBlockProperties
-import dev.arbor.gtnn.api.extension.NNUtils
+import dev.arbor.gtnn.data.block.NNBlockProperties
+import dev.arbor.gtnn.extension.NNUtils
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.block.Blocks
@@ -237,7 +237,7 @@ class NNBlockPattern(
         val c0 = intArrayOf(x, y, z)
         val c1 = IntArray(3)
         for (i in 0..2) {
-            when (structureDir[i].getActualFacing(facing)) {
+            when (structureDir[i].getActualDirection(facing)) {
                 Direction.UP -> c1[1] = c0[i]
                 Direction.DOWN -> c1[1] = -c0[i]
                 Direction.WEST -> c1[0] = -c0[i]

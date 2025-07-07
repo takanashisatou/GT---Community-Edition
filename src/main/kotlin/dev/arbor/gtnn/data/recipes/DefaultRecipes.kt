@@ -1,7 +1,7 @@
 package dev.arbor.gtnn.data.recipes
 
 import com.gregtechceu.gtceu.api.GTValues
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType
 import com.gregtechceu.gtceu.common.data.*
@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNIntegration.isCCTweakedLoaded
 import dev.arbor.gtnn.GTNNIntegration.isSupplementariesLoaded
-import dev.arbor.gtnn.data.GTNNItems
+import dev.arbor.gtnn.data.item.GTNNItems
 import dev.arbor.gtnn.data.GTNNMachines.STONE_BEDROCK_ORE_MACHINE
 import dev.arbor.gtnn.data.GTNNMaterials.Cerrobase140
 import dev.arbor.gtnn.data.GTNNRecipes
@@ -138,11 +138,11 @@ object DefaultRecipes {
                 VanillaRecipeHelper.addShapedRecipe(
                     provider, "homemade_bedrock_ore_machine", STONE_BEDROCK_ORE_MACHINE.asStack(),
                     "ABA", "CDC", "AEA",
-                    'A', UnificationEntry(TagPrefix.plate, GTMaterials.WroughtIron),
-                    'B', UnificationEntry(TagPrefix.plate, GTMaterials.Steel),
+                    'A', MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron),
+                    'B', MaterialEntry(TagPrefix.plate, GTMaterials.Steel),
                     'C', Items.AMETHYST_SHARD,
                     'D', GTBlocks.BRONZE_HULL,
-                    'E', UnificationEntry(TagPrefix.toolHeadDrill, GTMaterials.Diamond)
+                    'E', MaterialEntry(TagPrefix.toolHeadDrill, GTMaterials.Diamond)
                 )
                 GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("bedrock_ore_machine_i")
                     .inputItems(GTMachines.HULL[GTValues.MV])
@@ -218,8 +218,8 @@ object DefaultRecipes {
             VanillaRecipeHelper.addShapedRecipe(
                 provider, "lightning_rod", ItemStack(Items.LIGHTNING_ROD),
                 "hAf", "ABA", "dBs",
-                'A', UnificationEntry(TagPrefix.plate, GTMaterials.Copper),
-                'B', UnificationEntry(TagPrefix.rodLong, GTMaterials.Copper)
+                'A', MaterialEntry(TagPrefix.plate, GTMaterials.Copper),
+                'B', MaterialEntry(TagPrefix.rodLong, GTMaterials.Copper)
             )
             GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder("t1_chip")
                 .inputItems(computer.get()!!.asItem())

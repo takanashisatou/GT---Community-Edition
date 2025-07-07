@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier
@@ -14,7 +13,7 @@ import kotlin.math.min
 
 object GTNNRecipeModifiers {
 
-    val GTPP_MODIFIER: RecipeModifier = RecipeModifier { machine: MetaMachine?, recipe: GTRecipe? ->
+    val GTPP_MODIFIER: RecipeModifier = RecipeModifier { machine: MetaMachine, recipe: GTRecipe ->
         if (machine !is IMultiController || !machine.isFormed) return@RecipeModifier ModifierFunction.IDENTITY
         val machineData = machine as? IGTPPMachine
         val speedMultiplier = 100.0 / (100.0 + (machineData?.speedMultiplier?.toDouble() ?: 0.0))
@@ -22,7 +21,7 @@ object GTNNRecipeModifiers {
         var parallels = machineData?.maxParallel ?: 1
         if (machine is WorkableElectricMultiblockMachine) {
             parallels = min(parallels,
-                max(machine.maxVoltage / RecipeHelper.getInputEUt(recipe), 1).toInt())
+                max(machine.maxVoltage / recipe.inputEUt.totalEU, 1).toInt())
         }
         if (parallels == 1 && speedMultiplier == 1.0 && energyConsumeMultiplier == 1.0)
             return@RecipeModifier ModifierFunction.IDENTITY

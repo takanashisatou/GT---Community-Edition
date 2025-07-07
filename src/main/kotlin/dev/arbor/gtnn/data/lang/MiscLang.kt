@@ -1,7 +1,7 @@
 package dev.arbor.gtnn.data.lang
 
 import dev.arbor.gtnn.api.registry.NNLangProvider
-import dev.arbor.gtnn.data.GTNNItems
+import dev.arbor.gtnn.data.item.GTNNItems
 import dev.arbor.gtnn.data.lang.NNLangHandler.tsl
 
 object MiscLang {
