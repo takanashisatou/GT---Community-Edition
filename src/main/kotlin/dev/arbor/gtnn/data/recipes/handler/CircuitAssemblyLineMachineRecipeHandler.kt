@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient
 import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.common.data.GTMachines
-import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.data.GTMaterials.*
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.*
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor

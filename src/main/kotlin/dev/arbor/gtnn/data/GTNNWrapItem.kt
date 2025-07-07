@@ -196,7 +196,7 @@ object CIRCustomTags {
 
 object EPMItems {
     init {
-        REGISTRATE.creativeModeTab { GTNNCreativeModeTabs.GTNN_CIRCUIT_REFORM }
+        REGISTRATE.creativeModeTab { GTNN_CIRCUIT_REFORM }
     }
 
     //  Boards

@@ -108,7 +108,7 @@ object GTNNTagPrefix {
     }
 }
 
-object GTNNMaterialIconType{
+object GTNNMaterialIconType {
     val catalyst: MaterialIconType = MaterialIconType("catalyst")
 
     fun init() {}

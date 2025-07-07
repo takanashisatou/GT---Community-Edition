@@ -5,7 +5,6 @@ import com.tterrag.registrate.Registrate
 import com.tterrag.registrate.builders.BlockBuilder
 import com.tterrag.registrate.util.entry.BlockEntry
 import com.tterrag.registrate.util.nullness.NonNullFunction
-import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
 import dev.arbor.gtnn.api.block.BorosilicateGlassBlock
 import dev.arbor.gtnn.api.block.NNBlockMaps

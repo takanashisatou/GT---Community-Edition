@@ -2,7 +2,6 @@ package dev.arbor.gtnn.api.block
 
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.utils.GTUtil
-import lombok.Getter
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
@@ -10,7 +9,7 @@ import net.minecraft.world.level.BlockGetter
 
 class SimpleTierBlock(
     properties: Properties,
-    @field:Getter private val data: ITierType,
+    private val data: ITierType,
 ) : CasingBlock(properties) {
 
     private val useNumberTier = true

@@ -1,5 +1,7 @@
 package dev.arbor.gtnn.api.lang
 
+import kotlin.text.iterator
+
 fun String.camelToSnakeCase(): String {
     val output = StringBuilder()
     var isStart = true
