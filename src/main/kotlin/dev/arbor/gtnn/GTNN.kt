@@ -1,12 +1,13 @@
 package dev.arbor.gtnn
 
-import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import dev.arbor.gtnn.config.GTNNConfigHandler
+import dev.arbor.gtnn.init.ClientProxy
 import dev.arbor.gtnn.init.CommonProxy
 import net.minecraft.resources.ResourceLocation
-import net.minecraftforge.eventbus.api.IEventBus
+import net.minecraftforge.fml.DistExecutor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.util.function.Supplier
 
 
 object GTNN {
@@ -14,8 +15,17 @@ object GTNN {
 
     val LOGGER: Logger by lazy { LogManager.getLogger(MOD_ID) }
 
+    @JvmStatic
     fun init() {
-        CommonProxy.init()
+        DistExecutor.unsafeRunForDist({
+            Supplier {
+                ClientProxy()
+            }
+        }, {
+            Supplier {
+                CommonProxy()
+            }
+        }).init()
     }
 
     fun getClientConfig(): GTNNConfigHandler.ClientConfigs {
@@ -28,27 +38,6 @@ object GTNN {
 
     fun id(path: String): ResourceLocation {
         return ResourceLocation(MOD_ID, path.lowercase())
-    }
-
-    @JvmStatic
-    fun genericListener(modBus: IEventBus) {
-        modBus.addListener(GTNNRegistries::registerGeometryLoaders)
-        modBus.addListener(GTNNRegistries::onCommonSetup)
-        modBus.addGenericListener(MachineDefinition::class.java, GTNNRegistries::registerMachines)
-    }
-
-    @JvmStatic
-    fun eventBusSubscriberRegister(modBus: IEventBus) {
-        modBus.addListener(GTNNRegistries::registerMaterials)
-        modBus.addListener(GTNNRegistries::registerRecipeHandler)
-        modBus.addListener(GTNNRegistries::registerMaterialRegistryEvent)
-    }
-
-    @JvmStatic
-    fun eventRegister(events: IEventBus) {
-        events.addListener(GTNNRegistries::fmlCommonSetupEvent)
-        events.addListener(GTNNRegistries::onRenderWorldLast)
-        events.addListener(GTNNRegistries::onServerStarting)
     }
 }
 
