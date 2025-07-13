@@ -39,8 +39,8 @@ public abstract class GTOreDefinitionMixin {
                       Supplier<HolderSet<Biome>> biomes, BiomeWeightModifier biomeWeightModifier,
                       VeinGenerator veinGenerator,
                       List<IndicatorGenerator> indicatorGenerators, CallbackInfo ci) {
-        final int min = (int) (clusterSize.getMinValue() * GTNN.INSTANCE.getServerConfig().gtOresMultiplyNum);
-        final int max = (int) (clusterSize.getMaxValue() * GTNN.INSTANCE.getServerConfig().gtOresMultiplyNum);
+        final int min = (int) (clusterSize.getMinValue() * GTNN.getServerConfig().gtOresMultiplyNum);
+        final int max = (int) (clusterSize.getMaxValue() * GTNN.getServerConfig().gtOresMultiplyNum);
         this.clusterSize = UniformInt.of(min, max);
     }
 }

@@ -24,7 +24,7 @@ public abstract class FluidEmiStackMixin extends EmiStack {
 
     @Override
     public ItemStack getItemStack() {
-        if (GTNN.INSTANCE.getServerConfig().makesEMIBetter) {
+        if (GTNN.getServerConfig().makesEMIBetter) {
             arborCore$stack = fluid.getBucket().getDefaultInstance();
             arborCore$stack.setCount(1);
             return arborCore$stack;

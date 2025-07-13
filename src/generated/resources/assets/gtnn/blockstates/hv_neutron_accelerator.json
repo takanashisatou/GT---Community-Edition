@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "gtnn:block/machine/hv_neutron_accelerator",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "gtnn:block/machine/hv_neutron_accelerator",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gtnn:block/machine/hv_neutron_accelerator"
+    },
+    "facing=south": {
+      "model": "gtnn:block/machine/hv_neutron_accelerator",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "gtnn:block/machine/hv_neutron_accelerator",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "gtnn:block/machine/hv_neutron_accelerator",
+      "y": 270
+    }
+  }
+}

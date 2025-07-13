@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.BedrockOreMinerM
 import com.gregtechceu.gtceu.common.machine.trait.BedrockOreMinerLogic;
 
 import dev.arbor.gtnn.GTNN;
-import dev.arbor.gtnn.api.recipe.GTNNBedrockOreMinerLogic;
+import dev.arbor.gtnn.common.machine.logic.GTNNBedrockOreMinerLogic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,14 +20,14 @@ public class BedrockOreMinerMachineMixin {
 
     @Inject(method = "createRecipeLogic", at = @At("HEAD"), cancellable = true, remap = false)
     private void createRecipeLogic(Object[] args, CallbackInfoReturnable<RecipeLogic> cir) {
-        if (GTNN.INSTANCE.getServerConfig().skyblock) {
+        if (GTNN.getServerConfig().skyblock) {
             cir.setReturnValue(new GTNNBedrockOreMinerLogic<>((BedrockOreMinerMachine) (Object) this));
         }
     }
 
     @Inject(method = "getRecipeLogic*", at = @At("HEAD"), cancellable = true, remap = false)
     private void getRecipeLogic(CallbackInfoReturnable<RecipeLogic> cir) {
-        if (GTNN.INSTANCE.getServerConfig().skyblock) {
+        if (GTNN.getServerConfig().skyblock) {
             if (gtnn$LOGIC == null) {
                 gtnn$LOGIC = new BedrockOreMinerLogic((BedrockOreMinerMachine) (Object) this);
             }

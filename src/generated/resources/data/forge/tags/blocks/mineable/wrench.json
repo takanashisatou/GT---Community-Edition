@@ -1,6 +1,6 @@
 {
   "values": [
-    "gtnn:clean_machine_casing",
+    "gtnn:process_machine_casing",
     "gtnn:radiation_proof_machine_casing",
     "gtnn:field_restriction_casing",
     "gtnn:polybenzimidazole_pipe",

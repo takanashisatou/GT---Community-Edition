@@ -18,7 +18,6 @@
     "gt.GTRecipeConditionsMixin",
     "gt.GTRecipeTypeAccessor",
     "gt.GTRecipeTypeMixin",
-    "gt.GTSyncedFieldAccessorsMixin",
     "gt.MaterialBuilderMixin",
     "gt.MaterialMixin",
     "gt.OreGeneratorMixin",

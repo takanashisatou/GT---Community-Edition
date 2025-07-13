@@ -3,10 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     alias libs.plugins.modDevGradle
-    alias libs.plugins.machete // automatic jar compressing on build
-    // alias libs.plugins.shadow
     alias libs.plugins.spotless
-    alias libs.plugins.lombok
     alias libs.plugins.kotlin.jvm
     alias libs.plugins.kotlin.plugin
 }
@@ -39,6 +36,11 @@ sourceSets {
     }
 }
 
+// Cache changing modules for 5 minutes
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 5, 'minutes'
+}
+
 // Set up the test and extra configurations
 configurations {
     testImplementation.extendsFrom(implementation)
@@ -69,13 +71,4 @@ generateModMetadata.doFirst {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
-}
-
-machete {
-    // disable machete locally for faster builds
-    enabled = false
-}
-
-lombok {
-    version = "1.18.32"
 }

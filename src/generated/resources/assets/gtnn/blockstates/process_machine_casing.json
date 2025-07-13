@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtnn:block/process_machine_casing"
+    }
+  }
+}
