@@ -1,4 +1,4 @@
-package dev.arbor.gtnn.client
+package dev.arbor.gtnn.client.renderer
 
 import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils
 import com.mojang.blaze3d.platform.GlStateManager

@@ -8,11 +8,23 @@
     "side"
   ],
   "variants": {
-    "": {
+    "is_painted=false": {
       "model": {
-        "parent": "gtnn:block/machine/part/neutron_accelerator",
+        "parent": "gtceu:block/machine/template/part/hatch_machine",
         "textures": {
           "bottom": "gtceu:block/casings/voltage/hv/bottom",
+          "overlay": "gtnn:block/overlay/machine/overlay_na",
+          "side": "gtceu:block/casings/voltage/hv/side",
+          "top": "gtceu:block/casings/voltage/hv/top"
+        }
+      }
+    },
+    "is_painted=true": {
+      "model": {
+        "parent": "gtceu:block/machine/template/part/hatch_machine_color_ring",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/hv/bottom",
+          "overlay": "gtnn:block/overlay/machine/overlay_na",
           "side": "gtceu:block/casings/voltage/hv/side",
           "top": "gtceu:block/casings/voltage/hv/top"
         }

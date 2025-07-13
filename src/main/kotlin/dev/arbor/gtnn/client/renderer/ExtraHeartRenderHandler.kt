@@ -1,8 +1,7 @@
-package dev.arbor.gtnn.client
+package dev.arbor.gtnn.client.renderer
 
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.arbor.gtnn.GTNN.getClientConfig
-import dev.arbor.gtnn.GTNN.id
+import dev.arbor.gtnn.GTNN
 import net.minecraft.Util
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -69,7 +68,7 @@ class ExtraHeartRenderHandler {
     @SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
     fun renderHealthbar(event: RenderGuiOverlayEvent.Pre) {
         val guiGraphics = event.guiGraphics
-        if (event.isCanceled || !getClientConfig().extraHeartRenderer || event.overlay !== VanillaGuiOverlay.PLAYER_HEALTH.type()) {
+        if (event.isCanceled || !GTNN.getClientConfig().extraHeartRenderer || event.overlay !== VanillaGuiOverlay.PLAYER_HEALTH.type()) {
             return
         }
         val gui = mc.gui
@@ -314,8 +313,8 @@ class ExtraHeartRenderHandler {
     }
 
     companion object {
-        private val ICON_HEARTS = id("textures/gui/hearts.png")
-        private val ICON_ABSORB = id("textures/gui/absorb.png")
+        private val ICON_HEARTS = GTNN.id("textures/gui/hearts.png")
+        private val ICON_ABSORB = GTNN.id("textures/gui/absorb.png")
         private val ICON_VANILLA = ResourceLocation("textures/gui/icons.png")
     }
 }

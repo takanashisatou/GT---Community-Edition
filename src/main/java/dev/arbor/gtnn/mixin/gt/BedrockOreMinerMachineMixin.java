@@ -20,14 +20,14 @@ public class BedrockOreMinerMachineMixin {
 
     @Inject(method = "createRecipeLogic", at = @At("HEAD"), cancellable = true, remap = false)
     private void createRecipeLogic(Object[] args, CallbackInfoReturnable<RecipeLogic> cir) {
-        if (GTNN.INSTANCE.getServerConfig().skyblock) {
+        if (GTNN.getServerConfig().skyblock) {
             cir.setReturnValue(new GTNNBedrockOreMinerLogic<>((BedrockOreMinerMachine) (Object) this));
         }
     }
 
     @Inject(method = "getRecipeLogic*", at = @At("HEAD"), cancellable = true, remap = false)
     private void getRecipeLogic(CallbackInfoReturnable<RecipeLogic> cir) {
-        if (GTNN.INSTANCE.getServerConfig().skyblock) {
+        if (GTNN.getServerConfig().skyblock) {
             if (gtnn$LOGIC == null) {
                 gtnn$LOGIC = new BedrockOreMinerLogic((BedrockOreMinerMachine) (Object) this);
             }

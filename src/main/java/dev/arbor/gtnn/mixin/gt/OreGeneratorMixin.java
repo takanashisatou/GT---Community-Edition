@@ -68,7 +68,7 @@ public abstract class OreGeneratorMixin {
     @Inject(method = "generateMetadata", at = @At("HEAD"), cancellable = true)
     private void generateMetadata(WorldGenLevel level, ChunkGenerator chunkGenerator, ChunkPos chunkPos,
                                   CallbackInfoReturnable<List<GeneratedVeinMetadata>> cir) {
-        if (GTNN.INSTANCE.getServerConfig().timesOreVeins != 1) {
+        if (GTNN.getServerConfig().timesOreVeins != 1) {
             cir.setReturnValue(gtnn$createConfigs(level, chunkGenerator, chunkPos).stream()
                     .map(OreGeneratorMixin::gtnn$logVeinGeneration).map(VeinConfiguration::data).toList());
         }
@@ -83,7 +83,7 @@ public abstract class OreGeneratorMixin {
                                                        ChunkPos chunkPos) {
         List<VeinConfiguration> list = new ArrayList<>();
         Set<GTOreDefinition> oreVeins = new HashSet<>();
-        for (int i = 0; i < GTNN.INSTANCE.getServerConfig().timesOreVeins; i++) {
+        for (int i = 0; i < GTNN.getServerConfig().timesOreVeins; i++) {
             var random = new XoroshiroRandomSource(level.getSeed() ^ chunkPos.toLong() + i);
 
             list.addAll(gtnn$getVeinCenter(chunkPos).stream().flatMap(veinCenter -> {

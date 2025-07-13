@@ -84,7 +84,7 @@ public class ChatMixin {
                         target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V",
                         ordinal = 1))
     private float applyYOffset(float y) {
-        if (GTNN.INSTANCE.getClientConfig().addChatAnimation) arborCore$calculateYOffset();
+        if (GTNN.getClientConfig().addChatAnimation) arborCore$calculateYOffset();
         // Apply the offset
         return y + arborCore$chatDisplacementY;
     }
@@ -96,7 +96,7 @@ public class ChatMixin {
     private double modifyOpacity(double originalOpacity) {
         double opacity = originalOpacity;
         // Calculate current required opacity for currently rendered line to achieve fade in effect
-        if (GTNN.INSTANCE.getClientConfig().addChatAnimation) {
+        if (GTNN.getClientConfig().addChatAnimation) {
             try {
                 long timestamp = arborCore$messageTimestamps.get(arborCore$chatLineIndex);
                 long timeAlive = System.currentTimeMillis() - timestamp;
@@ -112,7 +112,7 @@ public class ChatMixin {
                     at = @At(
                              value = "STORE"))
     private GuiMessageTag removeMessageIndicator(GuiMessageTag messageIndicator) {
-        if (!GTNN.INSTANCE.getClientConfig().addChatAnimation) return messageIndicator;
+        if (!GTNN.getClientConfig().addChatAnimation) return messageIndicator;
         // Don't allow the chat indicator bar to be rendered
         return null;
     }
@@ -121,7 +121,7 @@ public class ChatMixin {
             at = @At("TAIL"))
     private void addMessage(Component message, MessageSignature signature, int ticks, GuiMessageTag indicator,
                             boolean refresh, CallbackInfo ci) {
-        if (GTNN.INSTANCE.getClientConfig().addChatAnimation) {
+        if (GTNN.getClientConfig().addChatAnimation) {
             arborCore$messageTimestamps.add(0, System.currentTimeMillis());
             while (this.arborCore$messageTimestamps.size() > this.trimmedMessages.size()) {
                 this.arborCore$messageTimestamps.remove(this.arborCore$messageTimestamps.size() - 1);

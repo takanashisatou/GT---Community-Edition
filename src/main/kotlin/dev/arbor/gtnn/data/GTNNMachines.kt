@@ -47,7 +47,6 @@ import dev.arbor.gtnn.extension.StringExtension.gt
 import dev.arbor.gtnn.extension.StringExtension.nn
 import dev.arbor.gtnn.extension.StructureUtil
 import net.minecraft.network.chat.Component
-import java.util.function.Supplier
 
 object GTNNMachines {
     private val ULV2UV: IntArray = tiersBetween(0, 8)
@@ -73,7 +72,7 @@ object GTNNMachines {
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip2", V[tier]))
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip3", V[tier] * 8 / 10))
                 .tooltips(Component.translatable("gtnn.machine.neutron_accelerator.tooltip4"))
-                .overlayTieredHullModel("neutron_accelerator")
+                .colorOverlayTieredHullModel("overlay_na")
                 .register()
         }, ULV2UV
     )
@@ -84,7 +83,7 @@ object GTNNMachines {
         .tier(IV)
         .rotationState(RotationState.ALL)
         .abilities(NNPartAbility.NEUTRON_SENSOR)
-        .overlayTieredHullModel("neutron_sensor")
+        .colorOverlayTieredHullModel("overlay_neutron_sensor", null, "overlay_neutron_sensor_emissive")
         .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip1"))
         .tooltips(Component.translatable("block.gtnn.neutron_sensor.tooltip2")).register()
 
@@ -94,7 +93,7 @@ object GTNNMachines {
         .tier(IV)
         .rotationState(RotationState.ALL)
         .abilities(NNPartAbility.CATALYST)
-        .overlayTieredHullModel("catalyst_hatch")
+        .colorOverlayTieredHullModel("overlay_catalyst_in", null, "overlay_catalyst_hatch")
         .tooltips()
         .register()
 
@@ -187,8 +186,8 @@ object GTNNMachines {
         .model(GTMachineModels.createWorkableCasingMachineModel(
             GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
             GTNN.id("block/multiblock/chemical_plant")).andThen {
-                it.addDynamicRenderer { Supplier { GTPPMachineRender(
-                    GTBlocks.CASING_BRONZE_BRICKS, GTPPMachineRender.ModelTypes.ChemicalPlantMachine) } }
+                it.addDynamicRenderer { GTPPMachineRender(
+                    GTBlocks.CASING_BRONZE_BRICKS, GTPPMachineRender.ModelTypes.ChemicalPlantMachine) }
         })
         .register()
 

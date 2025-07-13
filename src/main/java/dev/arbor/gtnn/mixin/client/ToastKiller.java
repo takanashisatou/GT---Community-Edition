@@ -21,12 +21,12 @@ public class ToastKiller {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void killToasts(GuiGraphics p_283249_, CallbackInfo ci) {
         // Debug.Log("Killed a toast that tried to draw");
-        if (GTNN.INSTANCE.getClientConfig().killToast) ci.cancel();
+        if (GTNN.getClientConfig().killToast) ci.cancel();
     }
 
     @Inject(method = "addToast", at = @At("HEAD"), cancellable = true)
     public void addToast(Toast pToast, CallbackInfo ci) {
-        if (GTNN.INSTANCE.getClientConfig().killToast) ci.cancel();
+        if (GTNN.getClientConfig().killToast) ci.cancel();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -37,7 +37,7 @@ public class ToastKiller {
         public void render(int pScreenWidth, GuiGraphics pGuiGraphics, CallbackInfoReturnable<Boolean> cir) { // lie
                                                                                                               // about
                                                                                                               // drawing
-            if (GTNN.INSTANCE.getClientConfig().killToast) cir.setReturnValue(true);
+            if (GTNN.getClientConfig().killToast) cir.setReturnValue(true);
         }
     }
 }

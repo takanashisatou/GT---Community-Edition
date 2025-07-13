@@ -1,4 +1,4 @@
-package dev.arbor.gtnn.client
+package dev.arbor.gtnn.client.helper
 
 import dev.arbor.gtnn.GTNN
 import net.minecraft.client.model.geom.builders.UVPair

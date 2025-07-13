@@ -19,7 +19,7 @@
 // @Inject(method = "addStack(Ldev/emi/emi/api/stack/EmiStack;)V", at = @At(value = "INVOKE", target =
 // "Ljava/util/Map;merge(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;"))
 // private void modifyAmount(EmiStack stack, CallbackInfo ci) {
-// if (GTNN.INSTANCE.getServerConfig().makesEMIBetter) {
+// if (GTNN.getServerConfig().makesEMIBetter) {
 // stack.setAmount(gtnn$getDamageAvailable(stack));
 // }
 // }
@@ -27,7 +27,7 @@
 // @WrapOperation(method = "canCraft(Ldev/emi/emi/api/recipe/EmiRecipe;J)Z", at = @At(value = "INVOKE", target =
 // "Ldev/emi/emi/api/stack/EmiStack;getAmount()J", ordinal = 0))
 // private long modifyAmount(EmiStack instance, Operation<Long> original) {
-// if (GTNN.INSTANCE.getServerConfig().makesEMIBetter) {
+// if (GTNN.getServerConfig().makesEMIBetter) {
 // return gtnn$getDamagePerCraft(instance);
 // } else {
 // return original.call(instance);

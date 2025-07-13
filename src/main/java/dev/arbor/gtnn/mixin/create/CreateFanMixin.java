@@ -22,7 +22,7 @@ public class CreateFanMixin {
                      ordinal = 1),
             cancellable = true)
     public void cancelBlastingRecipe(ItemStack stack, Level level, CallbackInfoReturnable<List<ItemStack>> cir) {
-        if (GTNN.INSTANCE.getServerConfig().banCreateFanBlasting)
+        if (GTNN.getServerConfig().banCreateFanBlasting)
             cir.setReturnValue(Collections.emptyList()); // cancel recipe
     }
 }

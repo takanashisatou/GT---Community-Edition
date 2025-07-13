@@ -28,10 +28,12 @@ object GTNN {
         }).init()
     }
 
+    @JvmStatic
     fun getClientConfig(): GTNNConfigHandler.ClientConfigs {
         return GTNNConfigHandler.INSTANCE.Client
     }
 
+    @JvmStatic
     fun getServerConfig(): GTNNConfigHandler.ServerConfigs {
         return GTNNConfigHandler.INSTANCE.Server
     }

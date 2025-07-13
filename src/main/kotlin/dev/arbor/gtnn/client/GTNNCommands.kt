@@ -10,15 +10,19 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.serialization.JsonOps
 import dev.arbor.gtnn.data.GTNNRecipeTypes
 import kotlinx.coroutines.*
+import net.minecraft.client.Minecraft
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands.literal
+import net.minecraft.nbt.*
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import java.io.DataInputStream
 import java.io.File
 import kotlin.io.path.exists
 import kotlin.io.path.pathString
 
 
-object GetRecipesCommand {
+object GTNNCommands {
     @OptIn(DelicateCoroutinesApi::class)
     @JvmStatic
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
@@ -48,6 +52,24 @@ object GetRecipesCommand {
                     GlobalScope.launch {
                         try {
                             testRecipes(it)
+                        } catch (e: Exception) {
+                            it.source.sendFailure(Component.literal("An error occurred: ${e.message}"))
+                        }
+                    }
+                    return@executes 1
+                }
+            )
+        )
+
+        dispatcher.register(
+            literal("gtnn")
+            .requires { it.hasPermission(3) }
+            .then(literal("doTempThing")
+                .executes {
+                    it.source.sendSystemMessage(Component.literal("Starting temp thing..."))
+                    GlobalScope.launch {
+                        try {
+                            TempThing.init()
                         } catch (e: Exception) {
                             it.source.sendFailure(Component.literal("An error occurred: ${e.message}"))
                         }
@@ -102,5 +124,75 @@ object GetRecipesCommand {
         val lvDir = Platform.getGamePath().resolve("gtnn_recipes/$v")
         if (!lvDir.parent.exists()) lvDir.parent.toFile().mkdirs()
         return lvDir.pathString
+    }
+
+    private object TempThing {
+        val fileList = arrayOf(
+            "chemical_plant",
+            "component_assembly_line",
+            "large_naquadah_reactor",
+            "neutron_activator",
+            "precise_assembler",
+            "precision_assembly"
+        )
+
+        fun init() {
+            val resourceManager = Minecraft.getInstance().resourceManager
+            val nbtList = mutableListOf<CompoundTag>()
+            for (file in fileList) {
+                try {
+                    val resource = resourceManager.getResourceOrThrow(
+                        ResourceLocation("gtceu", "ui/recipe_type/%s.rtui".format(file))
+                    )
+
+                    resource.open().use { inputStream ->
+                        DataInputStream(inputStream).use { dataInputStream ->
+                            nbtList += NbtIo.read(dataInputStream, NbtAccounter.UNLIMITED)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            renameItemSlot(nbtList)
+            for (i in 0 until nbtList.size) {
+                val nbt = nbtList[i]
+                val mcDir = Platform.getGamePath().resolve("gtnn")
+                val file = File(mcDir.pathString + "/" + fileList[i] + ".rtui")
+                if (!file.parentFile.exists()) file.parentFile.mkdirs()
+                NbtIo.write(nbt, file)
+            }
+        }
+
+        private fun renameItemSlot(list: List<CompoundTag>) {
+            for (nbt in list) {
+                travel(nbt, "type:item_slot", "gtm_item_slot")
+                travel(nbt, "type:fluid_slot", "gtm_fluid_slot")
+            }
+        }
+
+        private fun travel(node: Tag, target: String, replacement: String) {
+            val type = target.split(':')[0]
+            val value = target.split(':')[1]
+
+            when (node) {
+                is CompoundTag -> {
+                    if (node.contains(type) && node.getString(type) == value) {
+                        node.putString(type, replacement)
+                    }
+
+                    node.allKeys.forEach { key ->
+                        node.get(key)?.let { child ->
+                            travel(child, target, replacement)
+                        }
+                    }
+                }
+                is ListTag -> {
+                    for (i in 0 until node.size) {
+                        travel(node[i], target, replacement)
+                    }
+                }
+            }
+        }
     }
 }

@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.recipe.OverclockingLogic
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines
 import dev.arbor.gtnn.api.machine.feature.IGTPPMachine
 import dev.arbor.gtnn.data.GTNNRecipeModifiers
@@ -16,17 +15,14 @@ import net.minecraft.network.chat.Component
 
 object ModifyMachines {
     fun init() {
-        GTRecipeTypes.ASSEMBLER_RECIPES.setMaxTooltips(4)
-        GTRecipeTypes.BREWING_RECIPES.setMaxTooltips(4)
-        GTRecipeTypes.FLUID_HEATER_RECIPES.setMaxTooltips(4)
         modifyGTAssembly()
     }
 
     private fun modifyGTAssembly() {
         val lASB = GCYMMachines.LARGE_ASSEMBLER
-        val lASBRecipeTypes = lASB.recipeTypes?.toMutableList()
-        lASBRecipeTypes?.add(GTNNRecipeTypes.PRECISION_ASSEMBLY_RECIPES)
-        lASB.recipeTypes = lASBRecipeTypes?.toTypedArray()
+        val lASBRecipeTypes = lASB.recipeTypes!!.toMutableList()
+        lASBRecipeTypes.add(GTNNRecipeTypes.PRECISION_ASSEMBLY_RECIPES)
+        lASB.recipeTypes = lASBRecipeTypes.toTypedArray()
         lASB.tooltipBuilder = lASB.tooltipBuilder.andThen { _, components ->
             run {
                 components.add(Component.translatable("gtnn.precision_assembly.tooltip.1"))

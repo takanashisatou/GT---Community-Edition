@@ -56,6 +56,8 @@ class GTPPMachineRender(
 
     override fun getRenderQuads(
         machine: IGTPPRenderMachine?,
+        level: BlockAndTintGetter?,
+        pos: BlockPos?,
         blockState: BlockState?,
         side: Direction?,
         rand: RandomSource,
@@ -65,11 +67,11 @@ class GTPPMachineRender(
         val quads: MutableList<BakedQuad?> = mutableListOf()
         if (machine is IGTPPRenderMachine && machine is MultiblockControllerMachine) {
             val casing: BlockState = machine.getAppearance()
-            val model = backedModelsMap[casing] ?: return super.getRenderQuads(machine, blockState, side, rand, modelData, renderType)
+            val model = backedModelsMap[casing] ?: return super.getRenderQuads(machine, level, pos, blockState, side, rand, modelData, renderType)
             emitQuads(quads, model, machine.level!!, machine.pos, casing, side, rand, modelData, renderType)
             return quads
         }
-        return super.getRenderQuads(machine, blockState, side, rand, modelData, renderType)
+        return super.getRenderQuads(machine, level, pos, blockState, side, rand, modelData, renderType)
     }
 
     override fun render(

@@ -145,8 +145,8 @@ public class GTNNMaterials extends Material {
         FirstMaterials.INSTANCE.init();
         SecondMaterials.INSTANCE.init();
         BrineChain.INSTANCE.init();
-        if (GTNN.INSTANCE.getServerConfig().enableHarderPlatinumLine) PlatinumLineMaterials.INSTANCE.init();
-        if (GTNN.INSTANCE.getServerConfig().enableHarderNaquadahLine) NaquadahMaterials.INSTANCE.init();
+        if (GTNN.getServerConfig().enableHarderPlatinumLine) PlatinumLineMaterials.INSTANCE.init();
+        if (GTNN.getServerConfig().enableHarderNaquadahLine) NaquadahMaterials.INSTANCE.init();
         if (GTNNIntegration.INSTANCE.isAdAstraLoaded()) AdAstraMaterials.INSTANCE.init();
         if (GTNNIntegration.INSTANCE.isBotaniaLoaded()) BotaniaMaterials.INSTANCE.init();
         if (GTNNIntegration.INSTANCE.isCreateLoaded()) CreateMaterials.INSTANCE.init();

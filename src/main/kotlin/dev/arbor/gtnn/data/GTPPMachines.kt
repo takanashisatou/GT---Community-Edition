@@ -3,15 +3,23 @@ package dev.arbor.gtnn.data
 import com.gregtechceu.gtceu.GTCEu
 import com.gregtechceu.gtceu.api.data.RotationState
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern
 import com.gregtechceu.gtceu.api.pattern.Predicates.*
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection
+import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder.ModelInitializer
+import com.gregtechceu.gtceu.api.registry.registrate.provider.GTBlockstateProvider
+import com.gregtechceu.gtceu.client.model.machine.MachineRenderState
+import com.gregtechceu.gtceu.client.model.machine.overlays.WorkableOverlays
 import com.gregtechceu.gtceu.common.data.GTBlocks
 import com.gregtechceu.gtceu.common.data.GTMachines
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes
 import com.gregtechceu.gtceu.common.data.models.GTMachineModels
+import com.gregtechceu.gtceu.data.model.builder.MachineModelBuilder
+import com.tterrag.registrate.providers.DataGenContext
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
 import dev.arbor.gtnn.api.pattern.NNBlockPattern
@@ -26,7 +34,9 @@ import dev.arbor.gtnn.data.block.NNBlockMaps
 import dev.arbor.gtnn.extension.StringExtension.gt
 import dev.arbor.gtnn.extension.StructureUtil
 import net.minecraft.network.chat.Component
-import java.util.function.Supplier
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.block.Block
+import net.minecraftforge.client.model.generators.BlockModelBuilder
 
 object GTPPMachines {
     val FactoryMaceration: MultiblockMachineDefinition = REGISTRATE
@@ -82,17 +92,46 @@ object GTPPMachines {
                 .where('D', blocks(GTBlocks.CASING_GRATE.get()))
                 .build()
         }
-        .model(GTMachineModels.createWorkableCasingMachineModel(
+        .model(createCircuitAssemblyLineMachineModel(
             GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
             GTCEu.id("block/multiblock/assembly_line")).andThen {
-            it.addDynamicRenderer { Supplier { GTPPMachineRender(
-                GTBlocks.CASING_STEEL_SOLID, GTPPMachineRender.ModelTypes.CircuitAssemblyLineMachine) } }
+            it.addDynamicRenderer  { GTPPMachineRender(
+                GTBlocks.CASING_STEEL_SOLID, GTPPMachineRender.ModelTypes.CircuitAssemblyLineMachine) }
         })
         .partAppearance { iMultiController, iMultiPart, direction ->
             iMultiController as CircuitAssemblyLineMachine
             return@partAppearance iMultiController.getPartAppearance(iMultiPart)
         }
         .register()
+
+    fun createCircuitAssemblyLineMachineModel(
+        baseCasingTexture: ResourceLocation,
+        overlayDir: ResourceLocation
+    ): ModelInitializer {
+        val formBaseTex = GTCEu.id("block/casings/pipe/machine_casing_grate")
+        return ModelInitializer { ctx: DataGenContext<Block, out Block>, prov: GTBlockstateProvider, builder: MachineModelBuilder<BlockModelBuilder> ->
+            val overlays = WorkableOverlays.get(overlayDir, prov.existingFileHelper)
+            builder.forAllStates { state: MachineRenderState? ->
+                val status = state!!.getValue(RecipeLogic.STATUS_PROPERTY)
+                val model = prov.models().nested()
+                    .parent(prov.models().getExistingFile(GTMachineModels.CUBE_ALL_SIDED_OVERLAY_MODEL))
+                    .texture("all", baseCasingTexture)
+                GTMachineModels.addWorkableOverlays(overlays, status, model)
+            }
+            builder.replaceForAllStates { state, models ->
+                if (!state.getValue(IMultiController.IS_FORMED_PROPERTY)) {
+                    return@replaceForAllStates models
+                }
+                val status = state.getValue(RecipeLogic.STATUS_PROPERTY)
+                val model: BlockModelBuilder = prov.models().nested()
+                    .parent(prov.models().getExistingFile(GTMachineModels.CUBE_ALL_SIDED_OVERLAY_MODEL))
+                    .texture("form", formBaseTex)
+                GTMachineModels.addWorkableOverlays(overlays, status, model)
+            }
+            builder.addTextureOverride("all", baseCasingTexture)
+            builder.addTextureOverride("form", formBaseTex)
+        }
+    }
 
     val COMPONENT_ASSEMBLY_LINE: MultiblockMachineDefinition = REGISTRATE
         .multiblock("component_assembly_line") { holder -> TierCasingElectricMultiblockMachine(holder, "CACasing") }

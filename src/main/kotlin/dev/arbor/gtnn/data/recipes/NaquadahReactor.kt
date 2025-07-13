@@ -90,7 +90,7 @@ object NaquadahReactor {
             'D', GTMachines.HULL[GTValues.ZPM].asStack(),
             'E', MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Naquadah)
         )
-        if (GTCEuAPI.isHighTier()){
+        if (GTCEuAPI.isHighTier() && GTNNMachines.NAQUADAH_REACTOR[GTValues.UV] != null) {
             VanillaRecipeHelper.addShapedRecipe(
             provider, true, "naquadah_reactor_uv", GTNNMachines.NAQUADAH_REACTOR[GTValues.UV]!!
                 .asStack(),

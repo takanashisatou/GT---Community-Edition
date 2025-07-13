@@ -16,21 +16,22 @@ object GTNNRecipeTypes {
         GTRecipeTypes.register("component_assembly_line", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(12, 1, 12, 0)
             .setEUIO(IO.IN)
-            .setMaxTooltips(4)
+            .setMaxTooltips(5)
             .setSound(GTSoundEntries.ASSEMBLER)
 
     val CIRCUIT_ASSEMBLY_LINE_RECIPES: GTRecipeType =
         GTRecipeTypes.register("circuit_assembly_line", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(6, 1, 1, 0)
             .setEUIO(IO.IN)
-            .setMaxTooltips(4)
+            .setMaxTooltips(5)
             .setHasResearchSlot(true)
             .setSound(GTSoundEntries.ASSEMBLER)
             .onRecipeBuild(ResearchManager::createDefaultResearchRecipe)
 
     val CHEMICAL_PLANT_RECIPES: GTRecipeType =
         GTRecipeTypes.register("chemical_plant", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(4, 4, 4, 4).setEUIO(IO.IN)
+            .setMaxTooltips(5)
+            .setMaxIOSize(5, 4, 4, 4).setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.BOX_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT).setMaxTooltips(4)
             .setSound(GTSoundEntries.COOLING)
@@ -39,6 +40,18 @@ object GTNNRecipeTypes {
         GTRecipeTypes.register("neutron_activator", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(9, 9, 1, 1)
             .setMaxTooltips(5)
+            .setSound(GTSoundEntries.COOLING)
+
+    val LARGE_NAQUADAH_REACTOR_RECIPES: GTRecipeType =
+        GTRecipeTypes.register("large_naquadah_reactor", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 1, 1)
+            .setEUIO(IO.OUT).setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CENTRIFUGE)
+
+    val PRECISION_ASSEMBLY_RECIPES: GTRecipeType =
+        GTRecipeTypes.register("precision_assembly", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4, 1, 4, 0).setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
 
     val DEHYDRATOR_RECIPES: GTRecipeType =
@@ -65,18 +78,6 @@ object GTNNRecipeTypes {
             .setMaxIOSize(0, 0, 1, 1).setEUIO(IO.OUT)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CENTRIFUGE)
-
-    val LARGE_NAQUADAH_REACTOR_RECIPES: GTRecipeType =
-        GTRecipeTypes.register("large_naquadah_reactor", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0, 0, 1, 1)
-            .setEUIO(IO.OUT).setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.CENTRIFUGE)
-
-    val PRECISION_ASSEMBLY_RECIPES: GTRecipeType =
-        GTRecipeTypes.register("precision_assembly", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(4, 1, 4, 0).setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COOLING)
 
     fun init() {
         PRECISION_ASSEMBLY_RECIPES.iconSupplier = Supplier { GCYMMachines.LARGE_ASSEMBLER.asStack() }

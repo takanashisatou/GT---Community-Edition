@@ -8,9 +8,9 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import dev.arbor.gtnn.api.registry.GTRecipeEvent
 import dev.arbor.gtnn.api.registry.GTRecipeManager
 import dev.arbor.gtnn.api.registry.NNRegistrate
-import dev.arbor.gtnn.client.ExtraHeartRenderHandler
-import dev.arbor.gtnn.client.GetRecipesCommand.register
-import dev.arbor.gtnn.client.StructureSelectRenderer
+import dev.arbor.gtnn.client.renderer.ExtraHeartRenderHandler
+import dev.arbor.gtnn.client.GTNNCommands.register
+import dev.arbor.gtnn.client.renderer.StructureSelectRenderer
 import dev.arbor.gtnn.client.renderer.item.ItemCustomLayerModel
 import dev.arbor.gtnn.data.GTNNMachines
 import dev.arbor.gtnn.data.GTNNMaterials
