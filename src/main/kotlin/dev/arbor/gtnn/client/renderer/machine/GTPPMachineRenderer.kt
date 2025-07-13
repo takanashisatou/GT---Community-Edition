@@ -39,7 +39,7 @@ class GTPPMachineRender(
     private val backedModelsMap: MutableMap<BlockState, BakedModel?> = mutableMapOf()
 
     init {
-        ModelUtils.registerBakeEventListener { event ->
+        ModelUtils.registerBakeEventListener(false) { event ->
             backedModelsMap[baseCasing] = event.models[BlockModelShaper.stateToModelLocation(baseCasing)]
             type.list.invoke().forEach {
                 backedModelsMap[it] = event.models[BlockModelShaper.stateToModelLocation(it)]

@@ -15,7 +15,7 @@ ad_astra = "1.15.18"
 botarium = "2.3.3"
 resourcefullib = "2.1.23"
 resourcefulconfig = "2.1.2"
-gtm = "7.0.0-SNAPSHOT"
+gtm = "7.0.0"
 ae2 = "15.0.18"
 
 ## cursemaven ##
