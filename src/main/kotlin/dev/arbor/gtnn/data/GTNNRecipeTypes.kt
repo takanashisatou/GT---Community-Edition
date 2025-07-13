@@ -16,21 +16,21 @@ object GTNNRecipeTypes {
         GTRecipeTypes.register("component_assembly_line", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(12, 1, 12, 0)
             .setEUIO(IO.IN)
-            .setMaxTooltips(5)
+            .setMaxTooltips(4)
             .setSound(GTSoundEntries.ASSEMBLER)
 
     val CIRCUIT_ASSEMBLY_LINE_RECIPES: GTRecipeType =
         GTRecipeTypes.register("circuit_assembly_line", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(6, 1, 1, 0)
             .setEUIO(IO.IN)
-            .setMaxTooltips(5)
+            .setMaxTooltips(4)
             .setHasResearchSlot(true)
             .setSound(GTSoundEntries.ASSEMBLER)
             .onRecipeBuild(ResearchManager::createDefaultResearchRecipe)
 
     val CHEMICAL_PLANT_RECIPES: GTRecipeType =
         GTRecipeTypes.register("chemical_plant", GTRecipeTypes.MULTIBLOCK)
-            .setMaxTooltips(5)
+            .setMaxTooltips(4)
             .setMaxIOSize(5, 4, 4, 4).setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.BOX_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT).setMaxTooltips(4)
