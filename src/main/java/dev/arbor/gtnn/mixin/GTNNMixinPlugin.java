@@ -29,6 +29,8 @@ public class GTNNMixinPlugin implements IMixinConfigPlugin {
             return MixinPluginShared.isClassFound("earth.terrarium.ad_astra.forge.AdAstraForge");
         } else if (mixinClassName.contains("dev.arbor.gtnn.client.mixin.ShimmerMixin")) {
             return MixinPluginShared.isClassFound("com.lowdragmc.shimmer.Utils");
+        } else if (mixinClassName.contains("GTRecipeWidgetMixin")) {
+            return !MixinPluginShared.isClassFound("io.github.cpearl0.ctnhcore.CTNHCore");
         }
         return true;
     }

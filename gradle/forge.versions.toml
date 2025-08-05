@@ -3,25 +3,26 @@ kotlinforforge = "4.20.0"
 ldlib = "1.0.40.b"
 shimmer = "1.20.1-0.2.4"
 registrate = "MC1.20-1.3.11"
-flywheel = "0.6.10-7"
-create = "0.5.1.f-26"
+flywheel = "1.0.4"
+create = "6.0.6-150"
+ponder = "1.0.80"
 jei = "15.20.0.105"
 rei = "12.1.785"
 emi = "1.1.18+1.20.1"
 jade = "11.7.1"
 mixinextras = "0.3.5"
 configuration = "2.2.0"
-ad_astra = "1.15.18"
-botarium = "2.3.3"
-resourcefullib = "2.1.23"
-resourcefulconfig = "2.1.2"
-gtm = "7.0.0"
+ad_astra = "1.15.20"
+botarium = "2.3.4"
+resourcefullib = "2.1.29"
+resourcefulconfig = "2.1.3"
+gtm = "7.1.2"
 ae2 = "15.0.18"
 
 ## cursemaven ##
-supplementaries = "5340612"
+supplementaries = "6749363"
 cc-tweaked = "5118388"
-selene = "5361081"
+selene = "6846127"
 botania = "5594997"
 curios = "5367944"
 patchouli = "4966125"
@@ -31,8 +32,10 @@ kotlinforforge      = { module = "thedarkcolour:kotlinforforge", version.ref = "
 ldlib               = { module = "com.lowdragmc.ldlib:ldlib-forge-1.20.1", version.ref = "ldlib" }
 shimmer             = { module = "com.lowdragmc.shimmer:Shimmer-forge", version.ref = "shimmer" }
 registrate          = { module = "com.tterrag.registrate:Registrate", version.ref = "registrate" }
-flywheel            = { module = "com.jozufozu.flywheel:flywheel-forge-1.20.1", version.ref = "flywheel" }
+flywheel-forge-api  = { module = "dev.engine-room.flywheel:flywheel-forge-api-1.20.1", version.ref = "flywheel"}
+flywheel-forge      = { module = "dev.engine-room.flywheel:flywheel-forge-1.20.1", version.ref = "flywheel"}
 create              = { module = "com.simibubi.create:create-1.20.1", version.ref = "create" }
+ponder              = { module = "net.createmod.ponder:Ponder-Forge-1.20.1", version.ref = "ponder"}
 jei-common-api      = { module = "mezz.jei:jei-1.20.1-common-api", version.ref = "jei" }
 jei-forge-api       = { module = "mezz.jei:jei-1.20.1-forge-api", version.ref = "jei" }
 jei-forge-impl      = { module = "mezz.jei:jei-1.20.1-forge", version.ref = "jei" }

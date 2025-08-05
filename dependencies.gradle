@@ -24,7 +24,8 @@ dependencies {
 
     // Create and its dependencies
     modImplementation(variantOf(forge.create) { classifier("all") })// { transitive = false }
-    modImplementation(forge.flywheel)
+    modImplementation(forge.flywheel.forge)
+    modImplementation(forge.ponder)
 
     // Recipe Viewers
     modCompileOnly(forge.bundles.jei)
@@ -32,7 +33,7 @@ dependencies {
     modCompileOnly(forge.emi)
 
     // Jade
-    modImplementation(forge.jade)
+    modCompileOnly(forge.jade)
 
     // Mixin (& Extras)
     annotationProcessor(variantOf(libs.mixin) { classifier("processor") })

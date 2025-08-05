@@ -30,11 +30,18 @@ repositories {
         url = "https://maven.tterrag.com/"
         content {
             // need to be specific here due to version overlaps
-            includeGroup("com.jozufozu.flywheel")
             includeGroup("com.tterrag.registrate")
-            includeGroup("com.simibubi.create")
         }
     }
+    exclusiveContent { // Create, Ponder, Flywheel
+        forRepository { maven { url = "https://maven.createmod.net" } }
+        filter {
+            includeGroup("net.createmod.ponder")
+            includeGroup("com.simibubi.create")
+            includeGroup("dev.engine-room.flywheel")
+        }
+    }
+
     maven { url = "https://maven.theillusivec4.top/" } // Curios
     maven { // TOP
         url "https://maven.k-4u.nl"

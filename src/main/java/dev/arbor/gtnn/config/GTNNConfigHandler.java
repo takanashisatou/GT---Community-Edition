@@ -18,7 +18,6 @@ public final class GTNNConfigHandler {
     public ServerConfigs Server = new ServerConfigs();
 
     public static class ServerConfigs {
-
         @Configurable
         @Configurable.Synchronized
         @Configurable.Comment({ "Enable Harder Platinum Line", "Default: true" })
@@ -62,9 +61,11 @@ public final class GTNNConfigHandler {
     }
 
     public static class ClientConfigs {
-
         @Configurable
         public ItemConfigs items = new ItemConfigs();
+        @Configurable
+        @Configurable.Comment({ "Render Colourful Border of Voltage in GTRecipes", "Default: true" })
+        public boolean enabledVoltageBorder = true;
         @Configurable
         @Configurable.Comment({ "Use Extra Heart Renderer", "Default: false" })
         public boolean extraHeartRenderer = false;

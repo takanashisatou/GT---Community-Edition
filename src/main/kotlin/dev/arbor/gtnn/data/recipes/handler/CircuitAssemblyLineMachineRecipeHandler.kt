@@ -62,7 +62,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
             .scannerResearch { b: ResearchRecipeBuilder.ScannerRecipeBuilder ->
                 b.researchStack(GTMachines.CIRCUIT_ASSEMBLER[LuV].asStack())
                     .duration(1200 * 20)
-                    .EUt(VA[LV])
+                    .EUt(VA[LV].toLong())
             }
             .duration(1200 * 20)
             .EUt(VA[LuV].toLong())
@@ -248,7 +248,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
             .duration(builder.duration * 3)
             .scannerResearch { b ->
                 b.researchStack(GTNNCircuitItems.ETCHED_CIRCUIT_BASE_MAP[outputItem]!!.asStack())
-                    .EUt(VA[IV])
+                    .EUt(VA[IV].toLong())
                     .duration(30 * 20)
             }
 

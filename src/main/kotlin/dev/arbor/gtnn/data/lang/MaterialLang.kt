@@ -1,6 +1,7 @@
 package dev.arbor.gtnn.data.lang
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material
+import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.arbor.gtnn.api.registry.NNLangProvider
 import dev.arbor.gtnn.data.GTNNMaterials.*
 
@@ -209,7 +210,8 @@ object MaterialLang {
 
     private fun translateMaterial(material: Material?, cn: String) {
         if (material == null) return
-        provider.addCN(material.unlocalizedName, cn)
+        val enName = FormattingUtil.toEnglishName(material.name)
+        provider.addMaterial(material, enName, cn)
     }
 
     private fun translateOreVein(key: String, cn: String) {

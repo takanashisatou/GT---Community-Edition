@@ -23,6 +23,9 @@ object MiscLang {
     private fun config() {
         tsl("config.gtnn.option.Client", "客户端", "Client")
         tsl("config.gtnn.option.Server", "服务器", "Server")
+        tsl("config.gtnn.option.items", "物品", "Items")
+        tsl("config.gtnn.option.perfRomanSubscript", "使用罗马数字显示物品等级", "Use Roman Numerals to show Item Tiers")
+        tsl("config.gtnn.option.enabledVoltageBorder", "启用GT配方电压边框", "Enable Voltage Border in GTRecipes")
         tsl(
             "config.gtnn.option.enableHarderNaquadahLine", "开启更难的硅岩处理", "Enable Harder Naquadah Process Line"
         )
