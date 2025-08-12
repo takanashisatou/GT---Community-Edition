@@ -15,19 +15,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = GTRecipeWidget.class, remap = false)
 public abstract class GTRecipeWidgetMixin {
+
     @Shadow
     private int tier;
-    @Shadow @Final
+    @Shadow
+    @Final
     private GTRecipe recipe;
-    @Shadow @Final
+    @Shadow
+    @Final
     private int xOffset;
 
     @Inject(method = "initializeRecipeTextWidget", at = @At("TAIL"))
     private void injectVoltageBorder(CallbackInfo ci) {
         GTRecipeWidget self = (GTRecipeWidget) (Object) this;
         if (recipe.getInputEUt().getTotalEU() > 0 &&
-                self.widgets.stream().noneMatch(w -> w instanceof VoltageBorderWidget)
-        ) {
+                self.widgets.stream().noneMatch(w -> w instanceof VoltageBorderWidget)) {
             int color = gtnn$getColorFromVNF(GTValues.VNF[tier]);
             self.widgets.add(new VoltageBorderWidget(-xOffset, 0, self.getSize().width, self.getSize().height, color));
         }

@@ -1,0 +1,143 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "thedarkcolour",
+    "module": "kffmod",
+    "version": "4.20.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk7"
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect"
+        }
+      ],
+      "dependencyConstraints": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.1.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "2.1.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "2.1.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk7",
+          "version": {
+            "requires": "2.1.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "2.1.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kffmod-4.20.0.jar",
+          "url": "kffmod-4.20.0.jar",
+          "size": 69628,
+          "sha512": "5e2e4602b07d179b6f158ce0e6f01b262c4e5019caa0a0a469ee4f323231b3da4065697e851be9f21bb0901d5b64ea4a809c3d2dee1894ac510bc2b1c109e582",
+          "sha256": "e04e4ce10a24d14ef999fdea293ac6d25dbbba19ce9e802c5e8fdd2261880a31",
+          "sha1": "c7235c0e1891076314388dd306ef3495aaa040a7",
+          "md5": "48ca63b4925fd30a17b9e69d9faa7d2a"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "kffmod-4.20.0.jar",
+          "url": "kffmod-4.20.0.jar",
+          "size": 69628,
+          "sha512": "5e2e4602b07d179b6f158ce0e6f01b262c4e5019caa0a0a469ee4f323231b3da4065697e851be9f21bb0901d5b64ea4a809c3d2dee1894ac510bc2b1c109e582",
+          "sha256": "e04e4ce10a24d14ef999fdea293ac6d25dbbba19ce9e802c5e8fdd2261880a31",
+          "sha1": "c7235c0e1891076314388dd306ef3495aaa040a7",
+          "md5": "48ca63b4925fd30a17b9e69d9faa7d2a"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "kffmod-4.20.0-sources.jar",
+          "url": "kffmod-4.20.0-sources.jar",
+          "size": 68965,
+          "sha512": "917557cc703f92e809237c2703735dcd9a6affd4174ea492c6c13741cce3cec7378786468e3bb2946f43f7e6a7083624406fef7f2169ba58f94a68e53d3e36b4",
+          "sha256": "97ba3d1972c73504a0f90a51c5031a84ecc2f06229083ffe56ee287842f76fca",
+          "sha1": "748a45c034879d4fcc3db7b33ddf0405f2d65921",
+          "md5": "c532abe22cc7cbea573118d39f2383c0"
+        }
+      ]
+    }
+  ]
+}
