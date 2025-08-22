@@ -20,6 +20,7 @@
     "gtnn:component_assline_casing_uxv",
     "gtnn:component_assline_casing_opv",
     "gtnn:component_assline_casing_max",
-    "gtnn:osmium_borosilicate_glass"
+    "gtnn:osmium_borosilicate_glass",
+    "gtnn:high_speed_pipe"
   ]
 }

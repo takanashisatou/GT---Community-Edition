@@ -106,11 +106,11 @@ class TierPredicateFactory (val name: String) {
         predicate: Predicate<ITierType>
     ): Supplier<Array<BlockInfo>> {
         return Supplier {
-            CACHE.computeIfAbsent(name) { key: String ->
+            CACHE.computeIfAbsent(name) { _: String ->
                 map.keys
-                    .filter { it -> predicate.test(it)}
+                    .filter { predicate.test(it)}
                     .sortedWith { o1, o2 -> comparator.compare(o1, o2) }
-                    .map { type -> BlockInfo.fromBlock(map.get(type)!!.get()) }
+                    .map { type -> BlockInfo.fromBlock(map[type]!!.get()) }
                 .toTypedArray()
             }
         }

@@ -31,10 +31,10 @@ object NNBlockMaps {
 
     fun initBlocks() {
         GTCEuAPI.HEATING_COILS.forEach { (tier: ICoilType, block: Supplier<CoilBlock>) ->
-            ALL_COIL_BLOCKS.put(object : ITierType {
+            ALL_COIL_BLOCKS[object : ITierType {
                 override val typeName: String = tier.name.lowercase(Locale.getDefault())
                 override val tier: Int = tier.tier
-            }, block::get)
+            }] = Supplier { block.get() }
         }
 
         //  ALL_CP_TUBES Init

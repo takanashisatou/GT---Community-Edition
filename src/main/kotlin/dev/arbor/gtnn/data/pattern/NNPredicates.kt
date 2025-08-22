@@ -1,8 +1,12 @@
 package dev.arbor.gtnn.data.pattern
 
-import dev.arbor.gtnn.data.block.NNBlockMaps
+import dev.arbor.gtnn.api.pattern.IValueContainer
 import dev.arbor.gtnn.api.pattern.TierPredicateFactory
+import dev.arbor.gtnn.data.block.GTNNBlocks
+import dev.arbor.gtnn.data.block.NNBlockMaps
 import net.minecraft.network.chat.Component
+import net.minecraft.world.level.block.Block
+import java.util.function.Supplier
 
 object NNPredicates {
     val coilBlock = TierPredicateFactory("CoilType").apply {
@@ -32,5 +36,17 @@ object NNPredicates {
     val componentAssemblyBlock = TierPredicateFactory("ComponentAssembly").apply{
         map = NNBlockMaps.ALL_CA_TIRED_CASINGS
         strict = true
+    }.build()
+
+    val neutronActivator = TierPredicateFactory("SpeedPipe").apply{
+        container = Supplier {object : IValueContainer<Int> {
+            var count = 0
+            override fun operate(block: Block, data: Any) {
+                if (block == GTNNBlocks.HIGH_SPEED_PIPE_BLOCK.get()) {
+                    count++
+                }
+            }
+            override val value get() = count
+        } }
     }.build()
 }

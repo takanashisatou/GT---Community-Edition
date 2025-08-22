@@ -2,7 +2,6 @@ package dev.arbor.gtnn.common.machine.multiblock
 
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.GTValues.VNF
-import com.gregtechceu.gtceu.api.block.ICoilType
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
@@ -49,7 +48,7 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
         val tubeTier: Any = context.get("Pipe")
         val voltageTier: Any = context.get("MachineCasing")
         this.coilLevel = NNUtils.getOrDefault(
-            { coilType is ICoilType }, { (coilType as ICoilType).tier }, 0
+            { coilType is ITierType }, { (coilType as ITierType).tier }, 0
         )
         this.tubeTier = NNUtils.getOrDefault(
             { tubeTier is ITierType }, { (tubeTier as ITierType).tier }, 0

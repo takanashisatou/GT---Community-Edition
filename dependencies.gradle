@@ -8,8 +8,8 @@ dependencies {
     jarJar(forge.kotlinforforge)
 
     // Runtime Recipe Viewers - uncomment whichever one you want to use //
-    modRuntimeOnly(forge.emi)
-    // modRuntimeOnly(forge.bundles.jei.impl)
+    // modRuntimeOnly(forge.emi)
+    modRuntimeOnly(forge.bundles.jei)
     // modRuntimeOnly(forge.bundles.rei.runtime)
 
     // GTM

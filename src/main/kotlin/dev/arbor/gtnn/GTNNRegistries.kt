@@ -8,8 +8,8 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import dev.arbor.gtnn.api.registry.GTRecipeEvent
 import dev.arbor.gtnn.api.registry.GTRecipeManager
 import dev.arbor.gtnn.api.registry.NNRegistrate
-import dev.arbor.gtnn.client.renderer.ExtraHeartRenderHandler
 import dev.arbor.gtnn.client.GTNNCommands.register
+import dev.arbor.gtnn.client.renderer.ExtraHeartRenderHandler
 import dev.arbor.gtnn.client.renderer.StructureSelectRenderer
 import dev.arbor.gtnn.client.renderer.item.ItemCustomLayerModel
 import dev.arbor.gtnn.data.GTNNMachines
@@ -32,9 +32,7 @@ import java.io.File
 object GTNNRegistries {
     private lateinit var MATERIAL_REGISTRY: MaterialRegistry
 
-    val REGISTRATE: NNRegistrate by lazy {
-        NNRegistrate(GTNN.MOD_ID)
-    }
+    val REGISTRATE: NNRegistrate = NNRegistrate(GTNN.MOD_ID)
 
     @JvmStatic
     fun registerRecipeHandler(event: GTRecipeEvent.RegisterHandler) {

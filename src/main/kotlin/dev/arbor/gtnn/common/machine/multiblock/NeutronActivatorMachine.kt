@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.gui.GuiTextures
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
@@ -25,7 +24,7 @@ import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import dev.arbor.gtnn.common.machine.multiblock.part.HighSpeedPipeBlock
+import dev.arbor.gtnn.api.pattern.IValueContainer.Companion.noop
 import dev.arbor.gtnn.common.machine.multiblock.part.NeutronAcceleratorMachine
 import dev.arbor.gtnn.common.machine.multiblock.part.NeutronSensorMachine
 import dev.arbor.gtnn.common.recipe.NeutronActivatorCondition
@@ -68,15 +67,12 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
     //***    Multiblock LifeCycle    ***//
     //////////////////////////////////////
     override fun onStructureFormed() {
-        // Declare 'height' as a local variable if not used elsewhere
-        height = 0
         super.onStructureFormed()
-
-        // Cache the Map access to avoid repeated calls
         val matchContext = getMultiblockState().matchContext
         val ioMap = matchContext.getOrCreate<Long2ObjectMap<Any>>("ioMap", Long2ObjectMaps::emptyMap)
+        val container = matchContext.getOrCreate("SpeedPipeValue") { noop() }
+        height = container.value as Int? ?: 0
 
-        // Cache the result of getParts() to prevent repetitive calls
         val parts = getParts()
         for (part in parts) {
             val io = ioMap.getOrDefault(part.self().pos.asLong(), IO.BOTH)
@@ -100,7 +96,6 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
                 acceleratorMachines = NNUtils.getOrDefault(acceleratorMachines, ::hashSetOf)
                 acceleratorMachines!!.add(part)
             }
-            if (part is HighSpeedPipeBlock) height++
         }
 
         neutronEnergySubs.initialize(level)
@@ -256,12 +251,6 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
 
     override fun isRemote(): Boolean {
         return super<IFancyUIMachine>.isRemote()
-    }
-
-    override fun getSubTabs(): List<IFancyUIProvider> {
-        return getParts().filter { e -> e !is HighSpeedPipeBlock }
-            .filter(IFancyUIProvider::class.java::isInstance)
-            .map(IFancyUIProvider::class.java::cast)
     }
 
     override fun attachTooltips(tooltipsPanel: TooltipsPanel) {
