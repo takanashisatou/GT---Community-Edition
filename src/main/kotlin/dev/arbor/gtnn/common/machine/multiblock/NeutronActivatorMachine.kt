@@ -24,11 +24,11 @@ import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import dev.arbor.gtnn.api.pattern.IValueContainer.Companion.noop
 import dev.arbor.gtnn.common.machine.multiblock.part.NeutronAcceleratorMachine
 import dev.arbor.gtnn.common.machine.multiblock.part.NeutronSensorMachine
 import dev.arbor.gtnn.common.recipe.NeutronActivatorCondition
 import dev.arbor.gtnn.data.item.GTNNItems
+import dev.arbor.gtnn.data.pattern.NNPredicates
 import dev.arbor.gtnn.extension.NNUtils
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps
@@ -70,8 +70,7 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
         super.onStructureFormed()
         val matchContext = getMultiblockState().matchContext
         val ioMap = matchContext.getOrCreate<Long2ObjectMap<Any>>("ioMap", Long2ObjectMaps::emptyMap)
-        val container = matchContext.getOrCreate("SpeedPipeValue") { noop() }
-        height = container.value as Int? ?: 0
+        height = NNPredicates.neutronActivator.getInt(matchContext)
 
         val parts = getParts()
         for (part in parts) {

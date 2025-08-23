@@ -1,7 +1,6 @@
 package dev.arbor.gtnn.api.pattern
 
 import com.gregtechceu.gtceu.api.pattern.MultiblockState
-import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError
 import com.lowdragmc.lowdraglib.utils.BlockInfo
 import dev.arbor.gtnn.api.block.ITierType
@@ -20,8 +19,8 @@ class TierPredicateFactory (val name: String) {
     var predicate: Predicate<ITierType>? = null
     var container: Supplier<IValueContainer<*>>? = null
 
-    fun build(): TraceabilityPredicate = if (strict) {
-        TraceabilityPredicate(
+    fun build(): TraceabilityPredicateEx = if (strict) {
+        TraceabilityPredicateEx(
             NNPredicate(
                 getStrictPredicate(
                     name,
@@ -33,10 +32,10 @@ class TierPredicateFactory (val name: String) {
                     candidatesMap ?: map ?: Object2ObjectOpenHashMap(),
                     comparator ?: Comparator.comparingInt(ITierType::tier),
                     predicate ?: Predicate { true })
-            ).setPreviewCandidates(true)
+            ).setPreviewCandidates(true), name
         )
     } else {
-        TraceabilityPredicate(
+        TraceabilityPredicateEx(
             NNPredicate(
                 getPredicate(
                     name,
@@ -46,7 +45,7 @@ class TierPredicateFactory (val name: String) {
                     map ?: Object2ObjectOpenHashMap(),
                     comparator ?: Comparator.comparingInt(ITierType::tier),
                     predicate ?: Predicate { true })
-            ).setPreviewCandidates(true)
+            ).setPreviewCandidates(true), name
         )
     }
 
