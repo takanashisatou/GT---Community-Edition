@@ -8,6 +8,7 @@ import com.tterrag.registrate.util.nullness.NonNullFunction
 import dev.arbor.gtnn.GTNNRegistries.REGISTRATE
 import dev.arbor.gtnn.common.block.BorosilicateGlassBlock
 import dev.arbor.gtnn.data.GTNNCreativeModeTabs
+import dev.arbor.gtnn.extension.StringExtension.nn
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.tags.BlockTags
 import net.minecraft.world.item.BlockItem
@@ -23,6 +24,18 @@ object GTNNBlocks {
 
     val OSMIUM_BOROSILICATE_GLASS: BlockEntry<BorosilicateGlassBlock> =
         createBorosilicateGlass(BorosilicateGlassBlock.Type.OSMIUM_BOROSILICATE)
+
+    val HIGH_SPEED_PIPE_BLOCK: BlockEntry<Block> = createBlock("high_speed_pipe", ::Block)
+        .initialProperties { Blocks.IRON_BLOCK }
+        .addLayer { Supplier { RenderType.cutoutMipped() } }
+        .blockstate { ctx, prov ->
+            prov.simpleBlock(ctx.getEntry(),
+                prov.models().cubeAll("high_speed_pipe", "block/speedingpipe".nn()))
+        }
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .item(::BlockItem)
+        .build()
+        .register()
 
     private fun <T : Block?> createBlock(
         name: String, factory: NonNullFunction<BlockBehaviour.Properties, T>

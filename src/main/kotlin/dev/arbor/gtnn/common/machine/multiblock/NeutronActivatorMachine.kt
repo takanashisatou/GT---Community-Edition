@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.gui.GuiTextures
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
@@ -25,11 +24,11 @@ import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import dev.arbor.gtnn.common.machine.multiblock.part.HighSpeedPipeBlock
 import dev.arbor.gtnn.common.machine.multiblock.part.NeutronAcceleratorMachine
 import dev.arbor.gtnn.common.machine.multiblock.part.NeutronSensorMachine
 import dev.arbor.gtnn.common.recipe.NeutronActivatorCondition
 import dev.arbor.gtnn.data.item.GTNNItems
+import dev.arbor.gtnn.data.pattern.NNPredicates
 import dev.arbor.gtnn.extension.NNUtils
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps
@@ -68,15 +67,11 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
     //***    Multiblock LifeCycle    ***//
     //////////////////////////////////////
     override fun onStructureFormed() {
-        // Declare 'height' as a local variable if not used elsewhere
-        height = 0
         super.onStructureFormed()
-
-        // Cache the Map access to avoid repeated calls
-        val matchContext = multiblockState.matchContext
+        val matchContext = getMultiblockState().matchContext
         val ioMap = matchContext.getOrCreate<Long2ObjectMap<Any>>("ioMap", Long2ObjectMaps::emptyMap)
+        height = NNPredicates.neutronActivator.getInt(matchContext)
 
-        // Cache the result of getParts() to prevent repetitive calls
         val parts = getParts()
         for (part in parts) {
             val io = ioMap.getOrDefault(part.self().pos.asLong(), IO.BOTH)
@@ -100,7 +95,6 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
                 acceleratorMachines = NNUtils.getOrDefault(acceleratorMachines, ::hashSetOf)
                 acceleratorMachines!!.add(part)
             }
-            if (part is HighSpeedPipeBlock) height++
         }
 
         neutronEnergySubs.initialize(level)
@@ -258,14 +252,8 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
         return super<IFancyUIMachine>.isRemote()
     }
 
-    override fun getSubTabs(): List<IFancyUIProvider> {
-        return parts.filter { e -> e !is HighSpeedPipeBlock }
-            .filter(IFancyUIProvider::class.java::isInstance)
-            .map(IFancyUIProvider::class.java::cast)
-    }
-
     override fun attachTooltips(tooltipsPanel: TooltipsPanel) {
-        for (part in parts) {
+        for (part in getParts()) {
             part.attachFancyTooltipsToController(this, tooltipsPanel)
         }
     }

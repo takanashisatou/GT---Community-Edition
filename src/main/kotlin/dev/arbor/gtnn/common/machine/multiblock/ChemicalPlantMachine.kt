@@ -2,7 +2,6 @@ package dev.arbor.gtnn.common.machine.multiblock
 
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.GTValues.VNF
-import com.gregtechceu.gtceu.api.block.ICoilType
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
@@ -13,12 +12,10 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import dev.arbor.gtnn.api.block.IChemicalPlantCasing
-import dev.arbor.gtnn.api.block.ITierType
 import dev.arbor.gtnn.api.machine.feature.IGTPPMachine
 import dev.arbor.gtnn.api.machine.feature.IGTPPRenderMachine
 import dev.arbor.gtnn.data.block.NNBlockMaps
-import dev.arbor.gtnn.extension.NNUtils
+import dev.arbor.gtnn.data.pattern.NNPredicates
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
@@ -44,24 +41,10 @@ class ChemicalPlantMachine(holder: IMachineBlockEntity) : WorkableElectricMultib
     override fun onStructureFormed() {
         super.onStructureFormed()
         val context = multiblockState.matchContext
-        val coilType: Any = context.get("CoilType")
-        val casingTier: Any = context.get("PlantCasing")
-        val tubeTier: Any = context.get("Pipe")
-        val voltageTier: Any = context.get("MachineCasing")
-        this.coilLevel = NNUtils.getOrDefault(
-            { coilType is ICoilType }, { (coilType as ICoilType).tier }, 0
-        )
-        this.tubeTier = NNUtils.getOrDefault(
-            { tubeTier is ITierType }, { (tubeTier as ITierType).tier }, 0
-        )
-        this.voltageTier = NNUtils.getOrDefault(
-            { voltageTier is ITierType }, { (voltageTier as ITierType).tier }, 0
-        )
-        this.casingTier = NNUtils.getOrDefault(
-            { casingTier is IChemicalPlantCasing },
-            { (casingTier as IChemicalPlantCasing).tier },
-            0
-        )
+        this.coilLevel = NNPredicates.coilBlock.getTier(context)
+        this.tubeTier = NNPredicates.pipeBlock.getTier(context)
+        this.voltageTier = NNPredicates.machineCasing.getTier(context)
+        this.casingTier = NNPredicates.plantCasings.getTier(context)
     }
 
     override fun onStructureInvalid() {

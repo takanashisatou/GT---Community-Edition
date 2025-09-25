@@ -20,4 +20,13 @@ object NNUtils {
     fun <T> getOrDefault(canGet: Array<T>, index: Int, defaultValue: T): T {
         return if (index < canGet.size) canGet[index] else defaultValue
     }
+
+    /**
+     * 判断第几位是否为1
+     *
+     * @param num   整数
+     * @param index 低位起第几位下标
+     * @return 是否为1
+     */
+    fun getStatusType(num: Int, index: Int): Boolean = (num shr (index - 1) and 1) == 1
 }

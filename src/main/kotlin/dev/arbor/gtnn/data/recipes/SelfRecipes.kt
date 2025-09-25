@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
 import dev.arbor.gtnn.data.*
 import dev.arbor.gtnn.data.block.GTNNBlocks
+import dev.arbor.gtnn.data.block.GTNNBlocks.HIGH_SPEED_PIPE_BLOCK
 import dev.arbor.gtnn.data.block.GTNNCasingBlocks
 import dev.arbor.gtnn.data.item.GTNNItems
 import dev.arbor.gtnn.data.recipes.DefaultRecipes.addBOOMRecipes
@@ -342,7 +343,7 @@ object SelfRecipes {
             .inputItems(TagPrefix.wireGtSingle, GTMaterials.MercuryBariumCalciumCuprate, 32)
             .inputItems(TagPrefix.plate, GTMaterials.Beryllium, 32)
             .inputItems(CustomTags.IV_CIRCUITS)
-            .outputItems(GTNNMachines.HIGH_SPEED_PIPE_BLOCK.asStack())
+            .outputItems(HIGH_SPEED_PIPE_BLOCK.asStack())
             .EUt(GTValues.VA[GTValues.EV].toLong())
             .duration(GTNNRecipes.dur(15.0))
             .save(provider)

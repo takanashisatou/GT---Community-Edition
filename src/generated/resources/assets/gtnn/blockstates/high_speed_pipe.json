@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtnn:block/high_speed_pipe"
+    }
+  }
+}
