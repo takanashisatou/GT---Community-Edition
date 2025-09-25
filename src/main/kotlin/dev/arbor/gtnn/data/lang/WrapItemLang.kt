@@ -76,11 +76,11 @@ object WrapItemLang {
 
         GTNNWrapItem.WRAP_ITEM_MAP
             .object2ObjectEntrySet()
-            .fastForEach({ entry ->
+            .fastForEach { entry ->
                 generateWrapItemLang(
                     provider, entry.value.asItem(), entry.key.asItem()
                 )
-            })
+            }
         GTNNWrapItem.WRAP_CIRCUIT_MAP
             .object2ObjectEntrySet()
             .fastForEach(
@@ -102,7 +102,7 @@ object WrapItemLang {
     private fun generateWrapCircuitLang(
         provider: NNLangProvider, item: Item, wrappedKey: TagKey<Item>
     ) {
-        val key: String? =
+        val key: String =
             wrappedKey.location().path.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
         for (i in GTValues.VN.indices) {
             val tier = GTValues.VN[i]

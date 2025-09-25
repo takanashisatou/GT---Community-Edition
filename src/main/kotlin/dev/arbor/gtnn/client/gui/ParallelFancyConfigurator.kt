@@ -29,20 +29,20 @@ class ParallelFancyConfigurator(private var machine: IParallelMachine) : IFancyC
                 override fun writeInitialData(buffer: FriendlyByteBuf) {
                     super.writeInitialData(buffer)
                     buffer.writeVarInt(machine.maxParallel)
-                    setMax(machine.maxParallel)
+                    max = machine.maxParallel
                 }
 
                 @OnlyIn(Dist.CLIENT)
                 override fun readInitialData(buffer: FriendlyByteBuf) {
                     super.readInitialData(buffer)
-                    setMax(buffer.readVarInt())
+                    max = buffer.readVarInt()
                 }
 
                 override fun detectAndSendChanges() {
                     super.detectAndSendChanges()
                     val newMaxParallel: Int = machine.maxParallel
                     if (newMaxParallel != max) {
-                        setMax(newMaxParallel)
+                        max = newMaxParallel
                         writeUpdateInfo(0) { buf: FriendlyByteBuf? -> buf!!.writeVarInt(newMaxParallel) }
                     }
                 }
@@ -51,7 +51,7 @@ class ParallelFancyConfigurator(private var machine: IParallelMachine) : IFancyC
                 override fun readUpdateInfo(id: Int, buffer: FriendlyByteBuf) {
                     super.readUpdateInfo(id, buffer)
                     if (id == 0) {
-                        setMax(buffer.readVarInt())
+                        max = buffer.readVarInt()
                     }
                 }
             }.setMin(1)

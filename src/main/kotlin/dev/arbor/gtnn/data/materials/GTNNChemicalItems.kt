@@ -46,7 +46,7 @@ object GTNNChemicalItems {
                         catalyst,
                         material,
                         REGISTRATE
-                            .item<ComponentItem>(catalyst.idPattern().format(material.name), ComponentItem::create)
+                            .item(catalyst.idPattern().format(material.name), ComponentItem::create)
                             .setData(ProviderType.LANG, NonNullBiConsumer.noop())
                             .transform(GTItems.unificationItem(catalyst, material))
                             .properties { p: Item.Properties -> p.stacksTo(catalyst.maxStackSize()) }

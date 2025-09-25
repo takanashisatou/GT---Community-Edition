@@ -141,9 +141,7 @@ class SuperscriptItemRenderer : WrappedItemRenderer() {
     private fun getTexture(stack: ItemStack): ResourceLocation? {
         if (stack.item is INNItemRendererProvider) {
             val provider = stack.item as INNItemRendererProvider
-            val info = provider.getRenderInfo(stack)
-
-            return when (info) {
+            return when (val info = provider.getRenderInfo(stack)) {
                 is INumberSuperscriptEffect -> {
                     if (info.isRoma) romaNumberTextures[info.tier]
                     else numberTextures[info.tier]

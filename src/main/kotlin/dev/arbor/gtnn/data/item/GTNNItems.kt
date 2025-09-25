@@ -15,7 +15,6 @@ import com.tterrag.registrate.util.nullness.NonNullFunction
 import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.GTNNRegistries
 import dev.arbor.gtnn.common.item.behaviors.StructureWriteBehavior
-import dev.arbor.gtnn.data.GTNNCovers
 import dev.arbor.gtnn.data.GTNNCreativeModeTabs
 import dev.arbor.gtnn.data.materials.GTNNChemicalItems
 import net.minecraft.network.chat.Component

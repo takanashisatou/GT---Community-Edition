@@ -73,7 +73,7 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
         super.onStructureFormed()
 
         // Cache the Map access to avoid repeated calls
-        val matchContext = getMultiblockState().matchContext
+        val matchContext = multiblockState.matchContext
         val ioMap = matchContext.getOrCreate<Long2ObjectMap<Any>>("ioMap", Long2ObjectMaps::emptyMap)
 
         // Cache the result of getParts() to prevent repetitive calls
@@ -259,13 +259,13 @@ class NeutronActivatorMachine(holder: IMachineBlockEntity, vararg args: Any) : W
     }
 
     override fun getSubTabs(): List<IFancyUIProvider> {
-        return getParts().filter { e -> e !is HighSpeedPipeBlock }
+        return parts.filter { e -> e !is HighSpeedPipeBlock }
             .filter(IFancyUIProvider::class.java::isInstance)
             .map(IFancyUIProvider::class.java::cast)
     }
 
     override fun attachTooltips(tooltipsPanel: TooltipsPanel) {
-        for (part in getParts()) {
+        for (part in parts) {
             part.attachFancyTooltipsToController(this, tooltipsPanel)
         }
     }

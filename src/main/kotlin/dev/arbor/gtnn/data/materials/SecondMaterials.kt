@@ -189,6 +189,6 @@ object SecondMaterials {
                 GTMaterials.Titanium, 2, GTMaterials.Cobalt, 10, GTMaterials.Tungsten, 13, GTMaterials.Nickel, 18)
             .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROTOR,
                 MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_FRAME)
-            .buildAndRegister();
+            .buildAndRegister()
     }
 }

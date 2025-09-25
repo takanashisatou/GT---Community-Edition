@@ -56,7 +56,7 @@ class TierPredicateFactory (val name: String) {
         containerSupplier: Supplier<IValueContainer<*>>
     ): Predicate<MultiblockState> {
         return Predicate { blockWorldState: MultiblockState ->
-            val blockState = blockWorldState.getBlockState()
+            val blockState = blockWorldState.blockState
             val objectIterator = map.object2ObjectEntrySet().fastIterator()
             while (objectIterator.hasNext()) {
                 val entry = objectIterator.next()
@@ -78,7 +78,7 @@ class TierPredicateFactory (val name: String) {
         errorKey: Component
     ): Predicate<MultiblockState> {
         return Predicate { blockWorldState: MultiblockState ->
-            val blockState = blockWorldState.getBlockState()
+            val blockState = blockWorldState.blockState
             val objectIterator = map.object2ObjectEntrySet().fastIterator()
             while (objectIterator.hasNext()) {
                 val entry = objectIterator.next()
@@ -108,7 +108,7 @@ class TierPredicateFactory (val name: String) {
         return Supplier {
             CACHE.computeIfAbsent(name) { key: String ->
                 map.keys
-                    .filter { it -> predicate.test(it)}
+                    .filter { predicate.test(it)}
                     .sortedWith { o1, o2 -> comparator.compare(o1, o2) }
                     .map { type -> BlockInfo.fromBlock(map.get(type)!!.get()) }
                 .toTypedArray()

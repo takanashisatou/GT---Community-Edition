@@ -80,16 +80,16 @@ object ColorUtils {
         if (b < cmin) cmin = b
 
         brightness = (cmax.toFloat()) / 255.0f
-        if (cmax != 0) saturation = ((cmax - cmin).toFloat()) / (cmax.toFloat())
-        else saturation = 0f
+        saturation = if (cmax != 0) ((cmax - cmin).toFloat()) / (cmax.toFloat())
+        else 0f
         if (saturation == 0f) hue = 0f
         else {
             val redc = ((cmax - r).toFloat()) / ((cmax - cmin).toFloat())
             val greenc = ((cmax - g).toFloat()) / ((cmax - cmin).toFloat())
             val bluec = ((cmax - b).toFloat()) / ((cmax - cmin).toFloat())
-            if (r == cmax) hue = bluec - greenc
-            else if (g == cmax) hue = 2.0f + redc - bluec
-            else hue = 4.0f + greenc - redc
+            hue = if (r == cmax) bluec - greenc
+            else if (g == cmax) 2.0f + redc - bluec
+            else 4.0f + greenc - redc
             hue /= 6.0f
             if (hue < 0) hue += 1.0f
         }

@@ -18,7 +18,7 @@ interface IParallelMachine : IMachineFeature {
     ) : MultiblockTrait(machine), IParallelMachine {
         @Persisted
         override var parallelNumber: Int = 0
-            get() = maxOf(1, this.parallelNumber)
+            get() = maxOf(1, field)
             set(value) {
                 val multiblock = multiblock ?: return
                 if (!multiblock.isFormed) return

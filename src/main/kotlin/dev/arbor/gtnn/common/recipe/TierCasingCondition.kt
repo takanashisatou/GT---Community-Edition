@@ -1,6 +1,5 @@
 package dev.arbor.gtnn.common.recipe
 
-import com.google.gson.JsonObject
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
@@ -10,9 +9,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.arbor.gtnn.api.machine.feature.ICasingMachine
 import dev.arbor.gtnn.data.GTNNRecipeConditions
-import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
-import net.minecraft.util.GsonHelper
 import net.minecraft.util.Mth
 
 class TierCasingCondition(tier: Int) : RecipeCondition() {
@@ -27,7 +24,7 @@ class TierCasingCondition(tier: Int) : RecipeCondition() {
         super.isReverse = isReverse
     }
 
-    override fun getType(): RecipeConditionType<*>? {
+    override fun getType(): RecipeConditionType<*> {
         return GTNNRecipeConditions.TIER_CASING
     }
 
@@ -45,29 +42,6 @@ class TierCasingCondition(tier: Int) : RecipeCondition() {
 
     override fun createTemplate(): RecipeCondition {
         return TierCasingCondition()
-    }
-
-    override fun serialize(): JsonObject {
-        val value = super.serialize()
-        value.addProperty("tierCasing", tier)
-        return value
-    }
-
-    override fun deserialize(config: JsonObject): RecipeCondition {
-        super.deserialize(config)
-        this.tier = GsonHelper.getAsInt(config, "tierCasing", 0)
-        return this
-    }
-
-    override fun toNetwork(buf: FriendlyByteBuf) {
-        super.toNetwork(buf)
-        buf.writeInt(tier)
-    }
-
-    override fun fromNetwork(buf: FriendlyByteBuf): RecipeCondition {
-        super.fromNetwork(buf)
-        this.tier = buf.readInt()
-        return this
     }
 
     companion object {

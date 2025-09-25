@@ -10,10 +10,10 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import dev.arbor.gtnn.api.block.ITierType
 import dev.arbor.gtnn.api.machine.feature.ICasingMachine
 import dev.arbor.gtnn.api.pattern.NNFactoryPattern
-import dev.arbor.gtnn.data.pattern.NNPredicates
+import dev.arbor.gtnn.data.GTNNMaterials
 import dev.arbor.gtnn.data.block.GTNNBlocks
 import dev.arbor.gtnn.data.block.GTNNCasingBlocks
-import dev.arbor.gtnn.data.GTNNMaterials
+import dev.arbor.gtnn.data.pattern.NNPredicates
 
 open class TierCasingElectricMultiblockMachine(holder: IMachineBlockEntity, typeName: String) :
     MultiStatsElectricMultiblockMachine(holder), ICasingMachine {
@@ -32,7 +32,7 @@ open class TierCasingElectricMultiblockMachine(holder: IMachineBlockEntity, type
     companion object {
         val MANAGED_FIELD_HOLDER: ManagedFieldHolder = ManagedFieldHolder(
             TierCasingElectricMultiblockMachine::class.java,
-            MultiStatsElectricMultiblockMachine.Companion.MANAGED_FIELD_HOLDER
+            MultiStatsElectricMultiblockMachine.MANAGED_FIELD_HOLDER
         )
     }
 }

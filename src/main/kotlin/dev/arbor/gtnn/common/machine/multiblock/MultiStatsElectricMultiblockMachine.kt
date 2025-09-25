@@ -14,7 +14,7 @@ open class MultiStatsElectricMultiblockMachine(holder: IMachineBlockEntity, vara
 
     override fun onStructureFormed() {
         super.onStructureFormed()
-        multiblockStats.forEach { it.onStructureFormed(getMultiblockState()) }
+        multiblockStats.forEach { it.onStructureFormed(multiblockState) }
     }
 
     override fun onStructureInvalid() {

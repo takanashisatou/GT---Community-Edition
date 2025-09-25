@@ -1,6 +1,5 @@
 package dev.arbor.gtnn.common.recipe
 
-import com.google.gson.JsonObject
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition
@@ -9,9 +8,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import dev.arbor.gtnn.common.machine.multiblock.ChemicalPlantMachine
 import dev.arbor.gtnn.data.GTNNRecipeConditions.PLANT_CASING
-import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
-import net.minecraft.util.GsonHelper
 import net.minecraft.util.Mth
 
 class PlantCasingCondition : RecipeCondition {
@@ -48,29 +45,6 @@ class PlantCasingCondition : RecipeCondition {
 
     override fun createTemplate(): RecipeCondition {
         return PlantCasingCondition()
-    }
-
-    override fun serialize(): JsonObject {
-        val value = super.serialize()
-        value.addProperty("plantCasing", tier)
-        return value
-    }
-
-    override fun deserialize(config: JsonObject): RecipeCondition {
-        super.deserialize(config)
-        this.tier = GsonHelper.getAsInt(config, "plantCasing", 0)
-        return this
-    }
-
-    override fun toNetwork(buf: FriendlyByteBuf) {
-        super.toNetwork(buf)
-        buf.writeInt(tier)
-    }
-
-    override fun fromNetwork(buf: FriendlyByteBuf): RecipeCondition {
-        super.fromNetwork(buf)
-        this.tier = buf.readInt()
-        return this
     }
 
     companion object {

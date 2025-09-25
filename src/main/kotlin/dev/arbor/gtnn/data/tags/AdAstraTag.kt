@@ -1,7 +1,6 @@
 package dev.arbor.gtnn.data.tags
 
 import com.tterrag.registrate.providers.RegistrateTagsProvider
-import dev.arbor.gtnn.data.tags.GTNNTags
 import earth.terrarium.adastra.common.registry.ModBlocks
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.block.Block

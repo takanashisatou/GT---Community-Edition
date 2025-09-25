@@ -15,6 +15,7 @@ import net.minecraft.world.phys.BlockHitResult
 import java.util.concurrent.ThreadLocalRandom
 import javax.annotation.ParametersAreNonnullByDefault
 import kotlin.math.abs
+import kotlin.math.roundToLong
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -36,8 +37,8 @@ class NeutronAcceleratorMachine(
             GTValues.V[tier],
             amperage.toLong()
         )
-        container.setSideInputCondition { it == this.getFrontFacing() && this.isWorkingEnabled }
-        container.setCapabilityValidator { it == null || it == this.getFrontFacing() }
+        container.setSideInputCondition { it == this.frontFacing && this.isWorkingEnabled }
+        container.setCapabilityValidator { it == null || it == this.frontFacing }
         return container
     }
 
@@ -91,7 +92,7 @@ class NeutronAcceleratorMachine(
     //////////////////////////////////////
 
     private fun getMaxEUConsume(): Long {
-        return Math.round(GTValues.V[tier] * 0.8)
+        return (GTValues.V[tier] * 0.8).roundToLong()
     }
 
     override fun getFieldHolder(): ManagedFieldHolder {

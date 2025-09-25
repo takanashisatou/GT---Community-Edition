@@ -261,9 +261,7 @@ object CircuitAssemblyLineMachineRecipeHandler {
         count: Int
     ) {
         val material = entry.material
-        val prefix = entry.tagPrefix
-
-        when (prefix) {
+        when (val prefix = entry.tagPrefix) {
             wireFine -> newBuilder.inputItems(wireGtQuadruple, material, count)
             wireGtSingle -> newBuilder.inputItems(wireGtHex, material, count)
             else -> newBuilder.inputItems(prefix, material, minOf(64, count * 16))

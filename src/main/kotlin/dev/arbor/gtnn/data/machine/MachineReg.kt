@@ -77,7 +77,7 @@ object MachineReg {
                     .addOutputLimit(ItemRecipeCapability.CAP, 0).addOutputLimit(FluidRecipeCapability.CAP, 0)
                     .simpleGeneratorModel(GTNN.id("block/generators/$name")).tooltips(
                         Component.translatable(
-                            "gtnn.machine.$name.tooltip", GTNNGeneratorMachine.Companion.getEfficiency(tier, name)
+                            "gtnn.machine.$name.tooltip", GTNNGeneratorMachine.getEfficiency(tier, name)
                         )
                     ).tooltips(GTMachineUtils.explosion()).tooltips(
                         *GTMachineUtils.workableTiered(

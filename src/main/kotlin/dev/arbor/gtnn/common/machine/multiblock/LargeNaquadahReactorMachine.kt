@@ -29,19 +29,19 @@ import javax.annotation.ParametersAreNonnullByDefault
 class LargeNaquadahReactorMachine(holder: IMachineBlockEntity) : WorkableElectricMultiblockMachine(holder),
     IExplosionMachine {
     private val activeFluid: Map<Fluid, Int> = mapOf(
-        GTMaterials.Caesium.getFluid() to 2,
-        GTMaterials.Uranium235.getFluid() to 3,
-        GTMaterials.Naquadah.getFluid() to 4
+        GTMaterials.Caesium.fluid to 2,
+        GTMaterials.Uranium235.fluid to 3,
+        GTMaterials.Naquadah.fluid to 4
     )
     private val activeFluidCost: Map<Fluid, Int> = mapOf(
-        GTMaterials.Caesium.getFluid() to 180,
-        GTMaterials.Uranium235.getFluid() to 180,
-        GTMaterials.Naquadah.getFluid() to 20
+        GTMaterials.Caesium.fluid to 180,
+        GTMaterials.Uranium235.fluid to 180,
+        GTMaterials.Naquadah.fluid to 20
     )
     private val fuelFluids: List<Fluid> = listOf(
-        GTNNMaterials.ThoriumBasedLiquidFuelExcited.getFluid(),
-        GTNNMaterials.UraniumBasedLiquidFuelExcited.getFluid(),
-        GTNNMaterials.PlutoniumBasedLiquidFuelExcited.getFluid()
+        GTNNMaterials.ThoriumBasedLiquidFuelExcited.fluid,
+        GTNNMaterials.UraniumBasedLiquidFuelExcited.fluid,
+        GTNNMaterials.PlutoniumBasedLiquidFuelExcited.fluid
     )
     private var hatchPartMachines: Set<FluidHatchPartMachine>? = null
 
@@ -94,10 +94,10 @@ class LargeNaquadahReactorMachine(holder: IMachineBlockEntity) : WorkableElectri
     //////////////////////////////////////
 
     private fun air(fluid: FluidStack, duration: Int): Boolean {
-        if (fluid.fluid.isSame(GTMaterials.LiquidAir.getFluid())) {
+        if (fluid.fluid.isSame(GTMaterials.LiquidAir.fluid)) {
             val airAmount = 2400 / 20 * duration
             if (fluid.amount >= airAmount) {
-                fluid.setAmount(fluid.amount - airAmount)
+                fluid.amount = fluid.amount - airAmount
                 return true
             } else {
                 return false
@@ -113,16 +113,16 @@ class LargeNaquadahReactorMachine(holder: IMachineBlockEntity) : WorkableElectri
             val activeFluidPower = activeFluid[fluid.fluid]
             if (machine.activeFluidPower <= activeFluidPower!! && fluid.amount >= activeFluidCostI) {
                 machine.activeFluidPower = activeFluidPower
-                fluid.setAmount(fluid.amount - activeFluidCostI)
+                fluid.amount = fluid.amount - activeFluidCostI
             }
         }
     }
 
     private fun cool(fluid: FluidStack, duration: Int): Boolean {
-        if (fluid.fluid.isSame(GTMaterials.PCBCoolant.getFluid())) {
+        if (fluid.fluid.isSame(GTMaterials.PCBCoolant.fluid)) {
             val coldAmount = 1000 / 20 * duration
             if (fluid.amount >= coldAmount) {
-                fluid.setAmount(fluid.amount - coldAmount)
+                fluid.amount = fluid.amount - coldAmount
                 return true
             }
         }
@@ -134,7 +134,7 @@ class LargeNaquadahReactorMachine(holder: IMachineBlockEntity) : WorkableElectri
     //////////////////////////////////////
     override fun onStructureFormed() {
         super.onStructureFormed()
-        val matchContext = getMultiblockState().matchContext
+        val matchContext = multiblockState.matchContext
         val ioMap = matchContext.getOrCreate<Long2ObjectMap<Any>>("ioMap", Long2ObjectMaps::emptyMap)
         // Cache the result of getParts() to prevent repetitive calls
         val parts = getParts()

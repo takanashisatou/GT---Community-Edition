@@ -48,7 +48,7 @@ object GTNNBlocks {
                 .build()
                 .register()
 
-        NNBlockMaps.ALL_GLASSES.put(glassType, glassBlock::get)
+        NNBlockMaps.ALL_GLASSES[glassType] = Supplier { glassBlock.get() }
         return glassBlock
     }
 

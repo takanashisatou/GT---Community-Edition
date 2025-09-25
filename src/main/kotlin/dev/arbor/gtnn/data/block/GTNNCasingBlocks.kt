@@ -104,7 +104,7 @@ object GTNNCasingBlocks {
             .item(::BlockItem)
             .build()
             .register()
-        ALL_CA_TIRED_CASINGS.put(blockData, componentAssemblyBlock::get)
+        ALL_CA_TIRED_CASINGS[blockData] = Supplier { componentAssemblyBlock.get() }
         return componentAssemblyBlock
     }
 

@@ -38,7 +38,7 @@ class EnderItemLinkCover(definition: CoverDefinition, coverHolder: ICoverable, a
 
     init {
         if (!isRemote) this.virtualBox = VirtualEnderRegistry.getInstance()
-            .getOrCreateEntry(getOwner(), VirtualBox.ENDER_ITEM, this.channelName)
+            .getOrCreateEntry(owner, VirtualBox.ENDER_ITEM, this.channelName)
     }
 
     override fun getFilterHandler(): FilterHandler<*, *> {
@@ -67,7 +67,7 @@ class EnderItemLinkCover(definition: CoverDefinition, coverHolder: ICoverable, a
     }
 
     protected override fun transfer() {
-        val timer: Long = this.coverHolder.getOffsetTimer()
+        val timer: Long = this.coverHolder.offsetTimer
         if (itemsLeftToTransferLastSecond > 0) {
             val platformTransferredItem = doTransferItems(itemsLeftToTransferLastSecond)
             this.itemsLeftToTransferLastSecond -= platformTransferredItem
@@ -114,7 +114,7 @@ class EnderItemLinkCover(definition: CoverDefinition, coverHolder: ICoverable, a
         return slotWidget
     }
 
-    override fun getUITitle(): String? {
+    override fun getUITitle(): String {
         return "cover.ender_item_link.title"
     }
 
@@ -156,7 +156,7 @@ class EnderItemLinkCover(definition: CoverDefinition, coverHolder: ICoverable, a
         }
 
         override fun canRemove(): Boolean {
-            return super.canRemove() && itemHandler.getStackInSlot(0).isEmpty()
+            return super.canRemove() && itemHandler.getStackInSlot(0).isEmpty
         }
 
         companion object {

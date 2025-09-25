@@ -1,11 +1,11 @@
-package dev.arbor.gtnn.data;
+package dev.arbor.gtnn.data
 
 import com.gregtechceu.gtceu.api.cover.CoverDefinition
 import com.gregtechceu.gtceu.client.renderer.cover.SimpleCoverRenderer
 import com.gregtechceu.gtceu.common.data.GTCovers
 import dev.arbor.gtnn.GTNN
-import dev.arbor.gtnn.extension.StringExtension.nn
 import dev.arbor.gtnn.common.machine.EnderItemLinkCover
+import dev.arbor.gtnn.extension.StringExtension.nn
 import java.util.function.Supplier
 
 

@@ -27,7 +27,7 @@ class NeutronSensorMachine(holder: IMachineBlockEntity) : TieredPartMachine(hold
     @Persisted
     @DescSynced
     private var min = 0
-        private set(min) {
+        set(min) {
             field = min
             update()
         }
@@ -35,21 +35,21 @@ class NeutronSensorMachine(holder: IMachineBlockEntity) : TieredPartMachine(hold
     @Persisted
     @DescSynced
     private var max = 0
-        private set(max) {
+        set(max) {
             field = max
             update()
         }
 
     @Persisted
     private var isInverted = false
-        private set(isInverted) {
+        set(isInverted) {
             field = isInverted
             update()
         }
 
     @Persisted
     private var redstoneSignalOutput = 0
-        private set(redstoneSignalOutput) {
+        set(redstoneSignalOutput) {
             field = redstoneSignalOutput
             updateSignal()
         }
@@ -139,7 +139,7 @@ class NeutronSensorMachine(holder: IMachineBlockEntity) : TieredPartMachine(hold
     }
 
     override fun getOutputSignal(side: Direction?): Int {
-        if (side == getFrontFacing().opposite) {
+        if (side == frontFacing.opposite) {
             return redstoneSignalOutput
         }
         return 0

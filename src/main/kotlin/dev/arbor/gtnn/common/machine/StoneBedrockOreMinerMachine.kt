@@ -30,7 +30,7 @@ class StoneBedrockOreMinerMachine(holder: IMachineBlockEntity) :
     }
 
     fun getFilter(): Item? {
-        if (!this.importItems.isEmpty()) {
+        if (!this.importItems.isEmpty) {
             return this.importItems.getStackInSlot(0).item
         }
         return null
