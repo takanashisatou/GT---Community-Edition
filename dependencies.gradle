@@ -12,8 +12,13 @@ dependencies {
     modRuntimeOnly(forge.bundles.jei)
     // modRuntimeOnly(forge.bundles.rei.runtime)
 
+    // Jade
+    modRuntimeOnly("curse.maven:jade-324717:6855440")
     // GTM
-    modImplementation(forge.gtm)
+    //modImplementation(forge.gtm)
+
+    modImplementation "curse.maven:gregtech-modern-reborn-1347911:7025978"
+
     modImplementation(forge.ldlib)
 
     // Shimmer

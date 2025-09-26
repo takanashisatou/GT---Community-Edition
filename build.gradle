@@ -10,7 +10,7 @@ plugins {
 
 group = maven_group
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 // Formats the mod version to include the loader, Minecraft version, and build number (if present)
 boolean isSnapshot = System.getenv("SNAPSHOT")

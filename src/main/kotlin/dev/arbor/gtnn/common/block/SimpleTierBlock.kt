@@ -10,7 +10,7 @@ import net.minecraft.world.level.BlockGetter
 
 class SimpleTierBlock(
     properties: Properties,
-    private val data: ITierType,
+    public val data: ITierType,
 ) : CasingBlock(properties) {
 
     private val useNumberTier = true

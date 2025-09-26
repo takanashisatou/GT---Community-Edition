@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.recipe.RecipeCondition
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import dev.arbor.gtnn.GTNN
 import dev.arbor.gtnn.api.machine.feature.ICasingMachine
 import dev.arbor.gtnn.data.GTNNRecipeConditions
 import net.minecraft.network.chat.Component

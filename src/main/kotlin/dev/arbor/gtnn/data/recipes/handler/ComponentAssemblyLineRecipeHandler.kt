@@ -64,7 +64,11 @@ object ComponentAssemblyLineRecipeHandler {
         if (outputItems.isEmpty()) return
 
         val item = outputItems[0]!!.item
+        GTNN.LOGGER.warn("Meow Owo" + item.toString());
         if (componentItems.containsKey(item)) {
+            if(item.toString() == "lv_electric_motor") {
+                GTNN.LOGGER.warn("Owo " + componentItems.getInt(item));
+            }
             handleComponent(item, recipeBuilder, componentItems.getInt(item))
         }
     }
@@ -177,6 +181,10 @@ object ComponentAssemblyLineRecipeHandler {
             for (component in craftComponents) {
                 val stack = component.get(i)
                 if (stack is ItemStack) {
+                    //Using Special Judge For Fix This Bugs
+                    if(stack.item.toString().get(0) == 'l' && stack.item.toString().get(1) == 'v'){
+                        if(i != 1) continue;
+                    }
                     componentItems.put(stack.item, i)
                 }
             }

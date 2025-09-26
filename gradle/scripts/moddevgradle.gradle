@@ -34,7 +34,7 @@ legacyForge {
             client()
             sourceSet = sourceSets.extra
             ideName = "Client 1"
-            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
+            //jvmArgument("-XX:+AllowEnhancedClassRedefinition")
             systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
