@@ -95,40 +95,48 @@ object ComponentAssemblyLineRecipeHandler {
 
                 is SizedIngredient -> {
                     val count = input.getAmount()
-                    for (value in (input.getInner() as IngredientAccessor).values) {
-                        if (value is ItemValue) {
-                            // 普通 itemStack 物品
-                            for (stack in value.items) {
-                                val entry = ChemicalHelper.getMaterialEntry(stack.item)
-                                if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
-                                    handleMaterialEntry(builder, newBuilder, inputFluidMap, entry, count)
-                                } else {
-                                    newBuilder.inputItems(stack.copyWithCount(count * 48))
+                    val inner = input.getInner()
+                    if (inner is IngredientAccessor) {
+                        for (value in inner.values) {
+                            if (value is ItemValue) {
+                                // 普通 itemStack 物品
+                                for (stack in value.items) {
+                                    addItemInput(builder, newBuilder, inputFluidMap, stack, count)
                                 }
-                            }
-                        } else if (value is Ingredient.TagValue) {
-                            val tag = (value as TagValueAccessor).tag
-                            val location = tag.location()
-                            if (location.namespace == GTCEu.MOD_ID
-                                && location.path.contains("circuits")
-                            ) {
-                                // 是 GT 电路板
-                                val warpItem: ItemLike? = GTNNWrapItem.WRAP_CIRCUIT_MAP.get(tag)
-                                if (warpItem != null) {
-                                    newBuilder.inputItems(ItemStack(warpItem, count * 3))
+                            } else if (value is Ingredient.TagValue) {
+                                if (value is TagValueAccessor) {
+                                    val tag = value.tag
+                                    val location = tag.location()
+                                    if (location.namespace == GTCEu.MOD_ID
+                                        && location.path.contains("circuits")
+                                    ) {
+                                        // 是 GT 电路板
+                                        val warpItem: ItemLike? = GTNNWrapItem.WRAP_CIRCUIT_MAP.get(tag)
+                                        if (warpItem != null) {
+                                            newBuilder.inputItems(ItemStack(warpItem, count * 3))
+                                        }
+                                    } else {
+                                        val entry = ChemicalHelper.getMaterialEntry(tag)
+                                        if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+                                            handleMaterialEntry(builder, newBuilder, inputFluidMap, entry, count)
+                                        } else {
+                                            newBuilder.inputItems(tag, count * 48)
+                                        }
+                                    }
+                                } else {
+                                    value.items.forEach { stack ->
+                                        addItemInput(builder, newBuilder, inputFluidMap, stack, count)
+                                    }
                                 }
                             } else {
-                                val entry = ChemicalHelper.getMaterialEntry(tag)
-                                if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
-                                    handleMaterialEntry(builder, newBuilder, inputFluidMap, entry, count)
-                                } else {
-                                    newBuilder.inputItems(tag, count * 48)
+                                value.items.forEach { stack ->
+                                    addItemInput(builder, newBuilder, inputFluidMap, stack, count)
                                 }
                             }
-                        } else {
-                            value
-                                .items
-                                .forEach(Consumer { stack: ItemStack? -> newBuilder.inputItems(stack!!.copyWithCount(count * 48)) })
+                        }
+                    } else {
+                        inner.items.forEach { stack ->
+                            addItemInput(builder, newBuilder, inputFluidMap, stack, count)
                         }
                     }
                 }
@@ -174,6 +182,21 @@ object ComponentAssemblyLineRecipeHandler {
         }
 
         recipeBuilders.add(newBuilder)
+    }
+
+    private fun addItemInput(
+        builder: GTRecipeBuilder,
+        newBuilder: GTRecipeBuilder,
+        fluidMap: Object2IntOpenHashMap<Fluid>,
+        stack: ItemStack,
+        count: Int
+    ) {
+        val entry = ChemicalHelper.getMaterialEntry(stack.item)
+        if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+            handleMaterialEntry(builder, newBuilder, fluidMap, entry, count)
+        } else {
+            newBuilder.inputItems(stack.copyWithCount(count * 48))
+        }
     }
 
     private fun initComponentList() {

@@ -190,46 +190,62 @@ object CircuitAssemblyLineMachineRecipeHandler {
                 is IntCircuitIngredient -> {} // 忽略电路
                 is SizedIngredient -> {
                     val count = input.amount
-                    (input.inner as IngredientAccessor).values.forEach { value ->
-                        when (value) {
-                            is Ingredient.ItemValue -> {
-                                value.items.forEach { stack ->
-                                    val entry = ChemicalHelper.getMaterialEntry(stack.item)
-                                    if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
-                                        handleMaterialEntry(newBuilder, entry, count)
+                    val inner = input.inner
+                    if (inner is IngredientAccessor) {
+                        inner.values.forEach { value ->
+                            when (value) {
+                                is Ingredient.ItemValue -> {
+                                    value.items.forEach { stack ->
+                                        addItemInput(newBuilder, stack, count)
+                                    }
+                                }
+                                is Ingredient.TagValue -> {
+                                    if (value is TagValueAccessor) {
+                                        val tag = value.tag
+                                        val entry = ChemicalHelper.getMaterialEntry(tag)
+                                        if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+                                            handleMaterialEntry(newBuilder, entry, count)
+                                        } else {
+                                            when (tag) {
+                                                CustomTags.TRANSISTORS -> newBuilder.inputItems(
+                                                    GTNNWrapItem.WRAP_SMD_TRANSISTOR,
+                                                    count
+                                                )
+                                                CustomTags.RESISTORS -> newBuilder.inputItems(
+                                                    GTNNWrapItem.WRAP_SMD_RESISTOR,
+                                                    count
+                                                )
+                                                CustomTags.CAPACITORS -> newBuilder.inputItems(
+                                                    GTNNWrapItem.WRAP_SMD_CAPACITOR,
+                                                    count
+                                                )
+                                                CustomTags.DIODES -> newBuilder.inputItems(
+                                                    GTNNWrapItem.WRAP_SMD_DIODE,
+                                                    count
+                                                )
+                                                CustomTags.INDUCTORS -> newBuilder.inputItems(
+                                                    GTNNWrapItem.WRAP_SMD_INDUCTOR,
+                                                    count
+                                                )
+                                                else -> newBuilder.inputItems(tag, minOf(64, count * 16))
+                                            }
+                                        }
                                     } else {
-                                        GTNNWrapItem.WRAP_ITEM_MAP.entries
-                                            .firstOrNull { it.key.asItem() == stack.item }
-                                            ?.value
-                                            ?.let { wrapItem ->
-                                                newBuilder.inputItems(ItemStack(wrapItem, count))
-                                            } ?: run {
-                                            newBuilder.inputItems(stack.copyWithCount(minOf(64, count * 16)))
+                                        value.items.forEach { stack ->
+                                            addItemInput(newBuilder, stack, count)
                                         }
                                     }
                                 }
-                            }
-                            is Ingredient.TagValue -> {
-                                val tag = (value as TagValueAccessor).tag
-                                val entry = ChemicalHelper.getMaterialEntry(tag)
-                                if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
-                                    handleMaterialEntry(newBuilder, entry, count)
-                                } else {
-                                    when (tag) {
-                                        CustomTags.TRANSISTORS -> newBuilder.inputItems(GTNNWrapItem.WRAP_SMD_TRANSISTOR, count)
-                                        CustomTags.RESISTORS -> newBuilder.inputItems(GTNNWrapItem.WRAP_SMD_RESISTOR, count)
-                                        CustomTags.CAPACITORS -> newBuilder.inputItems(GTNNWrapItem.WRAP_SMD_CAPACITOR, count)
-                                        CustomTags.DIODES -> newBuilder.inputItems(GTNNWrapItem.WRAP_SMD_DIODE, count)
-                                        CustomTags.INDUCTORS -> newBuilder.inputItems(GTNNWrapItem.WRAP_SMD_INDUCTOR, count)
-                                        else -> newBuilder.inputItems(tag, minOf(64, count * 16))
+                                else -> {
+                                    value.items.forEach { stack ->
+                                        addItemInput(newBuilder, stack, count)
                                     }
                                 }
                             }
-                            else -> {
-                                value.items.forEach { stack ->
-                                    newBuilder.inputItems(stack.copyWithCount(minOf(64, count * 16)))
-                                }
-                            }
+                        }
+                    } else {
+                        inner.items.forEach { stack ->
+                            addItemInput(newBuilder, stack, count)
                         }
                     }
                 }
@@ -253,6 +269,24 @@ object CircuitAssemblyLineMachineRecipeHandler {
             }
 
         recipeBuilders.add(newBuilder)
+    }
+
+    private fun addItemInput(
+        newBuilder: GTRecipeBuilder,
+        stack: ItemStack,
+        count: Int
+    ) {
+        val entry = ChemicalHelper.getMaterialEntry(stack.item)
+        if (entry != null && entry !== MaterialEntry.NULL_ENTRY) {
+            handleMaterialEntry(newBuilder, entry, count)
+        } else {
+            GTNNWrapItem.WRAP_ITEM_MAP.entries
+                .firstOrNull { it.key.asItem() == stack.item }
+                ?.value
+                ?.let { wrapItem ->
+                    newBuilder.inputItems(ItemStack(wrapItem, count))
+                } ?: newBuilder.inputItems(stack.copyWithCount(minOf(64, count * 16)))
+        }
     }
 
     private fun handleMaterialEntry(
