@@ -3,7 +3,6 @@ package dev.arbor.gtnn.api.registry
 import com.google.common.collect.ImmutableMap
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
-import dev.arbor.gtnn.mixin.gt.GTRecipeTypeAccessor
 import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.ModLoader
@@ -44,7 +43,7 @@ object GTRecipeManager {
         val handlerList = ImmutableMap.copyOf(map)
 
         handlerList.forEach { (type, list) ->
-            val save = (type as GTRecipeTypeAccessor).getRecipeBuilder().onSave
+            val save = type.recipeBuilder(type.registryName.withSuffix("_gtnn_handler_probe")).onSave
             if (save != null) list.add(save)
             type.onRecipeBuild { builder, consumer ->
                 list.forEach { c ->

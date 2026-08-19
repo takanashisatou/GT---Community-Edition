@@ -128,11 +128,11 @@ class ItemCustomLayerModel private constructor(
         pos: FloatArray,
         tintIndex: Int
     ): List<BlockElement> {
-        val generator = ModelFactory.ITEM_MODEL_GENERATOR as ItemModelGeneratorAccessor
+        val generator = ModelFactory.ITEM_MODEL_GENERATOR
         val spriteWidth = sprite.width().toFloat()
         val spriteHeight = sprite.height().toFloat()
         val list = Lists.newArrayList<BlockElement>()
-        val spans: List<ItemModelGenerator.Span> = generator.callGetSpans(sprite)
+        val spans = getSpans(generator, sprite)
 
         for (span in spans) {
             var h: Float
@@ -242,6 +242,25 @@ class ItemCustomLayerModel private constructor(
             }
         }
         return list
+    }
+
+    private fun getSpans(
+        generator: ItemModelGenerator,
+        sprite: SpriteContents
+    ): List<ItemModelGenerator.Span> {
+        if (generator is ItemModelGeneratorAccessor) {
+            return generator.callGetSpans(sprite)
+        }
+
+        val method = generator.javaClass.declaredMethods.firstOrNull { candidate ->
+            candidate.parameterCount == 1 &&
+                candidate.parameterTypes[0] == SpriteContents::class.java &&
+                List::class.java.isAssignableFrom(candidate.returnType)
+        } ?: throw IllegalStateException("Unable to find ItemModelGenerator.getSpans")
+
+        method.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        return method.invoke(generator, sprite) as List<ItemModelGenerator.Span>
     }
 
     class Loader : IGeometryLoader<ItemCustomLayerModel> {

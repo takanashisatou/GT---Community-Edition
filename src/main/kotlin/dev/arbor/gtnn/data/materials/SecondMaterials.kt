@@ -1,5 +1,7 @@
 package dev.arbor.gtnn.data.materials
 
+import com.gregtechceu.gtceu.GTCEu
+import com.gregtechceu.gtceu.api.GTCEuAPI
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet
@@ -33,8 +35,11 @@ object SecondMaterials {
         Hydrazine =
             Builder("hydrazine").fluid().color(0xBBBBBB).iconSet(MaterialIconSet.DULL).buildAndRegister()
 
-        HydrogenPeroxide =
-            Builder("hydrogen_peroxide").fluid().color(0xC3EDED).iconSet(MaterialIconSet.DULL)
+        // hydrogen_peroxide is already registered by GTMaterials in gtm-reborn; reuse it
+        val existingHydrogenPeroxide =
+            GTCEuAPI.materialManager.getRegistry(GTCEu.MOD_ID).get("hydrogen_peroxide")
+        HydrogenPeroxide = existingHydrogenPeroxide
+            ?: Builder("hydrogen_peroxide").fluid().color(0xC3EDED).iconSet(MaterialIconSet.DULL)
                 .buildAndRegister()
 
         EthylAnthraQuinone =

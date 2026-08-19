@@ -1,11 +1,11 @@
 plugins {
     id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
     id 'eclipse'
     id 'idea'
+    id 'maven-publish'
     alias libs.plugins.modDevGradle
     alias libs.plugins.spotless
-    alias libs.plugins.kotlin.jvm
-    alias libs.plugins.kotlin.plugin
 }
 
 group = maven_group
@@ -54,12 +54,12 @@ obfuscation {
     createRemappingConfiguration(configurations.extraRuntimeOnly)
 }
 
-apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
+apply from: "$projectDir/gradle/scripts/moddevgradle.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"
-apply from: "$rootDir/dependencies.gradle"
-apply from: "$rootDir/gradle/scripts/resources.gradle"
-apply from: "$rootDir/gradle/scripts/jars.gradle"
-apply from: "$rootDir/gradle/scripts/publishing.gradle"
+apply from: "$projectDir/dependencies.gradle"
+apply from: "$projectDir/gradle/scripts/resources.gradle"
+apply from: "$projectDir/gradle/scripts/jars.gradle"
+apply from: "$projectDir/gradle/scripts/publishing.gradle"
 //apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 // Create run-folders for non-client configs to avoid pollution of dev envs
@@ -71,4 +71,10 @@ generateModMetadata.doFirst {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    compilerOptions {
+        freeCompilerArgs.add("-Xjvm-default=all")
+    }
 }
