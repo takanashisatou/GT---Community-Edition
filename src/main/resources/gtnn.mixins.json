@@ -16,7 +16,6 @@
     "gt.GTOreDefinitionMixin",
     "gt.GTRecipeBuilderMixin",
     "gt.GTRecipeConditionsMixin",
-    "gt.GTRecipeTypeAccessor",
     "gt.GTRecipeTypeMixin",
     "gt.GTRecipeWidgetMixin",
     "gt.MaterialBuilderMixin",

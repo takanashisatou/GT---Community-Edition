@@ -7,30 +7,24 @@ dependencies {
     api(forge.kotlinforforge)
     jarJar(forge.kotlinforforge)
 
-    // Runtime Recipe Viewers - uncomment whichever one you want to use //
-    // modRuntimeOnly(forge.emi)
-    modRuntimeOnly(forge.bundles.jei)
-    // modRuntimeOnly(forge.bundles.rei.runtime)
+    // Direct Cross-Module Source Dependency to gtm-reborn
+    implementation(project(':modules:gtm-reborn')) {
+        transitive = false
+    }
+    compileOnly(project(':modules:gtm-reborn').sourceSets.main.output)
 
-    // Jade
-    modRuntimeOnly("curse.maven:jade-324717:6855440")
-    // GTM
-    //modImplementation(forge.gtm)
-
-    modImplementation "curse.maven:gregtech-modern-reborn-1347911:7025978"
-
-    modImplementation(forge.ldlib)
+    modCompileOnly(forge.ldlib)
 
     // Shimmer
     modCompileOnly(forge.shimmer)
 
     // Registrate
-    modImplementation(forge.registrate)
+    modCompileOnly(forge.registrate)
 
     // Create and its dependencies
-    modImplementation(variantOf(forge.create) { classifier("all") })// { transitive = false }
-    modImplementation(forge.flywheel.forge)
-    modImplementation(forge.ponder)
+    modCompileOnly(variantOf(forge.create) { classifier("all") })
+    modCompileOnly(forge.flywheel.forge)
+    modCompileOnly(forge.ponder)
 
     // Recipe Viewers
     modCompileOnly(forge.bundles.jei)
@@ -42,27 +36,25 @@ dependencies {
 
     // Mixin (& Extras)
     annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
-    annotationProcessor(forge.mixinextras.common)
-    compileOnly(forge.mixinextras.common)
-    compileOnly(forge.mixinextras)
+    api(annotationProcessor(forge.mixinExtras.common.get()))
 
     // Configuration
-    modImplementation(forge.configuration)
+    modCompileOnly(forge.configuration)
 
     // ae2
-    modImplementation(forge.ae2)
+    modCompileOnly(forge.ae2)
 
     // AdAstra
-    modImplementation(forge.ad.astra)
-    modImplementation(forge.resourcefullib)
-    modImplementation(forge.resourcefulconfig)
-    modImplementation(forge.botarium)
+    modCompileOnly(forge.adastra)
+    modCompileOnly(forge.resourcefullib)
+    modCompileOnly(forge.resourcefulconfig)
+    modCompileOnly(forge.botarium)
 
     //others
-    modImplementation(forge.supplementaries)
-    modImplementation(forge.cc.tweaked)
-    modImplementation(forge.selene)
-    modImplementation(forge.botania)
-    modImplementation(forge.curios)
-    modImplementation(forge.patchouli)
+    modCompileOnly(forge.supplementaries)
+    modCompileOnly(forge.cc.tweaked.forge.impl)
+    modCompileOnly(forge.selene)
+    modCompileOnly(forge.botania)
+    modCompileOnly(forge.curios)
+    modCompileOnly(forge.patchouli)
 }

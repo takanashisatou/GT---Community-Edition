@@ -1,6 +1,8 @@
 package dev.arbor.gtnn.init
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType
 import dev.arbor.gtnn.GTNNRegistries
 import dev.arbor.gtnn.common.machine.EnderItemLinkCover
 import dev.arbor.gtnn.data.GTNNDataGen
@@ -28,6 +30,8 @@ open class CommonProxy() {
             modBus.addListener(GTNNRegistries::registerGeometryLoaders)
             modBus.addListener(GTNNRegistries::onCommonSetup)
             modBus.addGenericListener(MachineDefinition::class.java, GTNNRegistries::registerMachines)
+            modBus.addGenericListener(GTRecipeType::class.java, GTNNRegistries::registerRecipeTypes)
+            modBus.addGenericListener(RecipeConditionType::class.java, GTNNRegistries::registerRecipeConditions)
         }
 
         @JvmStatic

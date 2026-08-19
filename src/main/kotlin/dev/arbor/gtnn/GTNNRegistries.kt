@@ -5,6 +5,8 @@ import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType
 import dev.arbor.gtnn.api.registry.GTRecipeEvent
 import dev.arbor.gtnn.api.registry.GTRecipeManager
 import dev.arbor.gtnn.api.registry.NNRegistrate
@@ -14,6 +16,8 @@ import dev.arbor.gtnn.client.renderer.StructureSelectRenderer
 import dev.arbor.gtnn.client.renderer.item.ItemCustomLayerModel
 import dev.arbor.gtnn.data.GTNNMachines
 import dev.arbor.gtnn.data.GTNNMaterials
+import dev.arbor.gtnn.data.GTNNRecipeConditions
+import dev.arbor.gtnn.data.GTNNRecipeTypes
 import dev.arbor.gtnn.data.GTNNRecipes
 import dev.arbor.gtnn.data.block.NNBlockMaps
 import net.minecraft.resources.ResourceLocation
@@ -37,6 +41,16 @@ object GTNNRegistries {
     @JvmStatic
     fun registerRecipeHandler(event: GTRecipeEvent.RegisterHandler) {
         GTNNRecipes.register(event)
+    }
+
+    @JvmStatic
+    fun registerRecipeTypes(event: GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType>) {
+        GTNNRecipeTypes.init()
+    }
+
+    @JvmStatic
+    fun registerRecipeConditions(event: GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<*>>) {
+        GTNNRecipeConditions.init()
     }
 
     @JvmStatic
