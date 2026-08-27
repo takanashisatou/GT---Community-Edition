@@ -1,31 +1,42 @@
-//publishing {
-//    publications {
-//        mavenForge(MavenPublication) {
-//            artifact(remapJar) {
-//                artifactId = archivesBaseName
-//                builtBy remapJar
-//            }
-//            artifact(remapSourcesJar) {
-//                artifactId = archivesBaseName
-//                builtBy remapSourcesJar
-//            }
-//            artifact(remapSlimJar) {
-//                artifactId = archivesBaseName
-//                builtBy remapSlimJar
-//            }
-//        }
-//    }
+// ============================================================================
+// publishing.gradle — Maven publication for GT-- (gtnn)
+// ============================================================================
+// Mirrors the gtecore/gtm-reborn setup so `:modules:gt--:publish` actually
+// produces artifacts. Previously this whole file was commented out, so the
+// `publish` task existed (from the `maven-publish` plugin) but had no
+// publication to publish — it reported UP-TO-DATE and silently wrote nothing.
 //
-//    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-//    repositories {
-//        // Add repositories to publish to here.
-//        maven {
-////            url "https://maven.firstdarkdev.xyz/snapshots"
-////            credentials {
-////                username System.getenv("MAVEN_USER")
-////                password System.getenv("MAVEN_PASS")
-////            }
-//        }
-//    }
-//}
+// GT-- differs from the other two modules in how its jars are wired up:
+// jars.gradle sets `reobfJar.archiveClassifier = ""` at configuration time
+// (not inside afterEvaluate), and ModDevGradle's obfuscation block folds the
+// reobfuscated *slim* jar into `components.java`. Two consequences:
 //
+//   1. attaching reobfSlimJar explicitly the way gtecore/gtm-reborn do fails
+//      validation with "multiple artifacts with the identical extension and
+//      classifier ('jar', 'slim')";
+//   2. `components.java` alone publishes ONLY the slim jar — the main
+//      production jar never reaches the repository.
+//
+// So the main reobfuscated jar is attached explicitly and the slim one is left
+// to components.java. GT--'s `sourcesJar` has no `from` clause and the module
+// does not call `java.withSourcesJar()`, so there is no sources artifact to
+// publish here.
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = base.archivesName.get()
+            if (tasks.findByName("reobfJar")) {
+                artifact(tasks.named("reobfJar"))
+            }
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "LocalMaven"
+            url = uri(project.findProperty("mavenDir") ?: "${rootDir}/build/maven")
+        }
+    }
+}
