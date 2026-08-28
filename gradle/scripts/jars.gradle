@@ -14,13 +14,19 @@ tasks.register('sourcesJar', Jar) {
 }
 
 jar.archiveClassifier = "dev"
-reobfJar.archiveClassifier = ""
 
 base {
     archivesName = "${project.name}-${libs.versions.minecraft.get()}"
 }
 
 afterEvaluate {
+    // `reobfJar` is registered by ModDevGradle's legacyForge {} block, so this cannot
+    // run at configuration time of this script -- it has to be deferred. Keeping it
+    // here is what allows this file to be applied BEFORE moddevgradle.gradle, which
+    // in turn is what keeps the main reobfJar (rather than the slim jar) in the
+    // reobf*Elements configurations that back components.java and the published
+    // Gradle Module Metadata. This matches gtecore and gtm-reborn.
+    reobfJar.archiveClassifier = ""
     tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
         destinationDirectory = file('build/libs/')
         manifest.attributes([
