@@ -54,11 +54,20 @@ obfuscation {
     createRemappingConfiguration(configurations.extraRuntimeOnly)
 }
 
+// jars.gradle must be applied BEFORE moddevgradle.gradle. Its `obfuscation {
+// reobfuscate(slimJar, sourceSets.main) }` call registers a reobfuscated artifact
+// for the main source set, and ModDevGradle keeps one such artifact per source set
+// in the reobfApiElements / reobfRuntimeElements configurations that back
+// components.java. Applied after legacyForge {}, the slim jar displaced the main
+// reobfJar there, so the published Gradle Module Metadata advertised the slim jar
+// as the module's primary artifact -- consumers resolving dev.arbor:gt---1.20.1
+// silently received a jar with no bundled dependencies. This is the same order
+// gtecore and gtm-reborn use.
+apply from: "$projectDir/gradle/scripts/jars.gradle"
 apply from: "$projectDir/gradle/scripts/moddevgradle.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"
 apply from: "$projectDir/dependencies.gradle"
 apply from: "$projectDir/gradle/scripts/resources.gradle"
-apply from: "$projectDir/gradle/scripts/jars.gradle"
 apply from: "$projectDir/gradle/scripts/publishing.gradle"
 //apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
