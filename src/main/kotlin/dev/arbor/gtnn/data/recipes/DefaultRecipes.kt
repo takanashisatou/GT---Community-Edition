@@ -28,6 +28,7 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 
 object DefaultRecipes {
+    @Suppress("DEPRECATION")
     fun init(provider: Consumer<FinishedRecipe>) {
         Misc.init(provider)
         SelfRecipes.init(provider)
@@ -269,14 +270,14 @@ object DefaultRecipes {
             get() = if (isCCTweakedLoaded()) dan200.computercraft.shared.ModRegistry.Blocks.COMPUTER_NORMAL else GTNNItems.COMPUTER
 
         fun removeRecipes(consumer: Consumer<ResourceLocation>) {
-            consumer.accept(ResourceLocation("minecraft:lightning_rod"))
+            consumer.accept(ResourceLocation.fromNamespaceAndPath("minecraft", "lightning_rod"))
             if (isSupplementariesLoaded()) {
                 consumer.accept(Supplementaries.res("bomb"))
             }
             if (isCCTweakedLoaded()) {
-                consumer.accept(ResourceLocation("computercraft", "computer_normal"))
-                consumer.accept(ResourceLocation("computercraft", "computer_advanced"))
-                consumer.accept(ResourceLocation("computercraft", "computer_advanced_upgrade"))
+                consumer.accept(ResourceLocation.fromNamespaceAndPath("computercraft", "computer_normal"))
+                consumer.accept(ResourceLocation.fromNamespaceAndPath("computercraft", "computer_advanced"))
+                consumer.accept(ResourceLocation.fromNamespaceAndPath("computercraft", "computer_advanced_upgrade"))
             }
         }
     }

@@ -31,6 +31,7 @@ import net.minecraft.world.level.Level
 
 object StructureWriteBehavior : IItemUIFactory {
 
+    @Suppress("DEPRECATION")
     override fun createUI(
         playerInventoryHolder: HeldItemUIFactory.HeldItemHolder,
         entityPlayer: Player

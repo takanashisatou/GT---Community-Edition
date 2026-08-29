@@ -670,5 +670,7 @@
   "tooltip.gtnn.banItem": "§4Banned",
   "tuff_uraninite_vein_ad": "Tuff Uraninite Vein Ad",
   "uranium238_vein_ad": "Uranium238 Vein Ad",
-  "wollastonite_vein": "Wollastonite Vein"
+  "wollastonite_vein": "Wollastonite Vein",
+  "block.gtnn.clean_machine_casing": "洁净机械方块",
+  "block.gtnn.high_speed_pipe_block": "高速管道方块"
 }

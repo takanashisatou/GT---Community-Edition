@@ -142,7 +142,7 @@ object GTNNCommands {
             for (file in fileList) {
                 try {
                     val resource = resourceManager.getResourceOrThrow(
-                        ResourceLocation("gtceu", "ui/recipe_type/%s.rtui".format(file))
+                        ResourceLocation.fromNamespaceAndPath("gtceu", "ui/recipe_type/%s.rtui".format(file))
                     )
 
                     resource.open().use { inputStream ->

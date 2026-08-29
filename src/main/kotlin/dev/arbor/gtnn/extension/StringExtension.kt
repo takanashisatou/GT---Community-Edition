@@ -5,11 +5,11 @@ import net.minecraft.resources.ResourceLocation
 
 object StringExtension {
     fun String.rl(): ResourceLocation {
-        return ResourceLocation(this)
+        return ResourceLocation.tryParse(this) ?: ResourceLocation.fromNamespaceAndPath("minecraft", this)
     }
 
     fun String.rl(namespace: String): ResourceLocation {
-        return ResourceLocation(namespace, this)
+        return ResourceLocation.fromNamespaceAndPath(namespace, this)
     }
 
     fun String.gt(): ResourceLocation {

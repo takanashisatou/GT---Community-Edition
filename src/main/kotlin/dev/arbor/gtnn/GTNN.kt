@@ -39,7 +39,7 @@ object GTNN {
     }
 
     fun id(path: String): ResourceLocation {
-        return ResourceLocation(MOD_ID, path.lowercase())
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path.lowercase())
     }
 }
 

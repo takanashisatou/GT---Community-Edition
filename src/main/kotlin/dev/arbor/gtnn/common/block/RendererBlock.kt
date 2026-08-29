@@ -1,3 +1,4 @@
+@file:Suppress("DEPRECATION")
 package dev.arbor.gtnn.common.block
 
 import com.gregtechceu.gtceu.api.block.AppearanceBlock

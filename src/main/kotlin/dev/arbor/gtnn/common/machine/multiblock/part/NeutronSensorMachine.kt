@@ -67,6 +67,7 @@ class NeutronSensorMachine(holder: IMachineBlockEntity) : TieredPartMachine(hold
     //////////////////////////////////////
     //**********     GUI     ***********//
     //////////////////////////////////////
+    @Suppress("DEPRECATION")
     override fun createUIWidget(): Widget {
         val group = WidgetGroup(Position.ORIGIN, Size(176, 112))
 

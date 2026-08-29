@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 open class CommonProxy() {
+    @Suppress("DEPRECATION")
     open fun init() {
         val modEventBus = FMLJavaModLoadingContext.get().modEventBus
         val register = Mod.EventBusSubscriber.Bus.MOD.bus().get()

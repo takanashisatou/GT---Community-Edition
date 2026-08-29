@@ -428,7 +428,7 @@ object GTNNCircuitItems {
             }
             .model(
                 GTNNModels.simpleCustomModel(
-                    ResourceLocation("item/generated"),
+                    ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"),
                 baseTexture,
                 GTNN.id("item/voltage_overlay/$voltage"),
                 GTNN.id("item/circuit_type_overlay/$circuitType")))
@@ -449,7 +449,7 @@ object GTNNCircuitItems {
             }
             .model(
                 GTNNModels.simpleCustomModel(
-                    ResourceLocation("item/generated"),
+                    ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"),
                 baseTexture,
                 GTNN.id("item/voltage_overlay/$voltage"),
                 GTNN.id("item/circuit_type_overlay/$circuitType")
@@ -471,7 +471,7 @@ object GTNNCircuitItems {
             }
             .model(
                 GTNNModels.simpleCustomModel(
-                    ResourceLocation("item/generated"),
+                    ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"),
                 baseTexture,
                 GTNN.id("item/voltage_overlay/$voltage"),
                 GTNN.id("item/circuit_type_overlay/$circuitType")

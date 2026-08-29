@@ -103,6 +103,6 @@ object GTNNTagPrefix {
     }
 
     private fun String.ad(): ResourceLocation {
-        return ResourceLocation("ad_astra", this)
+        return ResourceLocation.fromNamespaceAndPath("ad_astra", this)
     }
 }
