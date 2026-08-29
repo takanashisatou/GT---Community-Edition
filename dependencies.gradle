@@ -8,10 +8,15 @@ dependencies {
     jarJar(forge.kotlinforforge)
 
     // Direct Cross-Module Source Dependency to gtm-reborn
+    // Same as gtecore: compileOnly(project(...).sourceSets.main.output) is
+    // deliberately omitted -- ModDevGradle's createRemappingConfiguration turns
+    // file-collection deps into mapping-attribute constraints, which closes a
+    // task-dependency loop when this repo is built as a subproject of a
+    // standalone gtecore root ("Circular dependency ... :classes"). The
+    // implementation(project(...)) dep already provides the classes.
     implementation(project(':modules:gtm-reborn')) {
         transitive = false
     }
-    compileOnly(project(':modules:gtm-reborn').sourceSets.main.output)
 
     modCompileOnly(forge.ldlib)
 
