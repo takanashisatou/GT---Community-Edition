@@ -561,7 +561,7 @@
   "material.gtceu.iridium_dioxide": "Iridium Dioxide",
   "material.gtceu.kaolinite": "Kaolinite",
   "material.gtceu.kerosene": "Kerosene",
-  "material.gtceu.mana_steel": "Mana Steel",
+  "material.gtceu.manasteel": "Manasteel",
   "material.gtceu.mar_m_200_steel": "Mar M 200 Steel",
   "material.gtceu.metal_sludge": "Metal Sludge",
   "material.gtceu.methyl_hydrazine": "Methyl Hydrazine",
@@ -615,7 +615,7 @@
   "material.gtceu.sodium_rutheniate": "Sodium Rutheniate",
   "material.gtceu.sodium_sulfate": "Sodium Sulfate",
   "material.gtceu.space_neutronium": "Space Neutronium",
-  "material.gtceu.terra_steel": "Terra Steel",
+  "material.gtceu.terrasteel": "Terrasteel",
   "material.gtceu.thorium_232": "Thorium 232",
   "material.gtceu.thorium_based_liquid_fuel": "Thorium Based Liquid Fuel",
   "material.gtceu.thorium_based_liquid_fuel_depleted": "Thorium Based Liquid Fuel Depleted",
@@ -670,7 +670,5 @@
   "tooltip.gtnn.banItem": "§4Banned",
   "tuff_uraninite_vein_ad": "Tuff Uraninite Vein Ad",
   "uranium238_vein_ad": "Uranium238 Vein Ad",
-  "wollastonite_vein": "Wollastonite Vein",
-  "block.gtnn.clean_machine_casing": "洁净机械方块",
-  "block.gtnn.high_speed_pipe_block": "高速管道方块"
+  "wollastonite_vein": "Wollastonite Vein"
 }
