@@ -48,10 +48,18 @@ configurations {
     extraImplementation.extendsFrom(implementation)
     extraRuntimeOnly.extendsFrom(runtimeOnly).transitive(false)
     extraRuntimeClasspath.transitive(false)
+
+    // Dev-run-only runtime dependencies (named/remapped, never published).
+    // Mirrors gtm-reborn/gtecore: every run source set sees these.
+    localRuntime
+    runtimeClasspath.extendsFrom(localRuntime)
+    extraRuntimeClasspath.extendsFrom(localRuntime)
+    testRuntimeClasspath.extendsFrom(localRuntime)
 }
 
 obfuscation {
     createRemappingConfiguration(configurations.extraRuntimeOnly)
+    createRemappingConfiguration(configurations.localRuntime)
 }
 
 // jars.gradle must be applied BEFORE moddevgradle.gradle. Its `obfuscation {

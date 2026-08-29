@@ -62,4 +62,38 @@ dependencies {
     modCompileOnly(forge.botania)
     modCompileOnly(forge.curios)
     modCompileOnly(forge.patchouli)
+
+    // -----------------------------------------------------------------------
+    // Named standalone copies of the libraries that gtm-reborn embeds via
+    // jarJar as SRG jars. Dev jars no longer carry those embeds (they crashed
+    // named dev runs), so every run config must provide its own remapped copy.
+    // kotlinforforge is already on runtimeOnly above.
+    // -----------------------------------------------------------------------
+    modLocalRuntime(forge.registrate)
+    modLocalRuntime(forge.ldlib)
+    modLocalRuntime(forge.configuration)
+    modLocalRuntime(forge.ponder)
+    modLocalRuntime(forge.flywheel.forge)
+    // Pin 0.5.5: gtm-reborn resolves mixinextras via a `[0.5.0-rc.3,)` require
+    // range, i.e. 0.5.5, so dev runs must load the same API level.
+    modLocalRuntime("io.github.llamalad7:mixinextras-forge:0.5.5")
+
+    // gtceu hard-loads its AE2/JEI integration during common init and datagen,
+    // so any run that includes gtm-reborn must also carry these mods (same set
+    // gtm-reborn's own runs use).
+    modLocalRuntime(forge.ae2)
+    modLocalRuntime(forge.guideme)
+    modLocalRuntime(forge.jei.forge.impl)
+
+    // Compat mods that gate conditional registrations (see GTNNIntegration).
+    // The data run must load them or datagen silently omits their content
+    // (e.g. desh/calorite/elementium lang keys, the ad_astra_stones tag).
+    modLocalRuntime(forge.adastra)
+    modLocalRuntime(forge.botarium)
+    modLocalRuntime(forge.resourcefullib)
+    modLocalRuntime(forge.resourcefulconfig)
+    modLocalRuntime(forge.botania)
+    modLocalRuntime(forge.patchouli)
+    modLocalRuntime(forge.curios)
+    modLocalRuntime(variantOf(forge.create) { classifier("slim") })
 }

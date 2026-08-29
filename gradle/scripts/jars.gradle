@@ -19,6 +19,27 @@ base {
     archivesName = "${project.name}-${libs.versions.minecraft.get()}"
 }
 
+// ---------------------------------------------------------------------------
+// JarJar embeds vs. dev runs (same pattern as gtm-reborn)
+// ---------------------------------------------------------------------------
+// jarJar resolves production-mapped (SRG) jars (here: kotlinforforge). FML
+// extracts embedded jars verbatim, so loading this dev jar in a named
+// (mojmap) dev runtime can crash or behave nondeterministically depending on
+// FML's JarSelector choice. The dev jar ships WITHOUT embeds; dev runs load
+// named standalone copies from modLocalRuntime instead. The production
+// reobfJar still embeds the SRG jars through jarWithEmbeds below.
+tasks.named('jar', Jar) {
+    exclude('META-INF/jarjar/**')
+}
+
+// Intermediate jar identical to the old dev jar (named classes + SRG embeds).
+// It only feeds reobfuscation so the published jar keeps its jarJar embeds.
+def jarWithEmbeds = tasks.register('jarWithEmbeds', Jar) {
+    archiveClassifier = 'dev-embeds'
+    from(zipTree(tasks.named('jar', Jar).flatMap { jarTask -> jarTask.archiveFile }))
+    from(tasks.named('jarJar'))
+}
+
 afterEvaluate {
     // `reobfJar` is registered by ModDevGradle's legacyForge {} block, so this cannot
     // run at configuration time of this script -- it has to be deferred. Keeping it
@@ -27,6 +48,10 @@ afterEvaluate {
     // reobf*Elements configurations that back components.java and the published
     // Gradle Module Metadata. This matches gtecore and gtm-reborn.
     reobfJar.archiveClassifier = ""
+    // The legacyForge plugin auto-registers reobfJar with the plain dev jar as
+    // input; repoint it at jarWithEmbeds so the production jar keeps the SRG
+    // jarJar embeds that the dev jar no longer carries.
+    reobfJar.input.set(jarWithEmbeds.flatMap { embedTask -> embedTask.archiveFile })
     tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
         destinationDirectory = file('build/libs/')
         manifest.attributes([
