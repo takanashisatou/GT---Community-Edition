@@ -10,12 +10,12 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 
 object GTNNWorld {
-    val TWILIGHT_FOREST: ResourceLocation = ResourceLocation("twilightforest", "twilight_forest")
-    val MOON: ResourceLocation = ResourceLocation("ad_astra", "moon")
-    val VENUS: ResourceLocation = ResourceLocation("ad_astra", "venus")
-    val MARS: ResourceLocation = ResourceLocation("ad_astra", "mars")
-    val MERCURY: ResourceLocation = ResourceLocation("ad_astra", "mercury")
-    val GLACIO: ResourceLocation = ResourceLocation("ad_astra", "glacio")
+    val TWILIGHT_FOREST: ResourceLocation = ResourceLocation.fromNamespaceAndPath("twilightforest", "twilight_forest")
+    val MOON: ResourceLocation = ResourceLocation.fromNamespaceAndPath("ad_astra", "moon")
+    val VENUS: ResourceLocation = ResourceLocation.fromNamespaceAndPath("ad_astra", "venus")
+    val MARS: ResourceLocation = ResourceLocation.fromNamespaceAndPath("ad_astra", "mars")
+    val MERCURY: ResourceLocation = ResourceLocation.fromNamespaceAndPath("ad_astra", "mercury")
+    val GLACIO: ResourceLocation = ResourceLocation.fromNamespaceAndPath("ad_astra", "glacio")
 
     enum class GTNNWorldGenLayers(
         private val id: String, private val target: RuleTest, private val levels: Set<ResourceLocation>

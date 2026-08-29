@@ -271,7 +271,7 @@ class ItemCustomLayerModel private constructor(
             val renderTypeNames = Int2ObjectOpenHashMap<ResourceLocation>()
             jsonObject.getAsJsonObject("render_types")?.let { renderTypes ->
                 for ((key, element) in renderTypes.entrySet()) {
-                    val renderType = ResourceLocation(key)
+                    val renderType = ResourceLocation.tryParse(key) ?: ResourceLocation.fromNamespaceAndPath("minecraft", key)
                     for (layerElement in element.asJsonArray) {
                         val layer = layerElement.asInt
                         if (renderTypeNames.put(layer, renderType) != null) {

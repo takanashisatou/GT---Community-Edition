@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import java.util.function.Consumer
 
-@Suppress("UNUSED")
+@Suppress("UNUSED", "DEPRECATION")
 object GTNNOres {
     val kaolinite_vein: GTOreDefinition = create(
         "kaolinite_vein", { vein: GTOreDefinition ->

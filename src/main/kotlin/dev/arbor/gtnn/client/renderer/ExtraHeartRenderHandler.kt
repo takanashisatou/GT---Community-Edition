@@ -315,6 +315,6 @@ class ExtraHeartRenderHandler {
     companion object {
         private val ICON_HEARTS = GTNN.id("textures/gui/hearts.png")
         private val ICON_ABSORB = GTNN.id("textures/gui/absorb.png")
-        private val ICON_VANILLA = ResourceLocation("textures/gui/icons.png")
+        private val ICON_VANILLA = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/icons.png")
     }
 }
