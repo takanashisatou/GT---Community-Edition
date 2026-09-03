@@ -1,6 +1,7 @@
 /.gradle/
 /.idea/
 /.vscode/
+/.eclipse/
 /.kotlin/
 /build/
 /run-data/
