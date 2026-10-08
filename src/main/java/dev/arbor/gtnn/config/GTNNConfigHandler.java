@@ -9,6 +9,9 @@ import dev.toma.configuration.config.format.ConfigFormats;
 @Config(id = GTNN.MOD_ID)
 public final class GTNNConfigHandler {
 
+    // Standalone builds still use Configuration 2.2, which has no ConfigFormats.JSON.
+    // Its factory remains supported in 3.1; keep both builds compatible under -Werror.
+    @SuppressWarnings("removal")
     public static GTNNConfigHandler INSTANCE = Configuration
             .registerConfig(GTNNConfigHandler.class, ConfigFormats.json())
             .getConfigInstance();
